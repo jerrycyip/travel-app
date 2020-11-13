@@ -1,0 +1,338 @@
+    
+/* rules that apply to entire page */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+#app {
+    display: grid;
+    height: 100vh;
+    min-height: 100vh;
+    width: auto;
+    grid-template-rows: 100px 400px auto 35px;
+    grid-template-areas: "heading heading" "new-entry view-entry" "all-entries all-entries" "footer footer";
+    grid-template-columns: 1fr 1fr;
+    background: #b1faf4;
+    color: white;
+    #0e0c02;
+    font-family: "Comic Neue";
+}
+
+/* specific rules for sections of the website/app */
+
+.headline {
+    grid-area: heading;
+    color: black;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
+#heading {
+    font-size: 2.75em;
+}
+
+h3 {
+    margin: 1%; 5px;
+    color: black;
+    text-align: center;
+    font-size: 1.4em;
+}
+
+#new-entry {
+    grid-area: new-entry;
+    width: 80%;
+    max-width: 500px;
+    margin-left: 12.5%;
+    margin-right: 7.5%;
+    background: rgba(57, 73, 107, 0.4);
+    border-radius: 5px;
+    border: 1px solid grey;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+}
+
+textarea::placeholder {
+    color: grey;
+}
+
+.mood-container {
+    height: 80%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.myInput {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 89%;
+    width: 100%;
+    border-radius: 5px;
+    resize: none;
+    padding: 0.5em;
+}
+
+.entry-details {
+    height: auto;
+    margin-left: 5%;
+    margin-top: 1%; 5px;
+    margin-bottom: 2%; 10px;
+    color: black;
+    display: grid;
+    width: 90%;
+    grid-template-columns: 65px 1fr 1fr;
+    grid-template-areas: "zip-label zip date";
+    align-items: center;
+}
+
+.entry-details label {
+    grid-area: zip-label;
+    text-align: left;
+}
+
+#zip {
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 0.25em;
+    grid-area: zip;
+    width: auto;
+    min-width: 96px;
+    max-width: 125px;
+    /*max-width: 96px;*/
+    border: 1px solid black;
+    border-radius: 3px;
+    outline: none;
+}
+
+#zip::placeholder {
+    color: grey;
+}
+
+#entry-date {
+    grid-area: date;
+    text-align: center;
+}
+
+.button-ctr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#generate {
+    height: auto;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.view-entry {
+    grid-area: view-entry;
+    width: 80%;
+    max-width: 500px;
+    margin-left: 7.5%;
+    margin-right: 12.5%;
+    background: rgba(57, 73, 107, 0.4);
+    border-radius: 5px;
+    border: 1px solid grey;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+}
+
+.title {
+    text-align: center;
+}
+
+#view-title {
+    /*margin-left: 7.5%;*/
+}
+
+#entryHolder {
+    height: 85%;
+    display: grid;
+    grid-template-rows: 8% 6% 30% 6% 50%;
+    grid-template-areas: "locale" "description" "temp-icon" "date" "mood";
+}
+
+.meta-details {
+    width: 85%;
+    margin-left: 7.5%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 1.1em;
+}
+
+#weather,
+#weather-details,
+#date {
+    font-weight: 500;
+}
+
+#locale {
+    grid-area: locale;
+    text-align: center;
+    margin-bottom: 5px;
+    letter-spacing: 0.15em;
+    font-size: 1.25em;
+}
+
+#weather {
+    grid-area: description;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#weather-info {
+    grid-area: temp-icon;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "temp icon";
+    margin-bottom: -10px;
+}
+
+#temp-details {
+    grid-area: temp;
+    align-self: center;
+    text-align: center;
+    margin-right: -15%;
+    font-size: 1.5em;
+}
+
+#temp {
+    margin: auto 0;
+    width: auto;
+}
+
+.weather-icon {
+    grid-area: icon;
+}
+
+#icon {
+    margin: auto 0;
+    width: auto;
+}
+
+#date {
+    grid-area: date;
+    color: white;
+    text-align: center;
+}
+
+.mood-holder {
+    grid-area: mood;
+    display: flex;
+    flex-direction: column;
+    height: 90%; 175px;
+    max-height: 90%; 175px;
+    width: 85%;
+    margin-left: 7.5%;
+    margin-top: 5%; 7px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    color: white;
+    font-family: 'Handlee', 'Courgette';
+}
+
+.all-entries {
+    grid-area: all-entries;
+    margin-top: 15px;
+}
+
+#footer {
+    grid-area: footer;
+    color: black;
+    text-align: center;
+    text-shadow: 0.75px 0.75px white;
+}
+/* Style for Placeholder Text*/
+
+    ::placeholder {
+    /* Firefox, Chrome, Opera */
+    color: grey;
+    #f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+    :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: grey;
+    #f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+    ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: grey;
+    #f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+/* mobile responsive layout*/
+@media only screen and (max-width:760px) {
+    #app {
+        grid-template-rows: 60px 400px 400px auto 40px;
+        grid-template-areas: "heading" 
+                            "new-entry" 
+                            "view-entry" 
+                            "all-entries" 
+                            "footer";
+        grid-template-columns: 1fr;
+        height: 100%;
+        min-height: 100%;
+        width: 100vw;
+        min-width: 100vw;
+    }
+
+    #new-entry {
+        grid-area: new-entry;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px; 100%;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .view-entry {
+        grid-area: view-entry;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    #footer {
+    }
+
+    #heading {
+        font-size: 2.25em;
+        padding-bottom: 1%;
+        margin-bottom: 0;
+        padding-top: 2.5%;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+    
