@@ -14,7 +14,7 @@
     min-height: 100vh;
     width: auto;
     grid-template-rows: 100px 400px auto 35px;
-    grid-template-areas: "heading heading" "new-entry view-entry" "all-entries all-entries" "footer footer";
+    grid-template-areas: "heading heading" "new-entry plan-trip" "all-entries all-entries" "footer footer";
     grid-template-columns: 1fr 1fr;
     background: #b1faf4;
     color: white;
@@ -99,7 +99,7 @@ textarea::placeholder {
     text-align: left;
 }
 
-#zip {
+#locale {
     padding-top: 0.25em;
     padding-bottom: 0.25em;
     padding-left: 0.25em;
@@ -145,8 +145,8 @@ button:focus {
     outline: none;
 }
 
-.view-entry {
-    grid-area: view-entry;
+.plan-trip {
+    grid-area: plan-trip;
     width: 80%;
     max-width: 500px;
     margin-left: 7.5%;
@@ -293,7 +293,7 @@ button:focus {
         grid-template-rows: 60px 400px 400px auto 40px;
         grid-template-areas: "heading" 
                             "new-entry" 
-                            "view-entry" 
+                            "plan-trip" 
                             "all-entries" 
                             "footer";
         grid-template-columns: 1fr;
@@ -313,8 +313,8 @@ button:focus {
         margin-top: auto;
         margin-bottom: auto;
     }
-    .view-entry {
-        grid-area: view-entry;
+    .plan-trip {
+        grid-area: plan-trip;
         margin-left: auto;
         margin-right: auto;
         height: 90%;

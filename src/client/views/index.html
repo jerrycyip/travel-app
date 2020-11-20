@@ -4,7 +4,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1" />
-    <title>Weather Journal App</title>
+    <title>Traval Planner App</title>
     <!-- <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet"> -->
     <!-- Use of Google's Material Design Web Fonts & Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,52 +18,54 @@
     <div id="app">
         <div class="holder headline">
             <h1 id="heading">
-                Weather Journal
+                Trip Planner
             </h1>
         </div>
-        <div id="new-entry">
-            <div class="mood-container">
-                <label for="feelings">
-                    <h3>How are you doing today?</h3>
-                </label>
-                <textarea class="myInput" id="feelings" placeholder="Enter your thoughts here..."></textarea>
-            </div>
+        <div id="new-trip">
+            <h3>Plan your next trip</h3>
+        </div>
+        <div id="plan-trip">
             <div class="entry-details">
-                <label for="zip">Location:</label>
-                <input type="text" id="zip" placeholder="5-digit zip (US)">
-                <span id="entry-date"></span>
+                <label for="locale">Where to:</label>
+                <input type="text" id="locale" placeholder="Paradise">
+                <div id="entry-date">
+                    <label for="start">Start:</label>
+                    <input type="date" id="start">
+                    <label for="end">End:</label>
+                    <input type="date" id="end">
+                </div>
             </div>
             <div class="button-ctr">
-                <button id="generate" type="submit"> Add Entry </button>
-            </div>
-        </div>
-        <div class="view-entry">
-            <div class="title">
-                <h3 id="view-title">Most Recent Entry</h3>
-            </div>
-            <div id="entryHolder">
-                <div class="meta-details">
-                    <h4>
-                        <div id="locale"></div>
-                        <div id="weather"></div>
-                        <div id="weather-info">
-                            <div id="temp-details">
-                                <div id="temp"></div>
-                            </div>
-                            <div class="weather-icon"></div>
-                        </div>
-                        <div id="date"></div>
-                    </h4>
-                </div>
-                <div class="mood-holder">
-                    <div id="content"></div>
-                </div>
+                <button id="generate" type="submit"> Start Planning </button>
             </div>
         </div>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
         <div class="all-entries">
             <div class="title">
-                <h3></h3>
+                <h3>My Trips</h3>
+            </div>
+            <div class="view-entry">
+                <div class="title">
+                    <h3 id="view-title">Paradise</h3>
+                </div>
+                <div id="entryHolder">
+                    <div class="meta-details">
+                        <h4>
+                            <div id="locale"></div>
+                            <div id="weather"></div>
+                            <div id="weather-info">
+                                <div id="temp-details">
+                                    <div id="temp"></div>
+                                </div>
+                                <div class="weather-icon"></div>
+                            </div>
+                            <div id="date"></div>
+                        </h4>
+                    </div>
+                    <div class="mood-holder">
+                        <div id="content"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="footer">Weather Journal created & designed by Jerry Yip (https://github.com/jerrycyip)</div>
