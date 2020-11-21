@@ -117,4 +117,5 @@ function fillEntryDate() {
 }
 fillEntryDate();
 
+export {newEntry}
 

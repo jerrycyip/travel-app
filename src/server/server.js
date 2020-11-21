@@ -6,22 +6,36 @@ const express = require('express');
 // Start up an instance of app
 const app = express();
 
+
 /* Middleware*/
 //Here we are configuring express to use body-parser as middle-ware.
 // Require bodyParser
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //Note: Express provides these alternatives to above middleware:
 //app.use(express.json());
 //app.use(express.urlencoded());
+const path = require('path')
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+// store api keys:
+//const apiKey = process.env.API_KEY
+
+//const fetch = require('node-fetch');
 
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
 
-// Initialize the main project folder
-app.use(express.static('website'));
+// routing of site to directory of bundled assets
+app.use(express.static('dist'))
+// routing for loading site
+app.get('/', function (req, res) {
+    res.sendFile(path.resolve('src/client/views/index.html'))
+})
 
 // Routing
 // Post Route: add new weather journal entry
