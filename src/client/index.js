@@ -1,4 +1,4 @@
-import './styles/style.scss'
+import './styles/main.scss'
 
 //import main 'newEntry' function from app.js
 import { newEntry } from './js/app.js' 

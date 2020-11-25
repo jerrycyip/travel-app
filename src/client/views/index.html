@@ -4,40 +4,43 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1" />
-    <title>Traval Planner App</title>
+    <title>Travel Planner App</title>
     <!-- <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet"> -->
     <!-- Use of Google's Material Design Web Fonts & Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Comic Neue" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <!--<link rel="stylesheet" href="../styles/style.scss">-->
 </head>
-
 <body>
-    <div id="app">
-        <div class="holder headline">
+    <main id="app">
+        <header class="holder headline">
             <h1 id="heading">
                 Trip Planner
             </h1>
-        </div>
-        <div id="new-trip">
-            <h3>Plan your next trip</h3>
-        </div>
+        </header>
         <div id="plan-trip">
-            <div class="entry-details">
-                <label for="locale">Where to:</label>
-                <input type="text" id="locale" placeholder="Paradise">
-                <div id="entry-date">
-                    <label for="start">Start:</label>
-                    <input type="date" id="start">
-                    <label for="end">End:</label>
-                    <input type="date" id="end">
-                </div>
+            <div id="new-trip">
+                <h3>Plan Your <br>
+                    Next Trip</h3>
             </div>
-            <div class="button-ctr">
-                <button id="generate" type="submit"> Start Planning </button>
-            </div>
+            <form class="trip-details" onsubmit="return Client.handleSearch(event)">
+                <h3 id="plan-title">Trip Details</h3>
+                <section id="where">
+                    <label for="destination">Where to</label>
+                        <input id="destination" type="search">
+                </section>
+                <section id="dates">
+                <label id="start-dt" for="start">Start </label>
+                    <input class="trip-dates" id="start" type="date" 
+                    min="2020-01-01" max="2035-12-31" value="2021-04-30">
+                <label id="end-dt" for="end">End </label>
+                    <input class="trip-dates" id="end" type="date" 
+                    min="2020-01-01" max="2035-12-31" value="2021-04-30">
+                </section>
+                <input class="form-submit" id="search" type="submit" value="Start Planning">
+                </form>
         </div>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
         <div class="all-entries">
@@ -45,13 +48,13 @@
                 <h3>My Trips</h3>
             </div>
             <div class="view-entry">
-                <div class="title">
+                <!--<div class="title">
                     <h3 id="view-title">Paradise</h3>
-                </div>
+                </div> -->
                 <div id="entryHolder">
                     <div class="meta-details">
                         <h4>
-                            <div id="locale"></div>
+                            <div id="destination2"></div>
                             <div id="weather"></div>
                             <div id="weather-info">
                                 <div id="temp-details">
@@ -68,9 +71,9 @@
                 </div>
             </div>
         </div>
-        <div id="footer">Weather Journal created & designed by Jerry Yip (https://github.com/jerrycyip)</div>
-    </div>
-    <script src="app.js" type="text/javascript"></script>
+        <div id="footer">Trip Planner created & designed by Jerry Yip (https://github.com/jerrycyip)</div>
+    </main>
+    <!--<script src="app.js" type="text/javascript"></script> -->
 </body>
 
 </html>

@@ -1,0 +1,396 @@
+    
+/* rules that apply to entire page */
+$brand-color: rgba(76, 137, 140, 0.8);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+#app {
+    display: grid;
+    height: 100vh;
+    min-height: 100vh;
+    width: auto;
+    grid-template-rows: 50px 525px auto 35px;
+    grid-template-areas: "heading"
+                        
+                         "plan-trip" 
+                         "all-entries" 
+                         "footer";
+    grid-template-columns: 1fr;
+    background: white;// #b1faf4;
+    //color: white; //#0e0c02;
+    font-family: "Comic Neue";
+
+}
+
+/* specific rules for sections of the website/app */
+
+.headline {
+    grid-area: heading;
+    color: black;
+    font-weight: 800;
+    /*display: flex;
+    flex-direction: column;*/
+    //align-items: center;
+    //justify-content: center;
+    height: 100%;
+    padding-bottom: 5%;
+    color: white;
+    //background:  rgba(84, 108, 110, 0.8);
+    //background: rgba(49, 72, 74, 0.8);
+    //background: rgba(113, 172, 186, 0.8);
+    background: $brand-color;
+    //background: rgba(76, 137, 140, 0.8);
+}
+
+#heading {
+    font-size: 2.75em;
+    text-align: center;
+}
+
+h3 {
+    margin: 1%;
+    color: black;
+    text-align: center;
+    font-size: 1.4em;
+}
+
+
+#new-trip {
+   /* grid-area: new-trip; //entry;
+    width: 80%;
+    height: 100%;
+    max-width: 500px;*/
+    margin-left: 20.5%;
+    margin-right: 7.5%;
+    //padding-top: 7%;    
+    float: left;
+}
+
+textarea::placeholder {
+    color: grey;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+#plan-trip {
+    grid-area: plan-trip;
+    /*width: 45%; //90%;
+    max-width: 500px;*/
+    background-image: url("../media/karsten-winegeart-fd1cQ3mmBTE-unsplash.jpg");
+    background-size: cover;
+    padding-top: 5%;
+    //z-index: -1;
+}
+
+#new-trip h3 {
+    font-size: 3.5em;
+    font-weight: 900;
+    color: white;
+}
+
+.trip-details{
+    display: grid;
+    height: 65%;
+    max-height: 300px;
+    width: 45%;
+    max-width: 500px;
+    min-width: 320px;
+    //margin-top: 30px;
+    margin-bottom: auto;
+    margin-right: 12.5%;
+    background: rgba(49, 72, 74, 0.8);
+//    background: rgba(84, 108, 110, 0.8);
+    border-radius: 5px;
+    border: 1px solid grey;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+
+    //width: 95%;
+   /* margin-left: auto;
+    margin-right: auto;*/
+    grid-template-rows: repeat(4, 1fr);
+    //grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: "title"
+                         "where"
+                         "dates"
+                         "search"
+}
+
+#plan-title{
+    grid-area: title;
+    text-align: center;
+    font-size: 2em;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+}
+#where {
+    grid-area: where;
+    font-size: 1.25em;
+    width: 100%;
+    padding-left: 5%;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+}
+
+#dates {
+    grid-area: dates;
+    padding-left: 5%;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1.25em;
+    color: white;
+
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 5px;
+    outline: none;
+}
+#start {
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 35%;
+    font-size: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 0.15em;
+}
+#end{
+    margin-top: auto;
+    margin-bottom: auto;
+    padding:0.5%;
+    width: 35%;
+    font-size: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 0.15em;
+}
+#destination {
+    font-size: 1.25em;    
+    width: 70%;
+    font-size: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 0.15em;
+    padding-left: 5px;
+}
+
+
+#search{
+    grid-area: search;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1em;
+    width: 40%;
+    margin-left: 30%;
+
+    height: auto;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+
+
+}
+.title {
+    color: white;
+    
+    //font-size: 2em;
+    //margin-right: 40%;
+    //margin-top: 10%;
+    width: 50%;
+    //background: $brand-color; 
+    // rgba(113, 172, 186, 0.8);
+    //background: rgba(49, 72, 74, 0.8);
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+
+}
+.title h3{
+    //color: white;
+    margin-right: 80%;
+    color: black;
+    font-size: 2em;
+    font-weight: 900;
+    border-radius: 5px;
+
+}
+
+
+#entryHolder {
+    height: 85%;
+    display: grid;
+    grid-template-rows: 8% 6% 30% 6% 50%;
+    grid-template-areas: "destination2" "description" "temp-icon" "date" "mood";
+}
+
+.meta-details {
+    width: 85%;
+    margin-left: 7.5%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 1.1em;
+}
+
+#weather,
+#weather-details,
+#date {
+    font-weight: 500;
+}
+
+#weather {
+    grid-area: description;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#weather-info {
+    grid-area: temp-icon;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "temp icon";
+    margin-bottom: -10px;
+}
+
+#temp-details {
+    grid-area: temp;
+    align-self: center;
+    text-align: center;
+    margin-right: -15%;
+    font-size: 1.5em;
+}
+
+#temp {
+    margin: auto 0;
+    width: auto;
+}
+
+.weather-icon {
+    grid-area: icon;
+}
+
+#icon {
+    margin: auto 0;
+    width: auto;
+}
+
+#date {
+    grid-area: date;
+    color: white;
+    text-align: center;
+}
+
+.mood-holder {
+    grid-area: mood;
+    display: flex;
+    flex-direction: column;
+    height: 90%; //175px;
+    max-height: 90%; //175px;
+    width: 85%;
+    margin-left: 7.5%;
+    margin-top: 5%; //7px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    color: white;
+    font-family: 'Handlee', 'Courgette';
+}
+
+.all-entries {
+    grid-area: all-entries;
+    margin-top: 12px;
+    
+}
+
+#footer {
+    
+    grid-area: footer;
+    bottom: 0px;
+    color: black;
+    text-align: center;
+    text-shadow: 0.75px 0.75px white;
+}
+/* Style for Placeholder Text*/
+
+    ::placeholder {
+    /* Firefox, Chrome, Opera */
+    color: grey;
+    //#f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+    :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: grey;
+    //#f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+    ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: grey;
+    //#f0d43a;
+    font-family: 'Oswald', sans-serif;
+}
+
+/* mobile responsive layout*/
+@media only screen and (max-width:760px) {
+    #app {
+        grid-template-rows: 60px 400px 400px auto 40px;
+        grid-template-areas: "heading" 
+                            "new-trip" 
+                            "plan-trip" 
+                            "all-entries" 
+                            "footer";
+        grid-template-columns: 1fr;
+        height: 100%;
+        min-height: 100%;
+        width: 100vw;
+        min-width: 100vw;
+    }
+
+    #new-trip {
+        grid-area: new-trip;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px; //100%;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .plan-trip {
+        grid-area: plan-trip;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    //#footer {
+    //}
+
+    #heading {
+        font-size: 2.25em;
+        padding-bottom: 1%;
+        margin-bottom: 0;
+        padding-top: 2.5%;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+}

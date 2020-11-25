@@ -15,7 +15,7 @@ const iconURL = 'http://openweathermap.org/img/wn/';
 const iconFormat = '@2x.png'
 
 // event listener that triggers new weather journal entry
-document.getElementById('generate').addEventListener('click', newEntry);
+//document.getElementById('generate').addEventListener('click', newEntry);
 
 // add entry to weather journal
 function newEntry(event) {
