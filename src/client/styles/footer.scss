@@ -1,0 +1,10 @@
+@import "config";
+
+#footer {
+    
+    grid-area: footer;
+    bottom: 0px;
+    color: black;
+    text-align: center;
+    text-shadow: 0.75px 0.75px white;
+}

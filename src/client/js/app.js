@@ -112,10 +112,39 @@ const updateUI = async (url = '') => {
 }
 
 // Populate date field on add entry card
-function fillEntryDate() {
-    document.getElementById('entry-date').innerHTML = `Date: ${newDate}`;
+function setMinDates() {
+    let today = new Date();
+    let tm = new Date(today);
+    tm.setDate(tm.getDate()+1);
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //January is 0!
+    let yyyy = today.getFullYear();
+    let dd2 = tm.getDate();
+    let mm2 = tm.getMonth()+1;
+    let yyyy2 = tm.getFullYear();
+
+    if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+    if(dd2<10){
+            dd2='0'+dd2
+        } 
+        if(mm2<10){
+            mm2='0'+mm2
+        }         
+    today = yyyy+'-'+mm+'-'+dd;
+    tm = yyyy2+'-'+mm2+'-'+dd2;
+    
+    document.getElementById('start').setAttribute("min", today);
+    document.getElementById('start').setAttribute("value", today);
+    
+    document.getElementById('end').setAttribute("min", tm);
+    document.getElementById('end').setAttribute("value", tm);
 }
-fillEntryDate();
+setMinDates();
 
 export {newEntry}
 

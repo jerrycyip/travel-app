@@ -1,7 +1,5 @@
-    
-/* rules that apply to entire page */
-$brand-color: rgba(76, 137, 140, 0.8);
-
+@import "config";
+   
 * {
     margin: 0;
     padding: 0;
@@ -65,8 +63,9 @@ h3 {
     width: 80%;
     height: 100%;
     max-width: 500px;*/
-    margin-left: 20.5%;
-    margin-right: 7.5%;
+    width: 50%;
+    padding-left: 5%; //10%;
+    padding-right: 7.5%; //15%;
     //padding-top: 7%;    
     float: left;
 }
@@ -89,6 +88,8 @@ button:focus {
     background-image: url("../media/karsten-winegeart-fd1cQ3mmBTE-unsplash.jpg");
     background-size: cover;
     padding-top: 5%;
+    
+
     //z-index: -1;
 }
 
@@ -204,22 +205,22 @@ input {
 }
 .title {
     color: white;
-    
     //font-size: 2em;
     //margin-right: 40%;
     //margin-top: 10%;
-    width: 50%;
+    //width: 50%;
     //background: $brand-color; 
     // rgba(113, 172, 186, 0.8);
     //background: rgba(49, 72, 74, 0.8);
-    margin-left: auto;
-    margin-right: auto;
+   // margin-left: auto;
+    //margin-right: auto;
+    margin-right: 60%;
     border-radius: 10px;
 
 }
 .title h3{
     //color: white;
-    margin-right: 80%;
+    //margin-right: 85%;
     color: black;
     font-size: 2em;
     font-weight: 900;
