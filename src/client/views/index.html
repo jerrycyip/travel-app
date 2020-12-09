@@ -7,10 +7,12 @@
     <title>Travel Planner App</title>
     <!-- <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet"> -->
     <!-- Use of Google's Material Design Web Fonts & Icons -->
+    <!--
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Comic Neue" rel="stylesheet">
+    -->
     <!--<link rel="stylesheet" href="../styles/style.scss">-->
 </head>
 <body>
@@ -28,8 +30,8 @@
             <form class="trip-details" onsubmit="return Client.handleSearch(event)">
                 <h3 id="plan-title">Trip Details</h3>
                 <section id="where">
-                    <label for="destination">Where to</label>
-                        <input id="destination" type="search">
+                    <label for="destination">Destination</label>
+                        <input id="destination" type="search" placeholder="Where to?">
                 </section>
                 <section id="dates">
                 <label id="start-dt" for="start">Start </label>
@@ -39,14 +41,15 @@
                     <input class="trip-dates" id="end" type="date" 
                     min="2020-01-01" max="2035-12-31" value="2021-04-30">
                 </section>
-                <input class="form-submit" id="search" type="submit" value="Start Planning">
+                <input class="form-submit" id="search-button" type="submit" value="Start Planning">
                 </form>
         </div>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
-        <div class="all-entries">
+        <div class="all-trips">
             <div class="title">
                 <h3>My Trips</h3>
             </div>
+            <div class = "view-trips">
             <div class="view-entry">
                 <!--<div class="title">
                     <h3 id="view-title">Paradise</h3>
@@ -70,6 +73,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div id="footer">Trip Planner created & designed by Jerry Yip (https://github.com/jerrycyip)</div>
     </main>

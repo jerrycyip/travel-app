@@ -1,10 +1,3 @@
-/* Global Variables */
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear().toString().substr(2, 2);
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
 // api constructors for retrieving weather data from openweathermap.org
 const apiKey = '2ad76e8d73c762b9428f448e8ecc3119';
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
@@ -111,7 +104,7 @@ const updateUI = async (url = '') => {
     }
 }
 
-// Populate date field on add entry card
+// Set minimum dates for trip
 function setMinDates() {
     let today = new Date();
     let tm = new Date(today);

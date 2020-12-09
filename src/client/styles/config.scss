@@ -1,2 +1,33 @@
 /* rules that apply to entire page */
 $brand-color: rgba(76, 137, 140, 0.8);
+$modal-color: rgba(49, 72, 74, 0.8);
+
+// Use of Google's Material Design Web Fonts & Icons 
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Courgette');
+@import url('https://fonts.googleapis.com/css?family=Handlee');
+@import url('https://fonts.googleapis.com/css?family=Comic Neue');
+
+
+/* Style for Placeholder Text*/
+
+::placeholder {
+    /* Firefox, Chrome, Opera */
+    color: grey; //#f0d43a;
+    //font-family: 'Oswald', sans-serif;
+    font-family: "Comic Neue";
+}
+
+    :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: grey; //#f0d43a;
+    font-family: "Comic Neue";
+   // font-family: 'Oswald', sans-serif;
+}
+
+    ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: grey; //#f0d43a;
+    font-family: "Comic Neue";
+   // font-family: 'Oswald', sans-serif;
+}

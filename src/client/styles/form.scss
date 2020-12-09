@@ -1,1 +1,114 @@
 @import "config";
+
+textarea::placeholder {
+    color: grey;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.trip-details{
+    display: grid;
+    height: 65%;
+    max-height: 300px;
+    width: 45%;
+    max-width: 500px;
+    min-width: 320px;
+    margin-bottom: auto;
+    margin-right: 12.5%;
+    background: $modal-color; 
+    border-radius: 5px;
+    border: 1px solid grey;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas: "title"
+                         "where"
+                         "dates"
+                         "search"
+}
+
+#plan-title{
+    grid-area: title;
+    text-align: center;
+    font-size: 2em;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+}
+#where {
+    grid-area: where;
+    font-size: 1.25em;
+    width: 100%;
+    padding-left: 5%;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: white;
+}
+
+
+#destination {
+    font-size: 1.25em;    
+    width: 67%;
+    font-size: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 0.15em;
+    padding-left: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.95em;
+}
+
+#dates {
+    grid-area: dates;
+    padding-left: 5%;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1.25em;
+    color: white;
+}
+
+input {
+    border: 1px solid black;
+    border-radius: 5px;
+    outline: none;
+}
+#start,
+#end {
+    width: 35%;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 0.15em;
+    padding-bottom: 0.15em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .8em;
+
+}
+
+// remove padding from date picker in chrome
+::-webkit-calendar-picker-indicator {
+    margin-left: 0;
+}
+
+
+
+#search-button{
+    grid-area: search;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1em;
+
+    width: 40%;
+    margin-left: 30%;
+    height: auto;
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background-color: $brand-color;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}

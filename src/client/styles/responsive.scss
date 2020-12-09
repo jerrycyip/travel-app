@@ -1,0 +1,51 @@
+@import "config";
+
+/* mobile responsive layout*/
+@media only screen and (max-width:760px) {
+    #app {
+        grid-template-rows: 60px 400px 400px auto 40px;
+        grid-template-areas: "heading" 
+                            "new-trip" 
+                            "plan-trip" 
+                            "all-entries" 
+                            "footer";
+        grid-template-columns: 1fr;
+        height: 100%;
+        min-height: 100%;
+        width: 100vw;
+        min-width: 100vw;
+    }
+
+    #new-trip {
+        grid-area: new-trip;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px; //100%;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .plan-trip {
+        grid-area: plan-trip;
+        margin-left: auto;
+        margin-right: auto;
+        height: 90%;
+        width: 80%;
+        max-width: 550px;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    //#footer {
+    //}
+
+    #heading {
+        font-size: 2.25em;
+        padding-bottom: 1%;
+        margin-bottom: 0;
+        padding-top: 2.5%;
+    }
+    h3 {
+        font-size: 1.2em;
+    }
+}
