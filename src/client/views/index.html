@@ -5,15 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1" />
     <title>Travel Planner App</title>
-    <!-- <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet"> -->
-    <!-- Use of Google's Material Design Web Fonts & Icons -->
-    <!--
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Comic Neue" rel="stylesheet">
-    -->
-    <!--<link rel="stylesheet" href="../styles/style.scss">-->
 </head>
 <body>
     <main id="app">
@@ -27,7 +18,7 @@
                 <h3>Plan Your <br>
                     Next Trip</h3>
             </div>
-            <form class="trip-details" onsubmit="return Client.handleSearch(event)">
+            <form id="trip-form" class="trip-details" onsubmit="return Client.handleSubmit(event)">
                 <h3 id="plan-title">Trip Details</h3>
                 <section id="where">
                     <label for="destination">Destination</label>
@@ -36,10 +27,10 @@
                 <section id="dates">
                 <label id="start-dt" for="start">Start </label>
                     <input class="trip-dates" id="start" type="date" 
-                    min="2020-01-01" max="2035-12-31" value="2021-04-30">
+                    min="2020-01-01" max="2035-12-31">
                 <label id="end-dt" for="end">End </label>
                     <input class="trip-dates" id="end" type="date" 
-                    min="2020-01-01" max="2035-12-31" value="2021-04-30">
+                    min="2020-01-01" max="2035-12-31">
                 </section>
                 <input class="form-submit" id="search-button" type="submit" value="Start Planning">
                 </form>

@@ -1,11 +1,25 @@
-// api constructors for retrieving weather data from openweathermap.org
-const apiKey = '2ad76e8d73c762b9428f448e8ecc3119';
-const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const units = '&units=imperial';
+// main function for new trip submission
+export const handleSubmit = async(event) => {
+    event.preventDefault();
 
-// weather icon = URL plus + iconID + '@2x.png'
-const iconURL = 'http://openweathermap.org/img/wn/';
-const iconFormat = '@2x.png'
+    const locale = document.forms['trip-form ']['destination'].value;
+    const start_dt = document.forms['trip-form']['start'].value;
+    const end_dt = document.forms['trip-form']['end'].value;
+
+    if(valid_trip(locale, start_dt, end_dt)){
+        return true;
+    }
+
+}
+
+function valid_trip(locale, start, end){
+    if(locale !== ""){
+    return true;
+    }
+    else{
+    return false
+    }
+}
 
 // event listener that triggers new weather journal entry
 //document.getElementById('generate').addEventListener('click', newEntry);
@@ -134,10 +148,26 @@ function setMinDates() {
     document.getElementById('start').setAttribute("min", today);
     document.getElementById('start').setAttribute("value", today);
     
-    document.getElementById('end').setAttribute("min", tm);
-    document.getElementById('end').setAttribute("value", tm);
+    document.getElementById('end').setAttribute("min", today);
+    document.getElementById('end').setAttribute("value", (tm));
+    
 }
 setMinDates();
+
+document.getElementById('start').addEventListener('change', setEndMin);
+
+function setEndMin() {
+    const start = document.getElementById("start").value;
+    const end = document.getElementById("end").value;
+    document.getElementById("end").setAttribute("min", start);
+   
+ if (end < start){
+    document.getElementById("end").setAttribute("value", start);    
+    }
+    
+}
+
+
 
 export {newEntry}
 
