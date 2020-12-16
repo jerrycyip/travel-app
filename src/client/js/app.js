@@ -1,25 +1,46 @@
+import {validateTrip} from "./helper.js";
+
+const serverURL = "http://localhost:8084/api";
+
 // main function for new trip submission
-export const handleSubmit = async(event) => {
+const handleSubmit = async(event) => {
     event.preventDefault();
 
-    const locale = document.forms['trip-form ']['destination'].value;
+    const locale = document.getElementById('destination').value;
     const start_dt = document.forms['trip-form']['start'].value;
     const end_dt = document.forms['trip-form']['end'].value;
 
-    if(valid_trip(locale, start_dt, end_dt)){
-        return true;
+    if(validateTrip(locale, start_dt, end_dt)){
+        console.log("trip submission passed initial validation");
+        // api GET call to geonames api with destination name
+        postTrip(serverURL,{destination: locale, start: start_dt, end: end_dt})
+    }
+    else {
+        alert("please provide a valid destination and date range");
+        console.log("please provide a valid destination and date range");
     }
 
 }
 
-function valid_trip(locale, start, end){
-    if(locale !== ""){
-    return true;
+// Post fetch request to server with provided trip details
+const postTrip = async (url='', data={}) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    try {
+        const newData = await response.json();
+        return newData;
+    } catch (error) {
+        console.log("error occured:", error);
     }
-    else{
-    return false
-    }
-}
+} 
+
 
 // event listener that triggers new weather journal entry
 //document.getElementById('generate').addEventListener('click', newEntry);
@@ -149,25 +170,31 @@ function setMinDates() {
     document.getElementById('start').setAttribute("value", today);
     
     document.getElementById('end').setAttribute("min", today);
-    document.getElementById('end').setAttribute("value", (tm));
+    document.getElementById('end').setAttribute("value", tm);
     
 }
-setMinDates();
+//setMinDates();
+document.addEventListener("onload", setMinDates());
 
 document.getElementById('start').addEventListener('change', setEndMin);
 
 function setEndMin() {
-    const start = document.getElementById("start").value;
-    const end = document.getElementById("end").value;
+    let start = document.getElementById("start").value;
+    let end = document.getElementById("end").value;
     document.getElementById("end").setAttribute("min", start);
-   
- if (end < start){
-    document.getElementById("end").setAttribute("value", start);    
-    }
     
+ if (end < start){
+    let new_end = new Date(start);
+    new_end.setDate(new_end.getDate()+2);
+    let dd = new_end.getDate();
+    let mm = new_end.getMonth()+1; //January is 0!
+    let yyyy = new_end.getFullYear();
+    new_end = yyyy+'-'+mm+'-'+dd;
+    
+    document.getElementById("end").setAttribute("value", new_end);
+    }
+ else return;   
 }
 
-
-
 export {newEntry}
-
+export {handleSubmit}
