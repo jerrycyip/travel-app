@@ -28,6 +28,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 // store api keys:
 const geo_key = process.env.geo_key;
+const weather_key = process.env.weather_key;
 
 // CORs for allowing cross origin requests
 const cors = require('cors');
@@ -49,21 +50,53 @@ app.post('/api', callApis);
 
 // main function for retrieving data from 3rd party APIs
 async function callApis(req, res) {
-    const geoCoords = await geoNamesAPI(req, res);
+    const locale = req.body.destination;
+    const start = req.body.start;
+    const end = req.body.end;
 
+    const geoCoords = await geoNamesAPI(locale);
+    
+    const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+    console.log('finished');
 }
 
+// function to retrieve weather data for given coords and dates
+async function weatherAPI(start, end, lat, lng) {
+    const weatherBitUrl = "https://api.weatherbit.io/v2.0/forecast/daily?";
+
+    console.log("request made to:", weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+    const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+    try {
+        const results = await response.json();
+        console.log(results);
+        console.log(results['data'][0]['weather']);
+        return results;
+    }
+    catch (error){
+        console.log("error occured", error);
+    }
+}
 // function to retrieve lat/long from GeoNames API using destination as input
-async function geoNamesAPI(req, rest) {
+async function geoNamesAPI(locale) {
     const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
-    const locale = req.body.destination;
-    const maxResults = 1;
+    //const locale = req.body.destination;
+    const maxResults = 3;
 
     console.log("request made to:", geoNamesUrl + locale +"&"+ `maxResults=${maxResults}` +"&"+ `username=${geo_key}`);
     const response = await fetch(geoNamesUrl + locale +"&"+`maxRows=${maxResults}` +"&"+ `username=${geo_key}`);
     try {
         const results = await response.json();
-        console.log(results);
+        //console.log(results);
+        firstRow = results['geonames'][0];
+        const geoCoords = {
+            name: firstRow['name'],
+            country: firstRow['countryName'],
+            lat: firstRow['lat'],
+            lng: firstRow['lng'],
+        }
+        console.log(firstRow);
+        console.log(geoCoords);
+        return geoCoords;
     }
     catch (error) {
         console.log("error occured:", error);
