@@ -56,10 +56,60 @@ async function callApis(req, res) {
 
     const geoCoords = await geoNamesAPI(locale);
     
-    const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+  //  const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
     console.log('finished');
+    const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
 }
 
+// function to retrieve weather data for given coords and dates
+async function weatherHistory(start, end, lat, lng) {
+    const weatherHistUrl = "https://api.weatherbit.io/v2.0/history/hourly?";
+
+    let start_dt = new Date(start);
+    let end_dt = new Date(end)
+    let lastyr_start = start_dt.setFullYear( start_dt.getFullYear() - 1 );
+    lastyr_start = new Date(lastyr_start);
+    let lastyr_end = end_dt.setFullYear( end_dt.getFullYear() - 1 );
+    lastyr_end = new Date(lastyr_end);
+
+    let start_dd = lastyr_start.getDate();
+    let start_mm = lastyr_start.getMonth()+1; //January is 0!
+    let start_yyyy = lastyr_start.getFullYear();
+
+    if(start_dd<10){
+            start_dd='0'+ start_dd
+        } 
+    if(start_mm<10){
+        start_mm='0'+ start_mm
+    } 
+    lastyr_start = start_yyyy+'-'+start_mm+'-'+start_dd+':13';
+
+    let end_dd = lastyr_end.getDate();
+    let end_mm = lastyr_end.getMonth()+1; //January is 0!
+    let end_yyyy = lastyr_end.getFullYear();
+
+    if(end_dd<10){
+            end_dd='0'+end_dd
+        } 
+    if(end_mm<10){
+        end_mm='0'+end_mm
+    } 
+    lastyr_end = end_yyyy+'-'+end_mm+'-'+end_dd+':14';
+
+    console.log("request made to:", weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+    const response = await fetch(weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+
+    try {
+        const results = await response.json();
+        console.log(results);
+        console.log(results['data'])
+//        console.log(results['data'][0]['weather']);
+        return results;
+    }
+    catch (error){
+        console.log("error occured", error);
+    }
+}
 // function to retrieve weather data for given coords and dates
 async function weatherAPI(start, end, lat, lng) {
     const weatherBitUrl = "https://api.weatherbit.io/v2.0/forecast/daily?";
