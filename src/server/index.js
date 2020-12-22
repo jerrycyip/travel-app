@@ -27,8 +27,10 @@ const path = require('path')
 const dotenv = require('dotenv');
 dotenv.config();
 // store api keys:
-const geo_key = process.env.geo_key;
-const weather_key = process.env.weather_key;
+const geoKey = process.env.geo_key;
+const weatherBitKey = process.env.weatherbit_key;
+// visual crossing api key for dates beyond 16 days (use historical proxy)
+const weatherVcKey = process.env.weathervc_key;
 
 // CORs for allowing cross origin requests
 const cors = require('cors');
@@ -55,15 +57,16 @@ async function callApis(req, res) {
     const end = req.body.end;
 
     const geoCoords = await geoNamesAPI(locale);
-    
-  //  const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+   // const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
+    const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
     console.log('finished');
-    const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
+  //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
 }
 
 // function to retrieve weather data for given coords and dates
 async function weatherHistory(start, end, lat, lng) {
-    const weatherHistUrl = "https://api.weatherbit.io/v2.0/history/hourly?";
+    //const weatherHistUrl = "https://api.weatherbit.io/v2.0/history/hourly?";
+    const weatherHistUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
 
     let start_dt = new Date(start);
     let end_dt = new Date(end)
@@ -96,8 +99,8 @@ async function weatherHistory(start, end, lat, lng) {
     } 
     lastyr_end = end_yyyy+'-'+end_mm+'-'+end_dd+':14';
 
-    console.log("request made to:", weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
-    const response = await fetch(weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+    console.log("request made to:", weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
+    const response = await fetch(weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
 
     try {
         const results = await response.json();
@@ -114,26 +117,64 @@ async function weatherHistory(start, end, lat, lng) {
 async function weatherAPI(start, end, lat, lng) {
     const weatherBitUrl = "https://api.weatherbit.io/v2.0/forecast/daily?";
 
-    console.log("request made to:", weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
-    const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weather_key}`);
+    console.log("request made to:", weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
+    const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
     try {
         const results = await response.json();
         console.log(results);
+        console.log("timezone:", results['timezone']);
         console.log(results['data'][0]['weather']);
+        
+
+
         return results;
     }
     catch (error){
         console.log("error occured", error);
     }
 }
-// function to retrieve lat/long from GeoNames API using destination as input
-async function geoNamesAPI(locale) {
-    const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
+
+function localTime(epochTime, tz) {
+    var d = new Date(epochTime * 1000);
+    //var d = new Date(1609887959 * 1000);
+    var newTime = d.toLocaleTimeString("en", {timeZone:tz});
+    console.log(newTime);
+//    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
+
+}
+/*
+async function geoTimeAPI(lat, lng){
+    const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
+
     //const locale = req.body.destination;
     const maxResults = 3;
 
-    console.log("request made to:", geoNamesUrl + locale +"&"+ `maxResults=${maxResults}` +"&"+ `username=${geo_key}`);
-    const response = await fetch(geoNamesUrl + locale +"&"+`maxRows=${maxResults}` +"&"+ `username=${geo_key}`);
+    console.log("request made to:", geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+    const response = await fetch(geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+
+    try {
+        const results = await response.json();
+        console.log(results);
+        //firstRow = results['geonames'][0];
+        //console.log(firstRow);
+        
+        return firstRow;
+    }
+    catch (error) {
+        console.log("error occured:", error);
+    }
+}
+*/
+// function to retrieve lat/long from GeoNames API using destination as input
+async function geoNamesAPI(locale) {
+    const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
+   
+    //const locale = req.body.destination;
+    const maxResults = 3;
+
+    console.log("request made to:", geoNamesUrl + locale +"&"+ `maxResults=${maxResults}` +"&"+ `username=${geoKey}`);
+    const response = await fetch(geoNamesUrl + locale +"&"+`maxRows=${maxResults}` +"&"+ `username=${geoKey}`);
+
     try {
         const results = await response.json();
         //console.log(results);
