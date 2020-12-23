@@ -1,0 +1,22 @@
+/* from server.js */
+async function geoTimeAPI(lat, lng){
+    const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
+
+    //const locale = req.body.destination;
+    const maxResults = 3;
+
+    console.log("request made to:", geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+    const response = await fetch(geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+
+    try {
+        const results = await response.json();
+        console.log(results);
+        //firstRow = results['geonames'][0];
+        //console.log(firstRow);
+        
+        return firstRow;
+    }
+    catch (error) {
+        console.log("error occured:", error);
+    }
+}

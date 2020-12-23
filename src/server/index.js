@@ -54,58 +54,74 @@ app.post('/api', callApis);
 async function callApis(req, res) {
     const locale = req.body.destination;
     const start = req.body.start;
+    const startDt = new Date(start);
     const end = req.body.end;
+    const endDt = new Date(end);
+
+
+
+    const today = new Date();
+    const forecastEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate()+15);
+    console.log("start:", start);
+    console.log("startDt:", startDt);
+    console.log("end:", end)
+    console.log("endDt:", endDt);
+    console.log("forecastEnd:", forecastEnd);
 
     const geoCoords = await geoNamesAPI(locale);
-   // const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
-    const weatherData = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
-    console.log('finished');
+   
+   if(startDt > forecastEnd){
+       const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+    }
+    else if(endDt<forecastEnd){
+        const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+        try {
+        console.log("filtered results:");
+
+        let dt = new Date(start);
+        while(dt <= endDt){     
+            let dateFormatted = dt.getUTCFullYear() + '-' + (dt.getUTCMonth()+1) + '-' + dt.getUTCDate();  
+            //dateFormatted.toString
+            console.log("formatted date:", dateFormatted)
+            console.log(forecastWeather[`${dateFormatted}`]);
+            nextDt = new Date(dt);
+            dt.setDate(dt.getDate()+1);
+//            dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1);
+            console.log("date counter:", dt);
+           //date = new Date(newDate);
+        }
+        
+    }
+
+        
+        /*forecastWeather.forEach(element => {
+            
+        })*/
+    
+    catch(error){
+        console.log("error occured", error);
+    }
+}
+    else {
+    const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+    const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+
+}    
   //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
+    console.log('finished');
 }
 
-// function to retrieve weather data for given coords and dates
-async function weatherHistory(start, end, lat, lng) {
-    //const weatherHistUrl = "https://api.weatherbit.io/v2.0/history/hourly?";
-    const weatherHistUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-
-    let start_dt = new Date(start);
-    let end_dt = new Date(end)
-    let lastyr_start = start_dt.setFullYear( start_dt.getFullYear() - 1 );
-    lastyr_start = new Date(lastyr_start);
-    let lastyr_end = end_dt.setFullYear( end_dt.getFullYear() - 1 );
-    lastyr_end = new Date(lastyr_end);
-
-    let start_dd = lastyr_start.getDate();
-    let start_mm = lastyr_start.getMonth()+1; //January is 0!
-    let start_yyyy = lastyr_start.getFullYear();
-
-    if(start_dd<10){
-            start_dd='0'+ start_dd
-        } 
-    if(start_mm<10){
-        start_mm='0'+ start_mm
-    } 
-    lastyr_start = start_yyyy+'-'+start_mm+'-'+start_dd+':13';
-
-    let end_dd = lastyr_end.getDate();
-    let end_mm = lastyr_end.getMonth()+1; //January is 0!
-    let end_yyyy = lastyr_end.getFullYear();
-
-    if(end_dd<10){
-            end_dd='0'+end_dd
-        } 
-    if(end_mm<10){
-        end_mm='0'+end_mm
-    } 
-    lastyr_end = end_yyyy+'-'+end_mm+'-'+end_dd+':14';
-
-    console.log("request made to:", weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
-    const response = await fetch(weatherHistUrl + "&" + `lat=${lat}` + "&" +`start_date=${lastyr_start}`+ "&" +`end_date=${lastyr_end}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
+async function statWeatherAPI(start, end, lat, lng){
+    const weatherStatUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=us" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
+    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=us" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
+    //console.log("raw response:", response);
 
     try {
         const results = await response.json();
+        console.log("future forecast:")
         console.log(results);
-        console.log(results['data'])
+        //console.log(results['data'])
 //        console.log(results['data'][0]['weather']);
         return results;
     }
@@ -113,21 +129,32 @@ async function weatherHistory(start, end, lat, lng) {
         console.log("error occured", error);
     }
 }
+
+
 // function to retrieve weather data for given coords and dates
 async function weatherAPI(start, end, lat, lng) {
     const weatherBitUrl = "https://api.weatherbit.io/v2.0/forecast/daily?";
+    //const weatherForecast = [];
+    const weatherForecast = {};
 
     console.log("request made to:", weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
     const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
     try {
         const results = await response.json();
-        console.log(results);
-        console.log("timezone:", results['timezone']);
-        console.log(results['data'][0]['weather']);
-        
-
-
-        return results;
+        //console.log(results);
+/*        console.log("city:", results['city_name']);
+        console.log("country:", results['country_code']);
+        console.log("timezone:", results['timezone']);*/
+        //results['data'].forEach(element => console.log(element));
+        //results['data'].forEach(element => console.log(element, element['weather']))
+        weatherForecast['city'] = results['city_name'];
+        weatherForecast['country'] = results['country_code'];
+        weatherForecast['timezone'] = results['timezone'];
+        results['data'].forEach(element => weatherForecast[element['datetime']] = element)
+        console.log(weatherForecast);
+        //console.log("timezone:", results['timezone']);
+//        console.log(results['data'][0]['weather']);
+        return weatherForecast;
     }
     catch (error){
         console.log("error occured", error);
@@ -142,29 +169,7 @@ function localTime(epochTime, tz) {
 //    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
 
 }
-/*
-async function geoTimeAPI(lat, lng){
-    const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
 
-    //const locale = req.body.destination;
-    const maxResults = 3;
-
-    console.log("request made to:", geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
-    const response = await fetch(geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
-
-    try {
-        const results = await response.json();
-        console.log(results);
-        //firstRow = results['geonames'][0];
-        //console.log(firstRow);
-        
-        return firstRow;
-    }
-    catch (error) {
-        console.log("error occured:", error);
-    }
-}
-*/
 // function to retrieve lat/long from GeoNames API using destination as input
 async function geoNamesAPI(locale) {
     const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
