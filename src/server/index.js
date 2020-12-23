@@ -80,15 +80,11 @@ async function callApis(req, res) {
 
         let dt = new Date(start);
         while(dt <= endDt){     
-            let dateFormatted = dt.getUTCFullYear() + '-' + (dt.getUTCMonth()+1) + '-' + dt.getUTCDate();  
-            //dateFormatted.toString
+            let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
             console.log("formatted date:", dateFormatted)
             console.log(forecastWeather[`${dateFormatted}`]);
-            nextDt = new Date(dt);
             dt.setDate(dt.getDate()+1);
-//            dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 1);
             console.log("date counter:", dt);
-           //date = new Date(newDate);
         }
         
     }
