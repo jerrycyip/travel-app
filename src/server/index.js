@@ -59,21 +59,32 @@ async function callApis(req, res) {
     const endDt = new Date(end);
 
 
+// calculate UTC date time for last day of forecasted weather data
+    let forecastEnd = new Date()
+    forecastEnd.setDate(forecastEnd.getDate()+15);
+    let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0'+(forecastEnd.getMonth()+1)).slice(-2) + '-' + ('0'+forecastEnd.getDate()).slice(-2);
+    forecastEnd = new Date(forecastEndDt);
 
-    const today = new Date();
-    const forecastEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate()+15);
+// calculate UTC date time for first day of statistical weather data    
+    let statStart = new Date()
+    statStart.setDate(statStart.getDate()+16);
+    let statStartDt = statStart.getFullYear() + '-' + ('0'+(statStart.getMonth()+1)).slice(-2) + '-' + ('0'+statStart.getDate()).slice(-2);
+    statStart= new Date(statStartDt);
+
     console.log("start:", start);
     console.log("startDt:", startDt);
     console.log("end:", end)
     console.log("endDt:", endDt);
     console.log("forecastEnd:", forecastEnd);
+    console.log("statStartDt:", statStartDt);
+    console.log("statStart:", statStart);
 
     const geoCoords = await geoNamesAPI(locale);
    
-   if(startDt > forecastEnd){
+   if(startDt.getTime() > forecastEnd.getTime()){
        const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
     }
-    else if(endDt<forecastEnd){
+    else if(endDt.getTime()<=forecastEnd.getTime()){
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         try {
         console.log("filtered results:");
@@ -88,29 +99,39 @@ async function callApis(req, res) {
         }
         
     }
-
-        
-        /*forecastWeather.forEach(element => {
-            
-        })*/
-    
     catch(error){
         console.log("error occured", error);
     }
 }
     else {
     const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
-    const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+    try {
+        console.log("filtered results:");
 
+        let dt = new Date(start);
+        while(dt <= endDt){     
+            let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
+            console.log("formatted date:", dateFormatted)
+            console.log(forecastWeather[`${dateFormatted}`]);
+            dt.setDate(dt.getDate()+1);
+            console.log("date counter:", dt);
+        }
+        
+    }
+    catch(error){
+        console.log("error occured", error);
+    }
+    const statWeather = await statWeatherAPI(statStartDt, end, geoCoords.lat, geoCoords.lng);
 }    
+
   //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
     console.log('finished');
 }
 
 async function statWeatherAPI(start, end, lat, lng){
     const weatherStatUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=us" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
-    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=us" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
+    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
+    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
     //console.log("raw response:", response);
 
     try {
@@ -147,7 +168,7 @@ async function weatherAPI(start, end, lat, lng) {
         weatherForecast['country'] = results['country_code'];
         weatherForecast['timezone'] = results['timezone'];
         results['data'].forEach(element => weatherForecast[element['datetime']] = element)
-        console.log(weatherForecast);
+        //console.log(weatherForecast);
         //console.log("timezone:", results['timezone']);
 //        console.log(results['data'][0]['weather']);
         return weatherForecast;
