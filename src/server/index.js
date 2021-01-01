@@ -58,19 +58,29 @@ async function callApis(req, res) {
     const end = req.body.end;
     const endDt = new Date(end);
 
+    const geoCoords = await geoNamesAPI(locale);
+    const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
 
-// calculate UTC date time for last day of forecasted weather data
-    let forecastEnd = new Date()
+    // calculate UTC date time for last day of forecasted weather data
+    let forecastEnd = new Date(`${geoTime}`);
     forecastEnd.setDate(forecastEnd.getDate()+15);
     let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0'+(forecastEnd.getMonth()+1)).slice(-2) + '-' + ('0'+forecastEnd.getDate()).slice(-2);
     forecastEnd = new Date(forecastEndDt);
 
 // calculate UTC date time for first day of statistical weather data    
-    let statStart = new Date()
+    let statStart = new Date(`${geoTime}`);
     statStart.setDate(statStart.getDate()+16);
     let statStartDt = statStart.getFullYear() + '-' + ('0'+(statStart.getMonth()+1)).slice(-2) + '-' + ('0'+statStart.getDate()).slice(-2);
     statStart= new Date(statStartDt);
 
+    let destinationTime = new Date(`${geoTime}`);
+    if(geoCoords.country == 'United States')
+    {
+        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));    
+    }
+    else {
+    console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+    }
     console.log("start:", start);
     console.log("startDt:", startDt);
     console.log("end:", end)
@@ -79,8 +89,6 @@ async function callApis(req, res) {
     console.log("statStartDt:", statStartDt);
     console.log("statStart:", statStart);
 
-    const geoCoords = await geoNamesAPI(locale);
-   
    if(startDt.getTime() > forecastEnd.getTime()){
        const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
     }
@@ -186,6 +194,27 @@ function localTime(epochTime, tz) {
 //    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
 
 }
+// function to retrieve the current time at travel destination from GeoNames API
+async function geoTimeAPI(lat, lng){
+    const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
+
+    //const locale = req.body.destination;
+    const maxResults = 3;
+
+    console.log("request made to:", geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+    const response = await fetch(geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+
+    try {
+        const results = await response.json();
+        console.log(results);
+        console.log("date-time:", results.time);
+        
+        return results.time;
+    }
+    catch (error) {
+        console.log("error occured:", error);
+    }
+}
 
 // function to retrieve lat/long from GeoNames API using destination as input
 async function geoNamesAPI(locale) {
@@ -204,6 +233,7 @@ async function geoNamesAPI(locale) {
         const geoCoords = {
             name: firstRow['name'],
             country: firstRow['countryName'],
+            adminCode1: firstRow['adminCode1'],
             lat: firstRow['lat'],
             lng: firstRow['lng'],
         }
