@@ -59,6 +59,7 @@ async function callApis(req, res) {
     const endDt = new Date(end);
 
     const geoCoords = await geoNamesAPI(locale);
+    // get current local time at destination
     const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
 
     // calculate UTC date time for last day of forecasted weather data
@@ -88,11 +89,14 @@ async function callApis(req, res) {
     console.log("forecastEnd:", forecastEnd);
     console.log("statStartDt:", statStartDt);
     console.log("statStart:", statStart);
+    console.log("startDt.getTime():",startDt.getTime());
+    console.log("forecastEnd.getTime():",forecastEnd.getTime());
+    console.log("endDt.getTime()", endDt.getTime());
 
-   if(startDt.getTime() > forecastEnd.getTime()){
+   if(startDt > forecastEnd){
        const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
     }
-    else if(endDt.getTime()<=forecastEnd.getTime()){
+    else if(endDt <= forecastEnd) {
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         try {
         console.log("filtered results:");
@@ -103,28 +107,28 @@ async function callApis(req, res) {
             console.log("formatted date:", dateFormatted)
             console.log(forecastWeather[`${dateFormatted}`]);
             dt.setDate(dt.getDate()+1);
-            console.log("date counter:", dt);
+            console.log("next date counter:", dt);
         }
-        
     }
-    catch(error){
-        console.log("error occured", error);
+        catch(error){
+            console.log("error occured", error);
+        }
     }
-}
     else {
-    const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
-    try {
-        console.log("filtered results:");
+        const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+        try {
+            console.log("filtered results:");
 
-        let dt = new Date(start);
-        while(dt <= endDt){     
-            let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
-            console.log("formatted date:", dateFormatted)
-            console.log(forecastWeather[`${dateFormatted}`]);
-            dt.setDate(dt.getDate()+1);
-            console.log("date counter:", dt);
-        }
-        
+            let dt = new Date(start);
+            while(dt <= forecastEnd/*endDt*/){     
+                //if(endDt.getTime()<=forecastEnd.getTime()){
+
+                let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
+                console.log("formatted date:", dateFormatted)
+                console.log(forecastWeather[`${dateFormatted}`]);
+                dt.setDate(dt.getDate()+1);
+                console.log("next date counter:", dt);
+            }        
     }
     catch(error){
         console.log("error occured", error);
