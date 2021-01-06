@@ -31,6 +31,8 @@ const geoKey = process.env.geo_key;
 const weatherBitKey = process.env.weatherbit_key;
 // visual crossing api key for dates beyond 16 days (use historical proxy)
 const weatherVcKey = process.env.weathervc_key;
+// pixabay api key for retrieving images
+const pixKey = process.env.pixabay_key;
 
 // CORs for allowing cross origin requests
 const cors = require('cors');
@@ -75,13 +77,22 @@ async function callApis(req, res) {
     statStart= new Date(statStartDt);
 
     let destinationTime = new Date(`${geoTime}`);
+    let destination = "";
+
     if(geoCoords.country == 'United States')
     {
-        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));    
+        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+        destination = `${geoCoords.name} ${geoCoords.adminName1}`;
     }
     else {
-    console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+        destination = `${geoCoords.name} ${geoCoords.country}`;
     }
+
+    // call the Pixabay API to retrieve image of destination
+        const localePix = await pixAPI(destination);
+        console.log(localePix);
+
     console.log("start:", start);
     console.log("startDt:", startDt);
     console.log("end:", end)
@@ -138,6 +149,24 @@ async function callApis(req, res) {
 
   //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
     console.log('finished');
+}
+
+async function pixAPI(destination){
+    const pixUrl = "https://pixabay.com/api/";
+    const locale = encodeURI(destination)
+    const cats = 'places,travel,buildings,nature'
+    const maxResults = 3;
+    console.log("request made to:", pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${cats}`+"&order=popular"+`&per_page=${maxResults}`);
+    const response = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${cats}`+"&order=popular"+`&per_page=${maxResults}`);
+
+    try{
+        const results = await response.json();
+        //console.log("filtered top result:", results['hits'][0]);
+        return results['hits'][0];
+    }
+    catch (error){
+        console.log("error occured", error);
+    }
 }
 
 async function statWeatherAPI(start, end, lat, lng){
@@ -238,6 +267,7 @@ async function geoNamesAPI(locale) {
             name: firstRow['name'],
             country: firstRow['countryName'],
             adminCode1: firstRow['adminCode1'],
+            adminName1: firstRow['adminName1'],
             lat: firstRow['lat'],
             lng: firstRow['lng'],
         }
