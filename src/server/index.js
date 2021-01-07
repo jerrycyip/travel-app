@@ -59,7 +59,21 @@ async function callApis(req, res) {
     const startDt = new Date(start);
     const end = req.body.end;
     const endDt = new Date(end);
+    let today = new Date();
+    let todayDt = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+    todayDt = new Date(todayDt);
+    
+    // calculate days until trip
+    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
+    daysLeft = Math.round((startDt - todayDt)/oneDayMs);
 
+    if (daysLeft == 1){
+    console.log(`${daysLeft} day until your trip!`);
+    }
+    else {
+        console.log(`${daysLeft} days until your trip!`);
+    }
+    
     const geoCoords = await geoNamesAPI(locale);
     // get current local time at destination
     const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
@@ -70,7 +84,7 @@ async function callApis(req, res) {
     let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0'+(forecastEnd.getMonth()+1)).slice(-2) + '-' + ('0'+forecastEnd.getDate()).slice(-2);
     forecastEnd = new Date(forecastEndDt);
 
-// calculate UTC date time for first day of statistical weather data    
+    // calculate UTC date time for first day of statistical weather data    
     let statStart = new Date(`${geoTime}`);
     statStart.setDate(statStart.getDate()+16);
     let statStartDt = statStart.getFullYear() + '-' + ('0'+(statStart.getMonth()+1)).slice(-2) + '-' + ('0'+statStart.getDate()).slice(-2);
@@ -79,6 +93,9 @@ async function callApis(req, res) {
     let destinationTime = new Date(`${geoTime}`);
     let destination = "";
 
+
+
+    // retrieve local time in destination
     if(geoCoords.country == 'United States')
     {
         console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
@@ -92,6 +109,7 @@ async function callApis(req, res) {
     // call the Pixabay API to retrieve image of destination
         const localePix = await pixAPI(destination);
         console.log(localePix);
+        const imageUrl = localePix.webformatURL;
 
     console.log("start:", start);
     console.log("startDt:", startDt);
