@@ -172,13 +172,24 @@ async function callApis(req, res) {
 async function pixAPI(destination){
     const pixUrl = "https://pixabay.com/api/";
     const locale = encodeURI(destination)
-    const cats = 'places,travel,buildings,nature'
+    const allCats = 'travel,places,buildings,nature'
     const maxResults = 3;
-    console.log("request made to:", pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${cats}`+"&order=popular"+`&per_page=${maxResults}`);
-    const response = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${cats}`+"&order=popular"+`&per_page=${maxResults}`);
+    console.log("request made to:", pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${allCats}`+"&order=popular"+`&per_page=${maxResults}`);
 
+    const responseTravel = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=travel`+"&order=popular"+`&per_page=${maxResults}`);
+    const responseCats = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${allCats}`+"&order=popular"+`&per_page=${maxResults}`);
+    
     try{
-        const results = await response.json();
+        const resultsTravel = await responseTravel.json();
+        const resultsCats = await responseCats.json()
+        let results = "";
+
+        if(resultsTravel.total == 0){
+            results = resultsCats;
+        }
+        else {
+            results = resultsTravel;
+        }
         //console.log("filtered top result:", results['hits'][0]);
         return results['hits'][0];
     }
