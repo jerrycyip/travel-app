@@ -8,16 +8,12 @@ const app = express();
 
 
 /* Middleware*/
-//Here we are configuring express to use body-parser as middle-ware.
-// Require bodyParser
+// Configure express to use body-parser as middle-ware.
 const bodyParser = require('body-parser');
 // for using url encoded values
 app.use(bodyParser.urlencoded({ extended: true }));
 // for processing json
 app.use(bodyParser.json());
-//Note: Express provides these alternatives to above middleware:
-//app.use(express.json());
-//app.use(express.urlencoded());
 
 /* Other Dependencies */
 // access and interact with the file system
@@ -40,6 +36,20 @@ app.use(cors());
 // Require node-fetch for making 3rd party API calls
 const fetch = require('node-fetch');
 
+// Trip object for storing data from api calls
+const trip = {
+    city: "",
+    adminCode1: "",
+    adminName1: "",
+    country: "",
+    localTime: "",
+    timeZone: "",
+    start: "",
+    end: "",
+    //countdown: "",
+    image: "",
+    weather: {}
+}
 /* Static Routing */
 // routing of site to directory of bundled assets
 app.use(express.static('dist'))
@@ -56,60 +66,66 @@ app.post('/api', callApis);
 async function callApis(req, res) {
     const locale = req.body.destination;
     const start = req.body.start;
+    trip.start = start;
     const startDt = new Date(start);
     const end = req.body.end;
+    trip.end = end;
     const endDt = new Date(end);
     let today = new Date();
-    let todayDt = today.getFullYear() + '-' + ('0'+(today.getMonth()+1)).slice(-2) + '-' + ('0'+today.getDate()).slice(-2);
+    let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     todayDt = new Date(todayDt);
-    
+
     // calculate days until trip
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
-    daysLeft = Math.round((startDt - todayDt)/oneDayMs);
+    daysLeft = Math.round((startDt - todayDt) / oneDayMs);
 
-    if (daysLeft == 1){
-    console.log(`${daysLeft} day until your trip!`);
+    if (daysLeft == 1) {
+        console.log(`${daysLeft} day until your trip!`);
     }
     else {
         console.log(`${daysLeft} days until your trip!`);
     }
-    
+    // get lat/long and other geographical details of destination
     const geoCoords = await geoNamesAPI(locale);
+    trip.city = geoCoords.name;
+    trip.adminCode1 = geoCoords.adminCode1;
+    trip.adminName1 = geoCoords.adminName1;
+    trip.country = geoCoords.country;
+
     // get current local time at destination
     const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
+    trip.localTime = geoTime.time;
+    trip.timeZone = geoTime.timezoneId;
 
     // calculate UTC date time for last day of forecasted weather data
-    let forecastEnd = new Date(`${geoTime}`);
-    forecastEnd.setDate(forecastEnd.getDate()+15);
-    let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0'+(forecastEnd.getMonth()+1)).slice(-2) + '-' + ('0'+forecastEnd.getDate()).slice(-2);
+    let forecastEnd = new Date(`${geoTime.time}`);
+    forecastEnd.setDate(forecastEnd.getDate() + 15);
+    let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0' + (forecastEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + forecastEnd.getDate()).slice(-2);
     forecastEnd = new Date(forecastEndDt);
 
     // calculate UTC date time for first day of statistical weather data    
-    let statStart = new Date(`${geoTime}`);
-    statStart.setDate(statStart.getDate()+16);
-    let statStartDt = statStart.getFullYear() + '-' + ('0'+(statStart.getMonth()+1)).slice(-2) + '-' + ('0'+statStart.getDate()).slice(-2);
-    statStart= new Date(statStartDt);
+    let statStart = new Date(`${geoTime.time}`);
+    statStart.setDate(statStart.getDate() + 16);
+    let statStartDt = statStart.getFullYear() + '-' + ('0' + (statStart.getMonth() + 1)).slice(-2) + '-' + ('0' + statStart.getDate()).slice(-2);
+    statStart = new Date(statStartDt);
 
-    let destinationTime = new Date(`${geoTime}`);
+    let destinationTime = new Date(`${geoTime.time}`);
     let destination = "";
 
-
-
     // retrieve local time in destination
-    if(geoCoords.country == 'United States')
-    {
-        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+    if (geoCoords.country == 'United States') {
+        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
         destination = `${geoCoords.name} ${geoCoords.adminName1}`;
     }
     else {
-        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12:true}));
+        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
         destination = `${geoCoords.name} ${geoCoords.country}`;
     }
 
     // call the Pixabay API to retrieve image of destination
-        const localePix = await pixAPI(destination);
-        console.log(localePix);
-        const imageUrl = localePix.webformatURL;
+    const localePix = await pixAPI(destination);
+    console.log(localePix);
+    trip.image = localePix.webformatURL;
 
     console.log("start:", start);
     console.log("startDt:", startDt);
@@ -118,28 +134,67 @@ async function callApis(req, res) {
     console.log("forecastEnd:", forecastEnd);
     console.log("statStartDt:", statStartDt);
     console.log("statStart:", statStart);
-    console.log("startDt.getTime():",startDt.getTime());
-    console.log("forecastEnd.getTime():",forecastEnd.getTime());
+    console.log("startDt.getTime():", startDt.getTime());
+    console.log("forecastEnd.getTime():", forecastEnd.getTime());
     console.log("endDt.getTime()", endDt.getTime());
 
-   if(startDt > forecastEnd){
-       const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+    if (startDt > forecastEnd) {
+        const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+        //console.log(statWeather);
+        for (day of statWeather['days']) {
+            trip.weather[day.datetime] = {}
+            trip.weather[day.datetime]['high'] = day.tempmax;
+            trip.weather[day.datetime]['low'] = day.tempmin;
+            trip.weather[day.datetime]['temp'] = day.temp;
+            trip.weather[day.datetime]['humidity'] = day.humidity;
+            trip.weather[day.datetime]['sunrise'] = day.sunrise;
+            trip.weather[day.datetime]['sunset'] = day.sunset;
+            trip.weather[day.datetime]['icon'] = day.icon
+            trip.weather[day.datetime]['description'] = day.conditions;
+            trip.weather[day.datetime]['precipProb'] = day.precipprob;
+            trip.weather[day.datetime]['precip'] = day.precip
+            trip.weather[day.datetime]['wind'] = day.windspeed;
+            trip.weather[day.datetime]['windDir'] = day.winddir;
+            trip.weather[day.datetime]['snow'] = day.snow;
+            trip.weather[day.datetime]['moonPhase'] = day.moonphase;
+            //trip.weather[day.datetime]['snowDepth'] = day.snowdepth;
+            //trip.weather[day.datetime]['feelsLike'] = day.feelslike;
+        }
+        console.log("statistical future weather forecast:");
+
+        console.log(trip);
     }
-    else if(endDt <= forecastEnd) {
+    else if (endDt <= forecastEnd) {
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         try {
-        console.log("filtered results:");
+            console.log("filtered results:");
 
-        let dt = new Date(start);
-        while(dt <= endDt){     
-            let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
-            console.log("formatted date:", dateFormatted)
-            console.log(forecastWeather[`${dateFormatted}`]);
-            dt.setDate(dt.getDate()+1);
-            console.log("next date counter:", dt);
+            let dt = new Date(start);
+            while (dt <= endDt) {
+                let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
+                console.log("formatted date:", dateFormatted)
+                console.log(forecastWeather[`${dateFormatted}`]);
+                trip.weather[dateFormatted] = {}
+                trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
+                trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
+                trip.weather[dateFormatted]['temp'] = forecastWeather[dateFormatted].temp;
+                trip.weather[dateFormatted]['humidity'] = forecastWeather[dateFormatted].rh;
+                trip.weather[dateFormatted]['sunrise'] = localTime(forecastWeather[dateFormatted].sunrise_ts, trip.timeZone);
+                trip.weather[dateFormatted]['sunset'] = localTime(forecastWeather[dateFormatted].sunset_ts, trip.timeZone);
+                trip.weather[dateFormatted]['icon'] = forecastWeather[dateFormatted].weather.icon;
+                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
+                trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
+                trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
+                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd;
+                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_cdir_full;
+                trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
+                trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
+                dt.setDate(dt.getDate() + 1);
+                console.log("next date counter:", dt);
+            }
+            console.log(trip);
         }
-    }
-        catch(error){
+        catch (error) {
             console.log("error occured", error);
         }
     }
@@ -149,43 +204,93 @@ async function callApis(req, res) {
             console.log("filtered results:");
 
             let dt = new Date(start);
-            while(dt <= forecastEnd/*endDt*/){     
+            while (dt <= forecastEnd/*endDt*/) {
                 //if(endDt.getTime()<=forecastEnd.getTime()){
 
-                let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth()+1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
+                let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
                 console.log(forecastWeather[`${dateFormatted}`]);
-                dt.setDate(dt.getDate()+1);
+                trip.weather[dateFormatted] = {}
+                trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
+                trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
+                trip.weather[dateFormatted]['temp'] = forecastWeather[dateFormatted].temp;
+                trip.weather[dateFormatted]['sunrise'] = localTime(forecastWeather[dateFormatted].sunrise_ts, trip.timeZone);
+                trip.weather[dateFormatted]['sunset'] = localTime(forecastWeather[dateFormatted].sunset_ts, trip.timeZone);
+                trip.weather[dateFormatted]['icon'] = forecastWeather[dateFormatted].weather.icon;
+                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
+                trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
+                trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
+                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd;
+                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_cdir_full;
+                trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
+                trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
+                dt.setDate(dt.getDate() + 1);
                 console.log("next date counter:", dt);
-            }        
-    }
-    catch(error){
-        console.log("error occured", error);
-    }
-    const statWeather = await statWeatherAPI(statStartDt, end, geoCoords.lat, geoCoords.lng);
-}    
+            }
+        }
+        catch (error) {
+            console.log("error occured", error);
+        }
+        const statWeather = await statWeatherAPI(statStartDt, end, geoCoords.lat, geoCoords.lng);
+        //console.log(statWeather);
+        try {
+            for (day of statWeather['days']) {
+                trip.weather[day.datetime] = {}
+                trip.weather[day.datetime]['high'] = day.tempmax;
+                trip.weather[day.datetime]['low'] = day.tempmin;
+                trip.weather[day.datetime]['temp'] = day.temp;
+                trip.weather[day.datetime]['humidity'] = day.humidity;
+                trip.weather[day.datetime]['sunrise'] = day.sunrise;
+                trip.weather[day.datetime]['sunset'] = day.sunset;
+                trip.weather[day.datetime]['icon'] = day.icon
+                trip.weather[day.datetime]['description'] = day.conditions;
+                trip.weather[day.datetime]['precipProb'] = day.precipprob;
+                trip.weather[day.datetime]['precip'] = day.precip
+                trip.weather[day.datetime]['wind'] = day.windspeed;
+                trip.weather[day.datetime]['windDir'] = day.winddir;
+                trip.weather[day.datetime]['snow'] = day.snow;
+                trip.weather[day.datetime]['moonPhase'] = day.moonphase;
+                //trip.weather[day.datetime]['snowDepth'] = day.snowdepth;
+                //trip.weather[day.datetime]['feelsLike'] = day.feelslike;
+            }
+            console.log("statistical future weather forecast:");
+            console.log(trip);
+        }
+        catch (error) {
+            console.log("error occured", error);
+        }
+}
 
-  //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
+    //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
     console.log('finished');
 }
 
-async function pixAPI(destination){
+function localTime(epochTime, timeZone) {
+    let dt = new Date(epochTime * 1000);
+    //let localTime = dt.toLocaleTimeString("en", {timeZone:tz});
+    let localTime = dt.toLocaleString('en-US', {timeZone:timeZone, hour: 'numeric', minute: 'numeric', hour12: false });
+    //console.log(localTime);
+    return localTime;
+//    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
+}
+
+async function pixAPI(destination) {
     const pixUrl = "https://pixabay.com/api/";
     const locale = encodeURI(destination)
     const allCats = 'travel,places,buildings,nature'
     const maxResults = 3;
-    console.log("request made to:", pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${allCats}`+"&order=popular"+`&per_page=${maxResults}`);
+    console.log("request made to:", pixUrl + `?key=${pixKey}` + `&q=${locale}` + `&category=${allCats}` + "&order=popular" + `&per_page=${maxResults}`);
 
-    const responseTravel = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=travel`+"&order=popular"+`&per_page=${maxResults}`);
-    const responseCats = await fetch(pixUrl+`?key=${pixKey}`+`&q=${locale}`+`&category=${allCats}`+"&order=popular"+`&per_page=${maxResults}`);
-    
-    try{
+    const responseTravel = await fetch(pixUrl + `?key=${pixKey}` + `&q=${locale}` + `&category=travel` + "&order=popular" + `&per_page=${maxResults}`);
+    const responseAllCats = await fetch(pixUrl + `?key=${pixKey}` + `&q=${locale}` + `&category=${allCats}` + "&order=popular" + `&per_page=${maxResults}`);
+
+    try {
         const resultsTravel = await responseTravel.json();
-        const resultsCats = await responseCats.json()
+        const resultsAllCats = await responseAllCats.json()
         let results = "";
 
-        if(resultsTravel.total == 0){
-            results = resultsCats;
+        if (resultsTravel.total == 0) {
+            results = resultsAllCats;
         }
         else {
             results = resultsTravel;
@@ -193,26 +298,30 @@ async function pixAPI(destination){
         //console.log("filtered top result:", results['hits'][0]);
         return results['hits'][0];
     }
-    catch (error){
+    catch (error) {
         console.log("error occured", error);
     }
 }
 
-async function statWeatherAPI(start, end, lat, lng){
+async function statWeatherAPI(start, end, lat, lng) {
     const weatherStatUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
-    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" +`${lng}` + "/" + `${start}`+ "/" +`${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}`+"&"+"include=stats");
+    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" + `${lng}` + "/" + `${start}` + "/" + `${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}` + "&" + "include=stats");
+    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" + `${lng}` + "/" + `${start}` + "/" + `${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}` + "&" + "include=stats");
     //console.log("raw response:", response);
+    const weatherForecast = {};
 
     try {
         const results = await response.json();
-        console.log("future forecast:")
-        console.log(results);
+        weatherForecast['resolvedAddress'] = results.resolvedAddress;
+        weatherForecast['remainingCosts'] = results.remainingCosts;
+        weatherForecast['remainingCredits'] = results.remainingCredits;
+        weatherForecast['days'] = results['days'];
+        //results['days'].forEach(element => weatherForecast[element['datetime']] = element);
         //console.log(results['data'])
-//        console.log(results['data'][0]['weather']);
-        return results;
+        //        console.log(results['data'][0]['weather']);
+        return weatherForecast;
     }
-    catch (error){
+    catch (error) {
         console.log("error occured", error);
     }
 }
@@ -229,9 +338,9 @@ async function weatherAPI(start, end, lat, lng) {
     try {
         const results = await response.json();
         //console.log(results);
-/*        console.log("city:", results['city_name']);
-        console.log("country:", results['country_code']);
-        console.log("timezone:", results['timezone']);*/
+        /*        console.log("city:", results['city_name']);
+                console.log("country:", results['country_code']);
+                console.log("timezone:", results['timezone']);*/
         //results['data'].forEach(element => console.log(element));
         //results['data'].forEach(element => console.log(element, element['weather']))
         weatherForecast['city'] = results['city_name'];
@@ -240,38 +349,31 @@ async function weatherAPI(start, end, lat, lng) {
         results['data'].forEach(element => weatherForecast[element['datetime']] = element)
         //console.log(weatherForecast);
         //console.log("timezone:", results['timezone']);
-//        console.log(results['data'][0]['weather']);
+        //        console.log(results['data'][0]['weather']);
         return weatherForecast;
     }
-    catch (error){
+    catch (error) {
         console.log("error occured", error);
     }
 }
 
-function localTime(epochTime, tz) {
-    var d = new Date(epochTime * 1000);
-    //var d = new Date(1609887959 * 1000);
-    var newTime = d.toLocaleTimeString("en", {timeZone:tz});
-    console.log(newTime);
-//    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
 
-}
 // function to retrieve the current time at travel destination from GeoNames API
-async function geoTimeAPI(lat, lng){
+async function geoTimeAPI(lat, lng) {
     const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
 
     //const locale = req.body.destination;
     const maxResults = 3;
 
-    console.log("request made to:", geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
-    const response = await fetch(geoTimeUrl + `lat=${lat}`+"&"+`lng=${lng}`+"&"+`username=${geoKey}`);
+    console.log("request made to:", geoTimeUrl + `lat=${lat}` + "&" + `lng=${lng}` + "&" + `username=${geoKey}`);
+    const response = await fetch(geoTimeUrl + `lat=${lat}` + "&" + `lng=${lng}` + "&" + `username=${geoKey}`);
 
     try {
         const results = await response.json();
-        console.log(results);
-        console.log("date-time:", results.time);
-        
-        return results.time;
+        //console.log(results);
+        //console.log("date-time:", results.time);
+
+        return results;
     }
     catch (error) {
         console.log("error occured:", error);
@@ -281,12 +383,12 @@ async function geoTimeAPI(lat, lng){
 // function to retrieve lat/long from GeoNames API using destination as input
 async function geoNamesAPI(locale) {
     const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
-   
+
     //const locale = req.body.destination;
     const maxResults = 3;
 
-    console.log("request made to:", geoNamesUrl + locale +"&"+ `maxResults=${maxResults}` +"&"+ `username=${geoKey}`);
-    const response = await fetch(geoNamesUrl + locale +"&"+`maxRows=${maxResults}` +"&"+ `username=${geoKey}`);
+    console.log("request made to:", geoNamesUrl + locale + "&" + `maxResults=${maxResults}` + "&" + `username=${geoKey}`);
+    const response = await fetch(geoNamesUrl + locale + "&" + `maxRows=${maxResults}` + "&" + `username=${geoKey}`);
 
     try {
         const results = await response.json();
@@ -308,7 +410,6 @@ async function geoNamesAPI(locale) {
         console.log("error occured:", error);
     }
 }
-
 
 
 function addEntry(req, res) {

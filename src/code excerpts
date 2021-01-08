@@ -18,3 +18,11 @@ async function geoTimeAPI(lat, lng){
         console.log("error occured:", error);
     }
 }
+
+function localTime(epochTime, tz) {
+    var d = new Date(epochTime * 1000);
+    //var d = new Date(1609887959 * 1000);
+    var newTime = d.toLocaleTimeString("en", {timeZone:tz});
+    console.log(newTime);
+//    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
+}
