@@ -99,13 +99,13 @@ async function callApis(req, res) {
 
     // calculate UTC date time for last day of forecasted weather data
     let forecastEnd = new Date(`${geoTime.time}`);
-    forecastEnd.setDate(forecastEnd.getDate() + 15);
+    forecastEnd.setDate(forecastEnd.getDate() + 14);
     let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0' + (forecastEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + forecastEnd.getDate()).slice(-2);
     forecastEnd = new Date(forecastEndDt);
 
     // calculate UTC date time for first day of statistical weather data    
     let statStart = new Date(`${geoTime.time}`);
-    statStart.setDate(statStart.getDate() + 16);
+    statStart.setDate(statStart.getDate() + 15);
     let statStartDt = statStart.getFullYear() + '-' + ('0' + (statStart.getMonth() + 1)).slice(-2) + '-' + ('0' + statStart.getDate()).slice(-2);
     statStart = new Date(statStartDt);
 
@@ -149,7 +149,7 @@ async function callApis(req, res) {
             trip.weather[day.datetime]['humidity'] = day.humidity;
             trip.weather[day.datetime]['sunrise'] = day.sunrise;
             trip.weather[day.datetime]['sunset'] = day.sunset;
-            trip.weather[day.datetime]['icon'] = day.icon
+            trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
             trip.weather[day.datetime]['description'] = day.conditions;
             trip.weather[day.datetime]['precipProb'] = day.precipprob;
             trip.weather[day.datetime]['precip'] = day.precip
@@ -200,6 +200,7 @@ async function callApis(req, res) {
     }
     else {
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+        //console.log("unfiltered forecast results:", forecastWeather);
         try {
             console.log("filtered results:");
 
@@ -214,6 +215,7 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
                 trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
                 trip.weather[dateFormatted]['temp'] = forecastWeather[dateFormatted].temp;
+                trip.weather[dateFormatted]['humidity'] = forecastWeather[dateFormatted].rh;
                 trip.weather[dateFormatted]['sunrise'] = localTime(forecastWeather[dateFormatted].sunrise_ts, trip.timeZone);
                 trip.weather[dateFormatted]['sunset'] = localTime(forecastWeather[dateFormatted].sunset_ts, trip.timeZone);
                 trip.weather[dateFormatted]['icon'] = forecastWeather[dateFormatted].weather.icon;
@@ -242,7 +244,7 @@ async function callApis(req, res) {
                 trip.weather[day.datetime]['humidity'] = day.humidity;
                 trip.weather[day.datetime]['sunrise'] = day.sunrise;
                 trip.weather[day.datetime]['sunset'] = day.sunset;
-                trip.weather[day.datetime]['icon'] = day.icon
+                trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
                 trip.weather[day.datetime]['description'] = day.conditions;
                 trip.weather[day.datetime]['precipProb'] = day.precipprob;
                 trip.weather[day.datetime]['precip'] = day.precip
@@ -265,10 +267,42 @@ async function callApis(req, res) {
     console.log('finished');
 }
 
+function weatherIconCode(description){
+    switch(description){
+        case "snow":
+            return "s02d";
+            break;
+        case "rain":
+            return "r02d";
+            break;
+        case "fog":
+            return "a05d";
+            break;
+        case "wind":
+            return "w00d";
+            break;
+        case "cloudy":
+            return "c04d";
+            break;
+        case "partly-cloudy-day":
+            return "c02d";
+            break;
+        case "partly-cloudy-night":
+            return "c02n";
+            break;
+        case "clear-day":
+            return "c01d";
+            break;
+        case "clear-night":
+            return "c01n";
+            break;
+    }
+}
+
 function localTime(epochTime, timeZone) {
     let dt = new Date(epochTime * 1000);
     //let localTime = dt.toLocaleTimeString("en", {timeZone:tz});
-    let localTime = dt.toLocaleString('en-US', {timeZone:timeZone, hour: 'numeric', minute: 'numeric', hour12: false });
+    let localTime = dt.toLocaleString('en-US', {timeZone:timeZone, hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false });
     //console.log(localTime);
     return localTime;
 //    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
