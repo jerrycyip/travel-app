@@ -141,30 +141,37 @@ async function callApis(req, res) {
     if (startDt > forecastEnd) {
         const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         //console.log(statWeather);
-        for (day of statWeather['days']) {
-            trip.weather[day.datetime] = {}
-            trip.weather[day.datetime]['high'] = day.tempmax;
-            trip.weather[day.datetime]['low'] = day.tempmin;
-            trip.weather[day.datetime]['temp'] = day.temp;
-            trip.weather[day.datetime]['humidity'] = day.humidity;
-            trip.weather[day.datetime]['sunrise'] = day.sunrise;
-            trip.weather[day.datetime]['sunset'] = day.sunset;
-            trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
-            trip.weather[day.datetime]['description'] = day.conditions;
-            trip.weather[day.datetime]['precipProb'] = day.precipprob;
-            trip.weather[day.datetime]['precip'] = day.precip
-            trip.weather[day.datetime]['wind'] = day.windspeed;
-            trip.weather[day.datetime]['windDir'] = day.winddir;
-            trip.weather[day.datetime]['snow'] = day.snow;
-            trip.weather[day.datetime]['moonPhase'] = day.moonphase;
-            //trip.weather[day.datetime]['snowDepth'] = day.snowdepth;
-            //trip.weather[day.datetime]['feelsLike'] = day.feelslike;
+        try {
+            for (day of statWeather['days']) {
+                trip.weather[day.datetime] = {}
+                trip.weather[day.datetime]['high'] = day.tempmax;
+                trip.weather[day.datetime]['low'] = day.tempmin;
+                trip.weather[day.datetime]['temp'] = day.temp;
+                trip.weather[day.datetime]['humidity'] = day.humidity;
+                trip.weather[day.datetime]['sunrise'] = day.sunrise;
+                trip.weather[day.datetime]['sunset'] = day.sunset;
+                trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
+                trip.weather[day.datetime]['description'] = day.conditions;
+                trip.weather[day.datetime]['precipProb'] = day.precipprob;
+                trip.weather[day.datetime]['precip'] = day.precip
+                trip.weather[day.datetime]['wind'] = day.windspeed;
+                trip.weather[day.datetime]['windDir'] = day.winddir;
+                trip.weather[day.datetime]['windDirFull'] = windDirection(day.winddir);
+                trip.weather[day.datetime]['snow'] = day.snow;
+                trip.weather[day.datetime]['moonPhase'] = day.moonphase;
+                //trip.weather[day.datetime]['snowDepth'] = day.snowdepth;
+                //trip.weather[day.datetime]['feelsLike'] = day.feelslike;
+            }
+            console.log("statistical future weather forecast:");
+            console.log(trip);
         }
-        console.log("statistical future weather forecast:");
+        catch (error) {
+            console.log("error occured", error);
+        }
 
-        console.log(trip);
     }
     else if (endDt <= forecastEnd) {
+        
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         try {
             console.log("filtered results:");
@@ -173,7 +180,7 @@ async function callApis(req, res) {
             while (dt <= endDt) {
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
-                console.log(forecastWeather[`${dateFormatted}`]);
+                //console.log(forecastWeather[`${dateFormatted}`]);
                 trip.weather[dateFormatted] = {}
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
                 trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
@@ -185,8 +192,9 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
                 trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
                 trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
-                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd;
-                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_cdir_full;
+                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd * 3.6;
+                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_dir;
+                trip.weather[dateFormatted]['windDirFull'] = forecastWeather[dateFormatted].wind_cdir_full;
                 trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
                 dt.setDate(dt.getDate() + 1);
@@ -197,6 +205,7 @@ async function callApis(req, res) {
         catch (error) {
             console.log("error occured", error);
         }
+        
     }
     else {
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
@@ -210,7 +219,7 @@ async function callApis(req, res) {
 
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
-                console.log(forecastWeather[`${dateFormatted}`]);
+                //console.log(forecastWeather[`${dateFormatted}`]);
                 trip.weather[dateFormatted] = {}
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
                 trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
@@ -222,8 +231,9 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
                 trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
                 trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
-                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd;
-                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_cdir_full;
+                trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd * 3.6;
+                trip.weather[dateFormatted]['windDir'] = forecastWeather[dateFormatted].wind_dir;
+                trip.weather[dateFormatted]['windDirFull'] = forecastWeather[dateFormatted].wind_cdir_full;
                 trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
                 dt.setDate(dt.getDate() + 1);
@@ -250,6 +260,7 @@ async function callApis(req, res) {
                 trip.weather[day.datetime]['precip'] = day.precip
                 trip.weather[day.datetime]['wind'] = day.windspeed;
                 trip.weather[day.datetime]['windDir'] = day.winddir;
+                trip.weather[day.datetime]['windDirFull'] = windDirection(day.winddir);
                 trip.weather[day.datetime]['snow'] = day.snow;
                 trip.weather[day.datetime]['moonPhase'] = day.moonphase;
                 //trip.weather[day.datetime]['snowDepth'] = day.snowdepth;
@@ -267,6 +278,14 @@ async function callApis(req, res) {
     console.log('finished');
 }
 
+// function to map wind direction in degrees to wind direction description. reference: https://www.campbellsci.com/blog/convert-wind-directions
+function windDirection(degrees) {
+    const compassSections = ["north","north-northeast","northeast","east-northeast","east","east-southeast","southeast","south-southeast",
+                            "south","south-southwest","southwest","west-southwest","west","west-northwest","northwest","north-northwest","north"];
+    const compassIndex = Math.round(degrees / 22.5);
+    return compassSections[compassIndex];
+}
+// function to map visual crossing icon description to weatherbit icon image
 function weatherIconCode(description){
     switch(description){
         case "snow":
@@ -347,11 +366,11 @@ async function statWeatherAPI(start, end, lat, lng) {
     try {
         const results = await response.json();
         weatherForecast['resolvedAddress'] = results.resolvedAddress;
-        weatherForecast['remainingCosts'] = results.remainingCosts;
+        weatherForecast['remainingCosts'] = results.remainingCost;
         weatherForecast['remainingCredits'] = results.remainingCredits;
         weatherForecast['days'] = results['days'];
         //results['days'].forEach(element => weatherForecast[element['datetime']] = element);
-        //console.log(results['data'])
+        //console.log("raw stat weather:", weatherForecast);
         //        console.log(results['data'][0]['weather']);
         return weatherForecast;
     }
@@ -371,7 +390,7 @@ async function weatherAPI(start, end, lat, lng) {
     const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
     try {
         const results = await response.json();
-        //console.log(results);
+        //console.log("raw weather forecast:", results);
         /*        console.log("city:", results['city_name']);
                 console.log("country:", results['country_code']);
                 console.log("timezone:", results['timezone']);*/
