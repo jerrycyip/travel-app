@@ -8,12 +8,15 @@
 </head>
 <body>
     <main id="app">
-        <header class="holder headline">
+        <!-- <header class="holder headline">
             <h1 id="heading">
                 Trip Planner
-            </h1>
-        </header>
+            </h1> 
+        </header>-->
         <div id="plan-trip">
+            <h1 class="header">
+                Trip Planner
+            </h1>
             <div id="new-trip">
                 <h3>Plan Your <br>
                     Next Trip</h3>
@@ -35,6 +38,45 @@
                 <input class="form-submit" id="search-button" type="submit" value="Start Planning">
                 </form>
         </div>
+        <section id="trip-modal" class="modal">
+            <div class="modal-content">
+                <div class="trip-summary">
+                <div class="trip-summary-divider">
+                    <img class="trip-image" src="../media/maldives.jpg"alt="trip image">
+                </div>
+                <div class="modal-details">
+                    <h2 class="locale">Cancun, Mexico</h2>
+                    <h3 class="dates">Depart:&nbsp<span id="depart-date">10/1/21 (Thu)</span></h3>
+                    <h3 class="dates">Return:&nbsp<span id="return-date">10/13/21 (Sun)</span></h3>
+                    <!--<h3>Current Local Time:</h3> -->
+                    <h3>Local Time:&nbsp<span id="local-time">7:53 AM, 7/28/21 (Wed)</span></h3>
+                    <h3><span class="countdown" >100 days until your trip</span></h3>
+                    <div class="btn-group">
+                        <button class="trip-btn">Save Trip</button>
+                        <button class="trip-btn">Delete Trip</button>
+                    </div>
+                </div>
+            </div>
+                <div class="forecast-container">
+                    <h3 id="forecast-header">Weather Forecast</h3>
+                    <div class="daily-forecasts">
+                        <div class="day-forecast">
+                        <h4 class="forecast-date">Thu 10/1</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="itinerary">
+
+                </div>
+            </div>
+        </section>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
         <div class="all-trips">
             <div class="title">

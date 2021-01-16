@@ -13,7 +13,8 @@
     min-height: 100vh;
     width: auto;
     grid-template-rows: 50px 525px auto 35px;
-    grid-template-areas: "heading"
+    grid-template-rows: 675px auto 35px;
+    grid-template-areas: //"heading"
                          "plan-trip" 
                          "all-trips" 
                          "footer";
@@ -27,14 +28,30 @@
     grid-area: plan-trip;
     background-image: url("../media/karsten-winegeart-fd1cQ3mmBTE-unsplash.jpg");
     background-size: cover;
-    
-    padding-top: 5%;
+    //padding-top: 5%;
+}
+
+.header{
+    font-size: 2.25em;
+    //font-weight: 800;
+    //margin-left:3%;
+    text-align: center;
+    margin-top: 0.3%;
+   // margin-top: -50px;
+   color: $brand-color;
+   //color: $sky-blue;
+   //color: white;
+   
+    text-shadow: 1px 1px 1px $brand-color;
+    text-shadow: 1px 1px 1px black;
+    text-shadow: 1.5px 1px 1px lightgrey;
 }
 
 #new-trip {
     width: 50%;
     padding-left: 5%;
     padding-right: 7.5%;  
+    margin-top: 5%;
     float: left;
 }
 

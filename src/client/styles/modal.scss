@@ -1,0 +1,223 @@
+@import "config";
+
+.modal {
+   
+   position: fixed;
+   margin-top: 5vh;
+   margin-bottom: 5vh;
+   margin-left: 10vw;
+   margin-right: 10vw;
+   z-index: 10;
+   width: 75vw;
+   height: 90vh;
+  // max-width: 1200px; //vw;
+  // max-height: 90vw;
+   scroll-behavior: auto;
+   display: grid;
+   //display: none;
+   grid-template-rows: auto auto auto;
+   grid-template-areas: "trip-summary" "trip-weather" "itinerary";
+   //box-sizing: border-box;
+   background: white;// rgb(49, 72, 74);
+   background: rgb(49, 72, 74);
+   background: rgb(76, 137, 140); //$brand-color;
+   background: $sky-blue;
+   //background-color: #a0cdd8; 
+   border-radius: 8px;
+   border: 1px solid grey;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+   //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+}
+.trip-modal {
+    //placeholder
+}
+.modal-content {
+   width: 100%;
+    height: 100%;
+}
+.trip-summary{
+    grid-area: trip-summary;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 2%;
+    width: 100%;
+}
+
+.trip-image{
+    width: 100%;
+    height: auto;
+//    height: 260px; //auto;
+    //height: auto;
+    //change image type to center and cut-off excess
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 5px;
+    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
+    //padding-right: 4%;
+
+    //height: 250px; //13.5%;
+    //max-width: 500px;
+    //max-height: 350px;
+}
+.trip-summary-divider{
+    width: 43%;
+    padding-right: 3%;
+    border-right: 1px solid $brand-color;
+    display: inline;
+    float: left;
+
+    
+}
+.modal-details{
+    float: right;
+    width: 54%;
+    //max-width: 50%;
+    margin-left: 0;
+    margin-right:0;
+    text-align: left;
+    //background-color: white;
+    color: white;
+    
+    //border-left: 1px solid $brand-color;
+    //padding-left: 30px;
+    h2, #locale {
+        font-size: 2.2em;
+        //letter-spacing: 0.06em;
+        font-weight: 300;
+        display: inline-block;
+        color: black;
+    }
+
+    h3 {
+        font-size: 1.4em;
+        margin-top: 0.5em;
+        font-weight: 400;
+        text-shadow: 1px 1px 5px black;
+        /*text-align: left;
+        margin-left: 20%;
+        margin-right: 10%;
+        */
+    }
+    #locale, #depart-date, #return-date, #local-time {
+        color: black;
+        text-shadow: none;
+    }
+    .countdown{
+        text-shadow: 1px 1px 5px black;
+        
+        //font-size: 1.5em;
+    }
+}
+.btn-group{
+    display: block;
+    margin-top: 3%;
+    
+}
+.trip-btn{
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1em;
+    font-weight: 300;
+
+    width: 20%;
+    margin-left: 0%;
+    margin-right: 7%;
+    
+    height: auto;
+    padding: .3em;//4px;
+    padding-left: .5em;//8px;
+    padding-right: .5em;//8px;
+    background-color: white;
+//    background-color: $brand-color; //#fb385c; 
+    //background-color: rgb(76, 137, 140);
+    //background-color: $sky-blue;
+    color: white;
+    color: $brand-color;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 8px;
+    outline: none;
+    outline: $brand-color;
+    input {
+            border: 1px solid $brand-color;// black;
+            border-radius: 5px;
+            outline: none;
+            outline: $brand-color;
+    }
+}
+
+.forecast-container{
+    grid-area: trip-weather;
+    width: 98%;
+    display: grid;
+    padding-left: 1%;
+    padding-right: 1%;
+    //background: grey;
+    grid-template-rows: 1fr 7fr;
+    grid-template-areas: "header" "forecasts"
+}
+
+#forecast-header {
+    grid-area: header;
+    font-size: 1.75em;
+    //margin-top: 0.25em;
+    padding-bottom: 10px;
+    font-weight: 400;
+    padding-left: 3%;
+    color: white;
+    text-shadow: 1px 1px 5px black;
+    border-bottom: 1px solid $brand-color;
+    margin-bottom: 0.2em;
+}
+
+.daily-forecasts{
+    grid-area: forecasts;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    //background: white;
+    align-items: flex-start;
+    scroll-behavior: auto;
+}
+.day-forecast{
+    display: block;
+    width: 16.5%;
+    min-width: 100px;
+    height: 85%;
+    //border-left: 0.25px solid white;
+    //border-right: 0.25px solid white;
+    border-right: 1px solid $brand-color;
+    text-align: center;
+    color: white;
+    line-height: 1.45em;
+}
+
+.forecast-date{
+    text-shadow: 1px 1px 5px black;
+}
+.weather-icon{
+    height: 6em;
+    margin-top: -10px;
+    margin-bottom: -23px;
+}
+.precip-icon{
+    height: 1.1em;
+    width: auto;
+    vertical-align: top;
+}
+/*
+.precipprob:before{
+        content: url('../media/droplet.png');// url('../media/droplet.png');
+        position: relative;
+        z-index: 100;
+        //height: 100%;
+        //width: auto;
+        transform: scale(0.25);
+        //display: block;
+        //background: url('../media/droplet.png') no-repeat;
+        /*width: 15px;
+        height: 15px;
+        float: left;
+        z-index:100;*/

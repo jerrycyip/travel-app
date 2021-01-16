@@ -12,7 +12,7 @@
     //background:  rgba(84, 108, 110, 0.8);
     //background: rgba(49, 72, 74, 0.8);
     //background: rgba(113, 172, 186, 0.8);
-    background: $brand-color;
+    //background: $brand-color;
     //background: rgba(76, 137, 140, 0.8);
 }
 
@@ -20,5 +20,6 @@
     font-size: 2em;
     text-align: center;
     color: white;
+    color: $brand-color;
     font-weight: 800;
 }
