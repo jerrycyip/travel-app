@@ -9,13 +9,13 @@
    margin-right: 10vw;
    z-index: 10;
    width: 75vw;
-   height: 90vh;
+   height: 87vh;
   // max-width: 1200px; //vw;
   // max-height: 90vw;
    scroll-behavior: auto;
    display: grid;
    //display: none;
-   grid-template-rows: auto auto auto;
+   grid-template-rows: 27vh 30vh 30vh;
    grid-template-areas: "trip-summary" "trip-weather" "itinerary";
    //box-sizing: border-box;
    background: white;// rgb(49, 72, 74);
@@ -41,6 +41,7 @@
     padding-right: 4%;
     padding-top: 2%;
     width: 100%;
+    height: 100%;
 }
 
 .trip-image{
@@ -151,25 +152,33 @@
 .forecast-container{
     grid-area: trip-weather;
     width: 98%;
+    height: 100%;
     display: grid;
     padding-left: 1%;
     padding-right: 1%;
     //background: grey;
-    grid-template-rows: 1fr 7fr;
-    grid-template-areas: "header" "forecasts"
+    grid-template-rows: 4.5vh 20.5vh;
+    grid-template-areas: "header" "forecasts";
+    //grid-template-columns: 1fr;
 }
 
 #forecast-header {
     grid-area: header;
-    font-size: 1.75em;
-    //margin-top: 0.25em;
-    padding-bottom: 10px;
-    font-weight: 400;
-    padding-left: 3%;
-    color: white;
-    text-shadow: 1px 1px 5px black;
+    width: 100%;
     border-bottom: 1px solid $brand-color;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.3em;
+    //margin-top: 0.25em;
+    h3 {
+        font-size: 1.75em;
+        padding-bottom: 10px;
+        font-weight: 400;
+        display: inline-block;
+        padding-left: 3%;
+        color: white;
+        text-shadow: 1px 1px 5px black;
+
+    }
+    
 }
 
 .daily-forecasts{
@@ -185,7 +194,7 @@
     display: block;
     width: 16.5%;
     min-width: 100px;
-    height: 85%;
+    //height: 60%;
     //border-left: 0.25px solid white;
     //border-right: 0.25px solid white;
     border-right: 1px solid $brand-color;
@@ -206,6 +215,35 @@
     height: 1.1em;
     width: auto;
     vertical-align: top;
+}
+.itinerary{
+    grid-area: itinerary;
+    //background: lightgrey;
+    //height: auto;//22%;
+    //display: flex;
+    flex-direction: row;
+    margin-left: 1%;
+    margin-right: 1%;
+    border-bottom: 1px solid $brand-color;
+    padding-bottom: 0.4em;
+    //margin-top: 5vh;
+    //margin-top: -9%;
+    /*
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    */
+    h2{
+        color: white;
+        text-shadow: 1px 1px 5px black;
+        margin-left: 3%;
+        display: inline-block;
+    }
+    span{
+        //padding-top: -5%;
+        //line-height: 2em;
+        //vertical-align: middle;
+    }
+
 }
 /*
 .precipprob:before{
