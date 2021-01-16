@@ -15,7 +15,7 @@
    scroll-behavior: auto;
    display: grid;
    //display: none;
-   grid-template-rows: 27vh 30vh 30vh;
+   grid-template-rows: 30vh 27vh 30vh;
    grid-template-areas: "trip-summary" "trip-weather" "itinerary";
    //box-sizing: border-box;
    background: white;// rgb(49, 72, 74);
@@ -123,6 +123,7 @@
     font-weight: 300;
 
     width: 20%;
+    min-width: 110px;
     margin-left: 0%;
     margin-right: 7%;
     
@@ -157,7 +158,7 @@
     padding-left: 1%;
     padding-right: 1%;
     //background: grey;
-    grid-template-rows: 4.5vh 20.5vh;
+    grid-template-rows: 4.5vh 22.5vh;
     grid-template-areas: "header" "forecasts";
     //grid-template-columns: 1fr;
 }
