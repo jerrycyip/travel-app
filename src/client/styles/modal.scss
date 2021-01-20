@@ -1,7 +1,12 @@
 @import "config";
 
+// declare variables for dynamic grid
+:root {
+    --colNum: 5;
+    --gridHeight: 120px;
+  }
+
 .modal {
-   
    position: fixed;
    margin-top: 5vh;
    margin-bottom: 5vh;
@@ -46,7 +51,7 @@
 
 .trip-image{
     width: 100%;
-    height: auto;
+    height: 100%;
 //    height: 260px; //auto;
     //height: auto;
     //change image type to center and cut-off excess
@@ -212,6 +217,7 @@
     margin-top: -10px;
     margin-bottom: -23px;
 }
+
 .precip-icon{
     height: 1.1em;
     width: auto;
