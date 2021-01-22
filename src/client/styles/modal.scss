@@ -8,87 +8,94 @@
 
 .modal {
    position: fixed;
-   margin-top: 5vh;
-   margin-bottom: 5vh;
-   margin-left: 10vw;
-   margin-right: 10vw;
+   margin-top: 6vh;
+   margin-bottom: 7vh;
+   margin-left: 12.5vw;
+   margin-right: 12.5vw;
    z-index: 10;
    width: 75vw;
    height: 87vh;
-  // max-width: 1200px; //vw;
-  // max-height: 90vw;
-   scroll-behavior: auto;
-   display: grid;
-   //display: none;
-   grid-template-rows: 30vh 27vh 30vh;
-   grid-template-areas: "trip-summary" "trip-weather" "itinerary";
-   //box-sizing: border-box;
-   background: white;// rgb(49, 72, 74);
-   background: rgb(49, 72, 74);
-   background: rgb(76, 137, 140); //$brand-color;
+   min-width: 75vw;
+   min-height: 87vh;
+   background: rgb(76, 137, 140);
    background: $sky-blue;
-   //background-color: #a0cdd8; 
    border-radius: 8px;
    border: 1px solid grey;
    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
-   //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+   overflow: hidden;
+   //display: none;
 }
-.trip-modal {
-    //placeholder
+.trip-container {
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    min-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: lightgrey;
+    display: grid;
+}
+.trip-container::-webkit-scrollbar{
+    background: $sky-blue;
+    width: 12px;
+    -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.75);
+    box-shadow: 8px 8px 16px 8px rgba(0, 0, 0, 0.7);
+}
+.trip-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0.5px 0px 0px lightgrey;// rgba(0,0,0,0.5); 
+    border-radius: 8px;   
+}
+
+.trip-container::-webkit-scrollbar-thumb {
+    background: lightgrey;
+    -webkit-border-radius: 5px;
 }
 .modal-content {
-   width: 100%;
+    grid-column: 2/-2;
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    width: 100%;
 }
+
 .trip-summary{
     grid-area: trip-summary;
     padding-left: 4%;
     padding-right: 4%;
     padding-top: 2%;
-    width: 100%;
-    height: 100%;
+    width: 75vw;
+    min-height: 27vh;
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-areas: "summary-image summary-details";
+    
 }
 
 .trip-image{
+    grid-area: summary-image;
     width: 100%;
     height: 100%;
-//    height: 260px; //auto;
-    //height: auto;
-    //change image type to center and cut-off excess
-    margin-left: 0;
+    margin-left: 5%;
     margin-right: 0;
     border-radius: 5px;
     box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
-    //padding-right: 4%;
-
-    //height: 250px; //13.5%;
-    //max-width: 500px;
-    //max-height: 350px;
+    background-image: url("../media/maldives.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-.trip-summary-divider{
-    width: 43%;
-    padding-right: 3%;
-    border-right: 1px solid $brand-color;
-    display: inline;
-    float: left;
 
-    
-}
 .modal-details{
-    float: right;
-    width: 54%;
-    //max-width: 50%;
-    margin-left: 0;
+    grid-area: summary-details;
+//    float: right;
+    //width: 54%;
+    margin-left: 12%;
     margin-right:0;
     text-align: left;
-    //background-color: white;
     color: white;
-    
-    //border-left: 1px solid $brand-color;
-    //padding-left: 30px;
+    height: 100%;
     h2, #locale {
         font-size: 2.2em;
-        //letter-spacing: 0.06em;
         font-weight: 300;
         display: inline-block;
         color: black;
@@ -99,10 +106,6 @@
         margin-top: 0.5em;
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
-        /*text-align: left;
-        margin-left: 20%;
-        margin-right: 10%;
-        */
     }
     #locale, #depart-date, #return-date, #local-time {
         color: black;
@@ -110,13 +113,11 @@
     }
     .countdown{
         text-shadow: 1px 1px 5px black;
-        
-        //font-size: 1.5em;
     }
 }
 .btn-group{
     display: block;
-    margin-top: 3%;
+    margin-top: 2.5%;
     
 }
 .trip-btn{
@@ -126,143 +127,37 @@
     margin-bottom: auto;
     font-size: 1em;
     font-weight: 300;
-
     width: 20%;
     min-width: 110px;
     margin-left: 0%;
     margin-right: 7%;
-    
     height: auto;
     padding: .3em;//4px;
     padding-left: .5em;//8px;
     padding-right: .5em;//8px;
     background-color: white;
-//    background-color: $brand-color; //#fb385c; 
-    //background-color: rgb(76, 137, 140);
-    //background-color: $sky-blue;
-    color: white;
-    color: $brand-color;
     color: black;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 8px;
-    outline: none;
     outline: $brand-color;
     input {
             border: 1px solid $brand-color;// black;
             border-radius: 5px;
-            outline: none;
             outline: $brand-color;
     }
 }
-
-.forecast-container{
-    grid-area: trip-weather;
-    width: 98%;
+.trip-daily-detail{
+    height: 65vh;
+    max-height: 65vh;
+    width: 100%;
+}
+.trip-daily-container{
+   // grid-column: 2/-2;
     height: 100%;
-    display: grid;
-    padding-left: 1%;
-    padding-right: 1%;
-    //background: grey;
-    grid-template-rows: 4.5vh 22.5vh;
-    grid-template-areas: "header" "forecasts";
-    //grid-template-columns: 1fr;
-}
-
-#forecast-header {
-    grid-area: header;
+    min-height: 100%;
     width: 100%;
-    border-bottom: 1px solid $brand-color;
-    margin-bottom: 0.3em;
-    //margin-top: 0.25em;
-    h3 {
-        font-size: 1.75em;
-        padding-bottom: 10px;
-        font-weight: 400;
-        display: inline-block;
-        padding-left: 3%;
-        color: white;
-        text-shadow: 1px 1px 5px black;
-
-    }
-    
+    min-width: 100%;
 }
-
-.daily-forecasts{
-    grid-area: forecasts;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    //background: white;
-    align-items: flex-start;
-    scroll-behavior: auto;
+.trip-daily-wrapper{
+    overflow-x: scroll;
 }
-.day-forecast{
-    display: block;
-    width: 16.5%;
-    min-width: 100px;
-    //height: 60%;
-    //border-left: 0.25px solid white;
-    //border-right: 0.25px solid white;
-    border-right: 1px solid $brand-color;
-    text-align: center;
-    color: white;
-    line-height: 1.45em;
-}
-
-.forecast-date{
-    text-shadow: 1px 1px 5px black;
-}
-.weather-icon{
-    height: 6em;
-    margin-top: -10px;
-    margin-bottom: -23px;
-}
-
-.precip-icon{
-    height: 1.1em;
-    width: auto;
-    vertical-align: top;
-}
-.itinerary{
-    grid-area: itinerary;
-    //background: lightgrey;
-    //height: auto;//22%;
-    //display: flex;
-    flex-direction: row;
-    margin-left: 1%;
-    margin-right: 1%;
-    border-bottom: 1px solid $brand-color;
-    padding-bottom: 0.4em;
-    //margin-top: 5vh;
-    //margin-top: -9%;
-    /*
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    */
-    h2{
-        color: white;
-        text-shadow: 1px 1px 5px black;
-        margin-left: 3%;
-        display: inline-block;
-    }
-    span{
-        //padding-top: -5%;
-        //line-height: 2em;
-        //vertical-align: middle;
-    }
-
-}
-/*
-.precipprob:before{
-        content: url('../media/droplet.png');// url('../media/droplet.png');
-        position: relative;
-        z-index: 100;
-        //height: 100%;
-        //width: auto;
-        transform: scale(0.25);
-        //display: block;
-        //background: url('../media/droplet.png') no-repeat;
-        /*width: 15px;
-        height: 15px;
-        float: left;
-        z-index:100;*/

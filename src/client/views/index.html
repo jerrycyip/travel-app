@@ -2,9 +2,9 @@
 <html>
 
 <head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, maximum-scale=1" />
-    <title>Travel Planner App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1" />
+<title>Travel Planner App</title>
 </head>
 <body>
     <main id="app">
@@ -38,16 +38,18 @@
                 <input class="form-submit" id="search-button" type="submit" value="Start Planning">
                 </form>
         </div>
-        <section id="trip-modal" class="modal">
+        <section class="modal">
+            <div class="trip-container">
             <div class="modal-content">
                 <div class="trip-summary">
-                <div class="trip-summary-divider">
-                    <img class="trip-image" src="../media/maldives.jpg"alt="trip image">
+                <!--<div class="trip-summary-divider"> -->
+                    <div class="trip-image">
+                     <!-- <img src="../media/maldives.jpg"alt="trip image">  -->
                 </div>
                 <div class="modal-details">
                     <h2 class="locale">Cancun, Mexico</h2>
                     <h3 class="dates">Depart:&nbsp<span id="depart-date">10/1/21 (Thu)</span></h3>
-                    <h3 class="dates">Return:&nbsp<span id="return-date">10/13/21 (Sun)</span></h3>
+                    <h3 class="dates">Return:&nbsp<span id="return-date">10/8/21 (Thu)</span></h3>
                     <!--<h3>Current Local Time:</h3> -->
                     <h3>Local Time:&nbsp<span id="local-time">7:53 AM, 7/28 (Wed)</span></h3>
                     <h3><span class="countdown" >100 days until your trip</span></h3>
@@ -57,6 +59,9 @@
                     </div>
                 </div>
             </div>
+            <div class="trip-daily-detail">
+                <div class="trip-daily-container">
+                    <div class="trip-daily-wrapper">
                 <div class="forecast-container">
                     <div id="forecast-header">
                     <h3 >Weather Forecast</h3>
@@ -72,16 +77,90 @@
                         <span class="precip-prob">1%</span>
                         <div class="sunrise">Sunrise: 7:01AM</div>
                         <div class="sunset">Sunset 6:09 PM</div>
-                        </div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Fri 10/2</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Sat 10/3</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Sun 10/4</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Mon 10/5</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Tue 10/6</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Wed 10/7</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
+                    <div class="day-forecast">
+                        <h4 class="forecast-date">Thu 10/8</h4>
+                        <img class="weather-icon" src="../media/weather_icons/a01d.png" alt="few clouds">
+                        <div class="high-low">81&#176/69&#176</div>
+                        <div class="weather-desc">Few Clouds</div>
+                        <img class="precip-icon" src="../media/droplet-2.png" alt="precipitation probability">
+                        <span class="precip-prob">1%</span>
+                        <div class="sunrise">Sunrise: 7:01AM</div>
+                        <div class="sunset">Sunset 6:09 PM</div>
+                    </div>
                     </div>
                 </div>
                 <div class="itinerary">
+                    <div class="itinerary-header">
                     <h2>Itinerary</h2>
                     <span>&nbsp&nbsp[+]</span>
-
-
+                </div>
                 </div>
             </div>
+    </div>
+            </div>
+        </div>
+    </div>
         </section>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
         <div class="all-trips">

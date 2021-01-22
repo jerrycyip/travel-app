@@ -9,6 +9,7 @@ import './styles/form.scss'
 import './styles/all-trips.scss'
 import './styles/header.scss'
 import './styles/modal.scss'
+import './styles/modal-daily-details.scss'
 
 /*
 //import main 'newEntry' function from app.js
