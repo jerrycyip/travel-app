@@ -1,0 +1,140 @@
+@import "config";
+
+// declare variables for dynamic grid (alternative to SASS variables)
+:root {
+    --colNum: 5;
+    --gridHeight: 120px;
+  }
+
+.forecast-container{
+    grid-area: trip-weather;
+    min-height: 29vh;
+    max-height: 29vh;
+    width: 74vw;
+    //max-width: 74vw;
+    //height: 50%;
+    //display: grid;
+    //display: none;
+    padding-left: 1%;
+    padding-right: 1%;
+    //background: grey;
+    //grid-template-rows: 10% 90%; 
+    //grid-template-rows: 3vh 26vh;
+    //grid-template-rows: 4vh 20vh;
+    //grid-template-areas: "header" "forecasts";
+    //grid-template-columns: 1fr;
+}
+
+#forecast-header {
+    //grid-area: header;
+    width: 100%;
+    border-bottom: 1px solid $brand-color;
+    margin-bottom: 0.3em;
+    //margin-top: 0.25em;
+    h3 {
+        font-size: 1.75em;
+        padding-bottom: 10px;
+        font-weight: 400;
+        display: inline-block;
+        padding-left: 3%;
+        color: white;
+        text-shadow: 1px 1px 5px black;
+    }
+    
+}
+
+.daily-forecasts{
+    //grid-area: forecasts;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    //padding-bottom: 30vh;
+    overflow-x: auto;
+    //background: white;
+    //align-items: flex-start;
+    //scroll-behavior: auto;
+    scrollbar-color: lightgrey;
+}
+
+.daily-forecasts::-webkit-scrollbar{
+background: $sky-blue;
+-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.75);
+box-shadow: 8px 8px 16px 8px rgba(0, 0, 0, 0.7);
+}
+.daily-forecasts::-webkit-scrollbar-track {
+-webkit-box-shadow: inset 0.5px 0px 0px lightgrey;// rgba(0,0,0,0.5); 
+border-radius: 8px;
+
+}
+
+.daily-forecasts::-webkit-scrollbar-thumb {
+background: lightgrey;
+-webkit-border-radius: 5px;
+}
+.day-forecast{
+    display: inline;
+    float: left;
+    width: 16.5%;
+    min-width: 190px;
+    //height: 60%;
+    //border-left: 0.25px solid white;
+    //border-right: 0.25px solid white;
+    border-right: 1px solid $brand-color;
+    text-align: center;
+    color: white;
+    line-height: 1.45em;
+}
+
+.forecast-date{
+    text-shadow: 1px 1px 5px black;
+}
+.weather-icon{
+    height: 6em;
+    margin-top: -10px;
+    margin-bottom: -23px;
+}
+
+.precip-icon{
+    height: 1.1em;
+    width: auto;
+    vertical-align: top;
+}
+
+.itinerary-header {
+    //grid-area: header;
+    width: 100%;
+    border-bottom: 1px solid $brand-color;
+    margin-bottom: 0.3em;
+    //margin-top: 0.25em;
+    h2 {
+        font-size: 1.75em;
+        padding-bottom: 10px;
+        font-weight: 400;
+        display: inline-block;
+        padding-left: 3%;
+        color: white;
+        text-shadow: 1px 1px 5px black;
+    }
+    
+}
+.itinerary{
+    grid-area: trip-itinerary;
+    //height: 50%;
+    width: 100%;
+    min-height: 29vh;
+    max-height: 29vh;
+
+    //overflow-x: auto;
+
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1em;
+    //margin-top: 5vh;
+    //margin-top: -9%;
+    /*
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    */
+}
