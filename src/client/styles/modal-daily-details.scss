@@ -62,10 +62,12 @@
     height: 100%;
     max-height: 100%;
     padding-bottom: 2vh;
+    
     // room for the itinerary schedule
     margin-left: 2.5em;
     margin-right: 3.5em;
     overflow-x: auto;
+    
     //background: white;
     //align-items: flex-start;
     //scroll-behavior: auto;
@@ -95,7 +97,9 @@ background: lightgrey;
     //height: 60%;
     //border-left: 0.25px solid white;
     //border-right: 0.25px solid white;
-    padding-left: 0em;
+    //padding-left: 0.5em;
+    margin-left: -0.65em;
+    padding-right: 1em;
     //border-right: 1px solid $brand-color;
     text-align: center;
     color: white;
@@ -153,9 +157,16 @@ background: lightgrey;
     background-color: rgba(255,250,250, 0.9);
     border-radius: 4px;
     color: black;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     font-size: 0.8em;
   }
+
+.textareaElement:focus {
+      
+      outline: none;
+      box-shadow: 1pt 2pt 2.5pt 2.5pt $brand-color;
+
+  } 
 /* this class to be added to other classes for collapse functionality via JS Script*/
 .display-off{
     display: none;
@@ -165,6 +176,9 @@ background: lightgrey;
     width: 5em;
     padding-top: 17em;
 
+}
+.itinerary-more{
+    float:left;
 }
 .itinerary-header {
     //display: none;
@@ -205,20 +219,43 @@ background: lightgrey;
     }
 
 }
+
 .expander{
-    //transform:translateY(50%);
+    //-webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+    //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+    font-size: 1em;
+    font-weight: 300;
+    // have to confirm if this disables button functionality
+    border: none;
+
+    background-color: $sky-blue;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    
+    color: black;
+    text-shadow: 1px 1px 5px white;
+    //border-radius: 8px;
+    transform:translateY(-0.15em);
+    //text-decoration: underline;
     //vertical-align: text-bottom;
-    top: -2px;
 }
+/*
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    //outline: none;
+}
+*/
+
 .test-itinerary{
     float: left;
-    padding-top: 17.5em;
+    padding-top: 17.95em;
     width: 3em;
-//    width: 2.5vw;
-    //border-bottom: 1px solid $brand-color;
 
-    margin-bottom: 0.3em;
-    margin-top: 10px;
+   /* margin-bottom: 0.3em;
+    margin-top: 0.5em;
+    */
     margin-left: -0.25em;
     //margin-left: -1%;
     //padding-left: -50%;
@@ -226,7 +263,6 @@ background: lightgrey;
     //margin-top: 0.25em;
     
     background-color: $sky-blue;
-    color: white;
     color: black;
 }
 .itinerary-input{
@@ -239,6 +275,7 @@ background: lightgrey;
     height: 37px;
     text-align: justify;
     font-size: 0.9em;
+    margin-top: 0.06em;
 }
 .itinerary{
     grid-area: trip-itinerary;
