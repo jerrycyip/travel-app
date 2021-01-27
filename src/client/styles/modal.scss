@@ -76,6 +76,7 @@
 .trip-summary{
     // surface 
     position: sticky;
+    position: -webkit-sticky; /* Safari */
     left: 3em;
     
     grid-area: trip-summary;
@@ -87,9 +88,9 @@
     max-width: 75vw;
     min-width: 75vw;
     
-    height: 34vh;
-    max-height: 34vh;
-    min-height: 34vh;
+    height: 37vh;
+    max-height: 37vh;
+    min-height: 37vh;
     display: grid;
     grid-template-columns: 35% 65%;
     grid-template-areas: "summary-image summary-details";
@@ -99,6 +100,7 @@
 .trip-image{
     
     position: sticky;
+    position: -webkit-sticky; /* Safari */
     left: 3em;
 
     grid-area: summary-image;
