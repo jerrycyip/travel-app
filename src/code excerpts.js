@@ -35,26 +35,5 @@ function syncScroll (div) {
         padding-bottom: 1px;
 
 
-        
-        <div class="test-itinerary">
-        <div class="itinerary-timeline">7 AM</div>
-        <div class="itinerary-timeline">8 AM</div>
-        <div class="itinerary-timeline">9 AM</div>
-        <div class="itinerary-timeline">10 AM</div>
-        <div class="itinerary-timeline">11 AM</div>
-        <div class="itinerary-timeline">12 PM</div>
-        <div class="itinerary-timeline">1 PM</div>
-        <div class="itinerary-timeline">2 PM</div>
-        <div class="itinerary-timeline">3 PM</div>
-        <div class="itinerary-timeline">4 PM</div>
-        <div class="itinerary-timeline">5 PM</div>
-        <div class="itinerary-timeline">6 PM</div>
-        <div class="itinerary-timeline">7 PM</div>
-        <div class="itinerary-timeline">8 PM</div>
-        <div class="itinerary-timeline">9 PM</div>
-        <div class="itinerary-timeline">10 PM</div>
-        <div class="itinerary-timeline">11 PM</div>
-        <div class="itinerary-more">
-            <button class="expander">[ + ]</button>
-        </div> 
-    </div>
+
+        onscroll="return Client.syncScroll(event)"

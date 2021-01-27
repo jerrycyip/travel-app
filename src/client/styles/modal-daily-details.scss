@@ -9,13 +9,18 @@
 .forecast-container{
     position: sticky;
     position: -webkit-sticky; /* Safari */
-    top: -1vh;
+    top: 0.5em;
     max-height: 39vh;
+
     width: 75vw;
+    width: 100%;
     //padding-left: 1%;
+    /*experiment
     padding-right: 1%;
     padding-right: 3em;
+    */
     background-color: $sky-blue;
+    z-index: 10;
     /*box-shadow: 0px 4px 10px -10px rgba(0, 0, 0, 0.3);
     box-shadow: 0 8px 2px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 1em;
@@ -26,9 +31,10 @@
 
 
 .daily-forecasts{
-    width: 75vw;
+    //width: 75vw;
     height: 100%;
     max-height: 100%;
+    width: 100%;
     padding-top: 10px;
     border-top: 1px solid $brand-color;
     margin-top: 0.3em;
@@ -40,16 +46,20 @@
     
     // room for the itinerary schedule
     padding-left: 3.75em;
+    /* experiment
     padding-right: 3em;
+    */
     overflow-x: hidden;
     background-color: $sky-blue;
 
     //scrollbar-color: lightgrey;
 }
 .itinerary-container{
-
     width: 74vw;
     max-width: 74vw;
+    width: 100%;
+    max-width: 100%;
+
 
     // correct for the left margin from itinerary schedule
     //padding-right: 1em;
@@ -61,7 +71,7 @@
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-    margin-left: 3em;
+    //margin-left: 3em;
     scrollbar-color: lightgrey;
 }
 .itinerary-wrapper::-webkit-scrollbar{
@@ -81,11 +91,15 @@ background: lightgrey;
 }
 
 #forecast-header {
+
+
     height: 100%;
     width: 100%;
     h3 {
+        position: sticky;
+        left: 0em;
         font-size: 1.75em;
-        padding-top: 0.25em;
+        //padding-top: 0.25em;
         padding-bottom: 1px;
         font-weight: 400;
         display: inline-block;
@@ -206,6 +220,9 @@ background: lightgrey;
     float:left;
 }
 .itinerary-header {
+    position: sticky;
+    left: 0em;
+
     width: 75vw; //100%; 
     height: 100%;
     //margin-right: -3em;
@@ -230,9 +247,17 @@ background: lightgrey;
 
 }
 
+.weather-details{
+    position: sticky;
+    left: 16em;
+    display: inline-block;
+}
+
 .expander{
     //-webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
     //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+
+
     font-size: 1em;
     font-weight: 300;
     // have to confirm if this disables button functionality
@@ -258,15 +283,19 @@ button:focus {
 */
 
 .itinerary-schedule{
+    position: sticky;
+    left: 0em;
+
     float: left;
     display: inline;
-    margin-left: 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
     /*
     width: 3em;
     margin-left: -0.25em;
     margin-right: -3em;
     */
-    margin-top: 1.5em;
+    padding-top: 1.5em;
     background-color: $sky-blue;
     color: black;
 }

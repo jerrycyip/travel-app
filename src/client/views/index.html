@@ -41,6 +41,7 @@
         <section class="modal" id="modal-test">
             <div class="trip-container">
             <div class="modal-content">
+                <div class="summary-wrapper">
                 <div class="trip-summary">
                 <!--<div class="trip-summary-divider"> -->
                     <div class="trip-image">
@@ -59,6 +60,7 @@
                     </div>
                 </div>
             </div>
+        </div>
             <div class="trip-daily-detail">
                 <div class="trip-daily-container">
                     <div class="trip-daily-wrapper">
@@ -66,7 +68,9 @@
                     <div id="forecast-header">
                     <h3 >Weather Forecast</h3>
                      <!-- <span>&nbsp&nbsp[+]</span> -->
-                     <button class="expander">&nbsp&nbsp[ Details ]</button>
+                     <div class="weather-details"> 
+                         <button class="expander">&nbsp&nbsp[ Details ]</button>
+                     </div>
                     </div>   
                     <div class="daily-forecasts" id="div1">
                         <div class="day-forecast">
@@ -195,7 +199,7 @@
                     </div> 
                 </div> 
                 <div class="itinerary-container">
-                    <div class="itinerary-wrapper" id="div2" onscroll="return Client.syncScroll(event)">
+                    <div class="itinerary-wrapper" id="div2">
                     <div class="itinerary-input">
                         <div class="textareaElement" contenteditable placeholder="test hr"></div>
                         <div class="textareaElement" contenteditable placeholder="test hr"></div>
