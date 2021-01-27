@@ -271,7 +271,7 @@ background: lightgrey;
     //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
 
 
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 300;
     // have to confirm if this disables button functionality
     border: none;
@@ -283,7 +283,8 @@ background: lightgrey;
     color: black;
     text-shadow: 1px 1px 5px white;
     //border-radius: 8px;
-    transform:translateY(-0.15em);
+    transform:translateY(-0.25em);
+    //text-decoration: underline;
 
 }
 /*
