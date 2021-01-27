@@ -2,6 +2,49 @@ import {validateTrip} from "./helper.js";
 
 const serverURL = "http://localhost:8084/api";
 
+
+const syncScroll = (event) => {
+    //event.preventDefault();
+
+    let div1 = document.getElementById("div1");
+    let div2 = document.getElementById("div2");
+    div1.scrollLeft = div2.scrollLeft*(div1.offsetWidth/div2.offsetWidth);
+}
+
+/*
+// Get the modal
+var modal = getElementByID('modal-test');
+
+// When the user scrolls the page, execute stickyWeather
+modal.addEventListener("scroll", stickyWeather);
+
+// Get the weather container
+var weatherContainer = document.getElementById("sticky-weather");
+
+// Get the offset position of the navbar
+var sticky = modal.offsetTop;
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function stickyWeather() {
+  if (weatherContainer.pageYOffset > sticky) {
+    weatherContainer.classList.add("sticky");
+  } else {
+    weatherContainer.classList.remove("sticky");
+  }
+}
+*/
+
+// Synchronize scrolling between weather and itinerary via event listener
+/*
+document.getElementById("div2").addEventListener("scroll", syncScroll2);
+
+function syncScroll2(){
+    let div1 = document.getElementById("div1");
+    //let div2 = document.getElementById("div2");
+    div1.scrollLeft = this.scrollLeft;
+}
+*/
+
 // main function for new trip submission
 const handleSubmit = async(event) => {
     event.preventDefault();
@@ -19,8 +62,9 @@ const handleSubmit = async(event) => {
         alert("please provide a valid destination and date range");
         console.log("please provide a valid destination and date range");
     }
-
 }
+
+
 
 // Post fetch request to server with provided trip details
 const postTrip = async (url='', data={}) => {
@@ -173,6 +217,9 @@ function setMinDates() {
     document.getElementById('end').setAttribute("value", tm);
     
 }
+
+
+
 //setMinDates();
 document.addEventListener("onload", setMinDates());
 
@@ -196,5 +243,7 @@ function setEndMin() {
  else return;   
 }
 
+export{syncScroll}
 export {newEntry}
 export {handleSubmit}
+//export {stickyWeather}

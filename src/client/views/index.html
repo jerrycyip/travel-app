@@ -38,7 +38,7 @@
                 <input class="form-submit" id="search-button" type="submit" value="Start Planning">
                 </form>
         </div>
-        <section class="modal">
+        <section class="modal" id="modal-test">
             <div class="trip-container">
             <div class="modal-content">
                 <div class="trip-summary">
@@ -62,39 +62,13 @@
             <div class="trip-daily-detail">
                 <div class="trip-daily-container">
                     <div class="trip-daily-wrapper">
-                <div class="forecast-container">
+                <div class="forecast-container" id="sticky-weather">
                     <div id="forecast-header">
                     <h3 >Weather Forecast</h3>
                      <!-- <span>&nbsp&nbsp[+]</span> -->
                      <button class="expander">&nbsp&nbsp[ Details ]</button>
-                    </div> 
-                     <div class="itinerary-header">
-                        <h3 >Itinerary</h3>
                     </div>   
-                        <div class="test-itinerary">
-                            <div class="itinerary-timeline">7 AM</div>
-                            <div class="itinerary-timeline">8 AM</div>
-                            <div class="itinerary-timeline">9 AM</div>
-                            <div class="itinerary-timeline">10 AM</div>
-                            <div class="itinerary-timeline">11 AM</div>
-                            <div class="itinerary-timeline">12 PM</div>
-                            <div class="itinerary-timeline">1 PM</div>
-                            <div class="itinerary-timeline">2 PM</div>
-                            <div class="itinerary-timeline">3 PM</div>
-                            <div class="itinerary-timeline">4 PM</div>
-                            <div class="itinerary-timeline">5 PM</div>
-                            <div class="itinerary-timeline">6 PM</div>
-                            <div class="itinerary-timeline">7 PM</div>
-                            <div class="itinerary-timeline">8 PM</div>
-                            <div class="itinerary-timeline">9 PM</div>
-                            <div class="itinerary-timeline">10 PM</div>
-                            <div class="itinerary-timeline">11 PM</div>
-                            <div class="itinerary-more">
-                                <button class="expander">[ + ]</button>
-                            </div> 
-                        </div>
-
-                    <div class="daily-forecasts">
+                    <div class="daily-forecasts" id="div1">
                         <div class="day-forecast">
                             <div class="day-border">
                         <h4 class="forecast-date">Thu 10/1</h4>
@@ -106,25 +80,6 @@
                         <div class="sunrise">Sunrise: 7:01AM</div>
                         <div class="sunset">Sunset 6:09 PM</div>
                         <!--<h4 class="forecast-date">Thu 10/1</h4> -->
-                        </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr">Lunch resos @____ (example) </div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
                         </div>
                     </div>
                     <div class="day-forecast">
@@ -138,26 +93,6 @@
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
                             </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            
-                        </div>                    
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -169,26 +104,7 @@
                             <span class="precip-prob">1%</span>
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
-                            </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
+                            </div>  
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -200,26 +116,7 @@
                             <span class="precip-prob">1%</span>
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
-                            </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
+                            </div> 
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -232,25 +129,6 @@
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
                             </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -262,26 +140,7 @@
                             <span class="precip-prob">1%</span>
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
-                            </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
+                            </div> 
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -293,26 +152,7 @@
                             <span class="precip-prob">1%</span>
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
-                            </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
+                            </div> 
                     </div>
                     <div class="day-forecast">
                         <div class="day-border">
@@ -324,37 +164,192 @@
                             <span class="precip-prob">1%</span>
                             <div class="sunrise">Sunrise: 7:01AM</div>
                             <div class="sunset">Sunset 6:09 PM</div>
-                            </div>
-                        <div class="itinerary-input">
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                            <div class="textareaElement" contenteditable placeholder="test hr"></div>
-                        </div>  
+                            </div> 
                     </div>
                     </div>
-                </div>
-                <!--
-                <div class="itinerary">
                     <div class="itinerary-header">
-                    <h2>Itinerary</h2>
-                    <span>&nbsp&nbsp[+]</span>
+                        <h3 >Itinerary</h3>
+                    </div>
                 </div>
+
+                <div class="itinerary-schedule">
+                    <div class="itinerary-timeline">7 AM</div>
+                    <div class="itinerary-timeline">8 AM</div>
+                    <div class="itinerary-timeline">9 AM</div>
+                    <div class="itinerary-timeline">10 AM</div>
+                    <div class="itinerary-timeline">11 AM</div>
+                    <div class="itinerary-timeline">12 PM</div>
+                    <div class="itinerary-timeline">1 PM</div>
+                    <div class="itinerary-timeline">2 PM</div>
+                    <div class="itinerary-timeline">3 PM</div>
+                    <div class="itinerary-timeline">4 PM</div>
+                    <div class="itinerary-timeline">5 PM</div>
+                    <div class="itinerary-timeline">6 PM</div>
+                    <div class="itinerary-timeline">7 PM</div>
+                    <div class="itinerary-timeline">8 PM</div>
+                    <div class="itinerary-timeline">9 PM</div>
+                    <div class="itinerary-timeline">10 PM</div>
+                    <div class="itinerary-timeline">11 PM</div>
+                    <div class="itinerary-more">
+                        <button class="expander">[ + ]</button>
+                    </div> 
+                </div> 
+                <div class="itinerary-container">
+                    <div class="itinerary-wrapper" id="div2" onscroll="return Client.syncScroll(event)">
+                    <div class="itinerary-input">
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr">Lunch resos @____ (example) </div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    </div>
+                        <div class="itinerary-input">
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    </div>
+                    
+                    <div class="itinerary-input">
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                        <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    </div>
+                    <div class="itinerary-input">
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                </div> 
+                    <div class="itinerary-input">
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                </div> 
+                    <div class="itinerary-input">
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                </div>                     
+                    <div class="itinerary-input">
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
                 </div>
-                -->
+                    <div class="itinerary-input">
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                    <div class="textareaElement" contenteditable placeholder="test hr"></div>
+                </div> 
+            </div>                    
             </div>
     </div>
             </div>

@@ -1,5 +1,8 @@
 // import main 'handleSubmit' function from app.js
 import { handleSubmit } from "./js/app.js"
+import { syncScroll } from "./js/app.js"
+
+//import {stickyWeather} from "./js/app.js"
 
 // import SaSS stylesheets
 import './styles/config.scss'
@@ -21,3 +24,5 @@ console.log("CHANGE!!");
 */
 
 export {handleSubmit}
+export{syncScroll}
+//export {stickyWeather}

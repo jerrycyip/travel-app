@@ -8,7 +8,6 @@
 
 .modal {
    position: fixed;
-   margin-top: 6vh;
    margin-bottom: 7vh;
    margin-top: 5vh;
    margin-bottom: 2vh;
@@ -40,7 +39,8 @@
     width: 100%;
     min-width: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
+
     scrollbar-color: lightgrey;
     display: grid;
 }
@@ -68,16 +68,22 @@
 }
 
 .trip-summary{
+    position: sticky;
+
+    left: 14.5vw;
+
     grid-area: trip-summary;
     padding-left: 4%;
     padding-right: 4%;
     padding-top: 2%;
     width: 75vw;
-    min-height: 27vh;
+    height: 34vh;
+    max-height: 34vh;
+    min-height: 34vh;
     display: grid;
     grid-template-columns: 35% 65%;
     grid-template-areas: "summary-image summary-details";
-    
+    padding-bottom: 16px;
 }
 
 .trip-image{
@@ -158,8 +164,8 @@
     }
 }
 .trip-daily-detail{
-    height: 26vh;
-    max-height: 26vh;
+    height: 60vh;
+    max-height: 60vh;
     width: 100%;
 }
 .trip-daily-container{
