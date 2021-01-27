@@ -92,7 +92,7 @@
     max-height: 37vh;
     min-height: 37vh;
     display: grid;
-    grid-template-columns: 35% 65%;
+    grid-template-columns: 40% 60%;
     grid-template-areas: "summary-image summary-details";
     padding-bottom: 16px;
 }
@@ -123,8 +123,8 @@
     border-left: 1px solid $brand-color;
 //    float: right;
     //width: 54%;
-    margin-left: 6%;
-    padding-left: 6%;
+    margin-left: 8%;
+    padding-left: 8%;
     margin-right:0;
     text-align: left;
     color: white;
@@ -165,7 +165,7 @@
     width: 20%;
     min-width: 110px;
     margin-left: 0%;
-    margin-right: 7%;
+    margin-right: 12.5%;
     height: auto;
     padding: .3em;//4px;
     padding-left: .5em;//8px;
