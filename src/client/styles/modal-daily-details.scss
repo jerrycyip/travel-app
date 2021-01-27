@@ -116,11 +116,19 @@ background: lightgrey;
     }
     
 }
+
+/*
+.sun-cycle{
+    color: black;
+}
+*/
 .sunset{
     //border-bottom: 1px solid $brand-color;
 }
 
-
+.sched-expand{
+    //font-size: 0.9em;
+}
 .daily-forecasts::-webkit-scrollbar{
 background: $sky-blue;
 -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.75);
@@ -271,6 +279,10 @@ background: lightgrey;
     position: sticky;
     left: 16em;
     display: inline-block;
+}
+
+.weather-desc{
+    text-shadow: 0px 1px 0px black;
 }
 
 .expander{
