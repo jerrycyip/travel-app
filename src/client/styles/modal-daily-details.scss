@@ -260,6 +260,12 @@ background: lightgrey;
 
 }
 
+.temp-divider{
+    font-size: 1.2em;
+    color: $brand-color;// black;
+    //font-weight: 300;
+}
+
 .weather-details{
     position: sticky;
     left: 16em;
@@ -271,7 +277,7 @@ background: lightgrey;
     //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
 
 
-    font-size: 0.9em;
+    font-size: 0.95em;
     font-weight: 300;
     // have to confirm if this disables button functionality
     border: none;
@@ -283,7 +289,7 @@ background: lightgrey;
     color: black;
     text-shadow: 1px 1px 5px white;
     //border-radius: 8px;
-    transform:translateY(-0.25em);
+    transform:translateY(-0.22em);
     //text-decoration: underline;
 
 }
