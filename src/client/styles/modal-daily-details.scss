@@ -12,7 +12,8 @@
     top: 0em;
     /* hide the forecast title*/
     top: -2.7em;
-    max-height: 39vh;
+    height: 100%;
+    max-height: 40vh;
     
     padding-top: 0.25em;
     //padding-bottom: 0.25em;
@@ -55,16 +56,15 @@
     */
     overflow-x: hidden;
     background-color: $sky-blue;
+    
 
     //scrollbar-color: lightgrey;
 }
 .itinerary-container{
-    width: 74vw;
-    max-width: 74vw;
-
     width: 100%;
     max-width: 100%;
-
+    margin-left: -1em;
+    border-right: 1px solid $brand-color;
 
     // correct for the left margin from itinerary schedule
     //padding-right: 1em;
@@ -80,7 +80,6 @@
     //scrollbar-color: lightgrey;
     padding-top: 0.25em;
     padding-top: 0em;
-
 }
 .itinerary-wrapper::-webkit-scrollbar{
 background: $sky-blue;
@@ -232,14 +231,17 @@ background: lightgrey;
 .itinerary-header {
     position: sticky;
     left: 0em;
-
-    width: 80vw; //100%; 
     
+    width: 80vw; //100%; 
+    min-width: 80vw;
+    max-width: 80vw;
+
     height: 100%;
     //margin-right: -3em;
     background-color: $sky-blue;
 
     h3 {
+
         display: block;
         padding-left: 2em;
         padding-bottom: 0.25em;
@@ -301,7 +303,8 @@ button:focus {
     display: inline;
     
     padding-left: 0.25em;
-    padding-right: 0.25em;
+    padding-right: 0.1em;
+
     /*
     width: 3em;
     margin-left: -0.25em;

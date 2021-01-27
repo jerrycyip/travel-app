@@ -83,7 +83,7 @@
     //padding-left: 4%;
 
     //padding-right: 4%;
-    padding-top: 2%;
+    padding-top: 1%;
     width: 75vw;
     max-width: 75vw;
     min-width: 75vw;
@@ -94,7 +94,7 @@
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-areas: "summary-image summary-details";
-    padding-bottom: 16px;
+    padding-bottom: 0.5em;
 }
 
 .trip-image{
@@ -142,9 +142,13 @@
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
     }
+    #local-time{
+        font-size: 0.95em;
+    }
     #locale, #depart-date, #return-date, #local-time {
         color: black;
         text-shadow: none;
+        
     }
     .countdown{
         text-shadow: 1px 1px 5px black;
