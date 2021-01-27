@@ -79,6 +79,8 @@
     //margin-left: 3em;
     //scrollbar-color: lightgrey;
     padding-top: 0.25em;
+    padding-top: 0em;
+
 }
 .itinerary-wrapper::-webkit-scrollbar{
 background: $sky-blue;
@@ -215,8 +217,8 @@ background: lightgrey;
 
 .textareaElement:focus {
       
-      outline: none;
-      box-shadow: 1pt 2pt 2.5pt 2.5pt $brand-color;
+      //outline: none;
+      box-shadow: 1pt 2pt 2.5pt 5.5pt $brand-color;
 
   } 
 /* this class to be added to other classes for collapse functionality via JS Script*/
@@ -305,7 +307,7 @@ button:focus {
     margin-left: -0.25em;
     margin-right: -3em;
     */
-    padding-top: 1.75em;
+    padding-top: 1.5em;
     background-color: $sky-blue;
     color: black;
 }
