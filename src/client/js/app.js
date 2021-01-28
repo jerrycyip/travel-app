@@ -56,7 +56,10 @@ const handleSubmit = async(event) => {
     if(validateTrip(locale, start_dt, end_dt)){
         console.log("trip submission passed initial validation");
         // api GET call to geonames api with destination name
-        postTrip(serverURL,{destination: locale, start: start_dt, end: end_dt})
+        let tripData = postTrip(serverURL,{destination: locale, start: start_dt, end: end_dt});
+        toggleModal();        
+        console.log(tripData);
+
     }
     else {
         alert("please provide a valid destination and date range");
@@ -65,7 +68,10 @@ const handleSubmit = async(event) => {
 }
 
 
-
+function toggleModal(){
+    let modal = document.getElementById("modal-test");
+    modal.classList.toggle("display-off");
+}
 // Post fetch request to server with provided trip details
 const postTrip = async (url='', data={}) => {
     const response = await fetch(url, {

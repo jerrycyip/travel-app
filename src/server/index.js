@@ -36,20 +36,7 @@ app.use(cors());
 // Require node-fetch for making 3rd party API calls
 const fetch = require('node-fetch');
 
-// Trip object for storing data from api calls
-const trip = {
-    city: "",
-    adminCode1: "",
-    adminName1: "",
-    country: "",
-    localTime: "",
-    timeZone: "",
-    start: "",
-    end: "",
-    //countdown: "",
-    image: "",
-    weather: {}
-}
+
 /* Static Routing */
 // routing of site to directory of bundled assets
 app.use(express.static('dist'))
@@ -64,6 +51,21 @@ app.post('/api', callApis);
 
 // main function for retrieving data from 3rd party APIs
 async function callApis(req, res) {
+    // Trip object for storing data from api calls
+    let trip = {
+        city: "",
+        adminCode1: "",
+        adminName1: "",
+        country: "",
+        localTime: "",
+        timeZone: "",
+        start: "",
+        end: "",
+        //countdown: "",
+        image: "",
+        weather: {}
+    }
+
     const locale = req.body.destination;
     const start = req.body.start;
     trip.start = start;
@@ -138,7 +140,7 @@ async function callApis(req, res) {
     console.log("forecastEnd.getTime():", forecastEnd.getTime());
     console.log("endDt.getTime()", endDt.getTime());
 
-    if (startDt > forecastEnd) {
+    if (startDt.getTime() > forecastEnd.getTime()) {
         const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         //console.log(statWeather);
         try {
@@ -170,14 +172,16 @@ async function callApis(req, res) {
         }
 
     }
-    else if (endDt <= forecastEnd) {
+    else if (endDt.getTime() <= forecastEnd.getTime()) {
         
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         try {
             console.log("filtered results:");
 
             let dt = new Date(start);
-            while (dt <= endDt) {
+            while (dt.getTime() <= endDt.getTime()) {
+                console.log("dt.getTime():", dt.getTime(), "endDt.getTime():", endDt.getTime(), "startDt.getTime:", startDt.getTime());
+                if(dt.getTime() >= startDt.getTime() && dt.getTime() <= endDt.getTime()){
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
                 //console.log(forecastWeather[`${dateFormatted}`]);
@@ -200,6 +204,7 @@ async function callApis(req, res) {
                 dt.setDate(dt.getDate() + 1);
                 console.log("next date counter:", dt);
             }
+        }
             console.log(trip);
         }
         catch (error) {
@@ -214,9 +219,9 @@ async function callApis(req, res) {
             console.log("filtered results:");
 
             let dt = new Date(start);
-            while (dt <= forecastEnd/*endDt*/) {
-                //if(endDt.getTime()<=forecastEnd.getTime()){
+            while (dt.getTime() <= forecastEnd.getTime()) {
 
+                if(dt.getTime() >= startDt.getTime() && dt.getTime() <= endDt.getTime()){
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
                 //console.log(forecastWeather[`${dateFormatted}`]);
@@ -238,6 +243,7 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
                 dt.setDate(dt.getDate() + 1);
                 console.log("next date counter:", dt);
+                }
             }
         }
         catch (error) {

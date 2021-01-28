@@ -286,6 +286,10 @@ background: lightgrey;
         background: white;
         
     }
+    .test{
+        font-size: 0.75em;
+        //vertical-align: middle;
+    }
     .cat-fill {
         margin-left: 0.25em;
         transform:translateY(-0.1em);
@@ -396,11 +400,18 @@ background: lightgrey;
     font-family: Arial, Helvetica, sans-serif;
     
     color: black;
+    text-shadow: 0px 0px 3px white;
     text-shadow: 1px 1px 5px white;
+    
+
     //border-radius: 8px;
     transform:translateY(-0.22em);
     //text-decoration: underline;
-
+    .expander-arrow{
+        font-size: 0.85em;
+        text-shadow: 1px 0px 0px white;
+        //vertical-align: center;
+    }
 }
 /*
 input:focus,
