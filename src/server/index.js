@@ -278,9 +278,12 @@ async function callApis(req, res) {
         catch (error) {
             console.log("error occured", error);
         }
+
 }
 
     //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
+    res.send(trip);
+    console.log("sent trip info");
     console.log('finished');
 }
 

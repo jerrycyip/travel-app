@@ -37,3 +37,45 @@ function syncScroll (div) {
 
 
         onscroll="return Client.syncScroll(event)"
+
+
+// from client app.js:
+
+// retrieve weather data based on US zip code
+const getWeather = async (baseURL, zip, apiKey, units) => {
+    // GET fetch request to openweathermap.org API
+    const res = await fetch(baseURL + zip + units + '&appid=' + apiKey)
+    // if successful, log and return weather data
+    try {
+        const weatherData = await res.json();
+        return weatherData;
+    }
+    catch (error) {
+        console.log("error occurred:", error);
+    }
+}
+// Post entry to server
+const postEntry = async (url = '', data = {}) => {
+    const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify({
+            date: data.date,
+            weather: data.weather,
+            icon: data.icon,
+            temp: data.temp,
+            locale: data.locale,
+            mood: data.mood
+        })
+    })
+    try {
+        const newData = await res.json();
+        return newData;
+    }
+    catch (error) {
+        console.log("error occurred:", error);
+    }
+}
