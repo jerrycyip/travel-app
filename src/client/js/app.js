@@ -11,7 +11,34 @@ const syncScroll = (event) => {
     div1.scrollLeft = div2.scrollLeft*(div1.offsetWidth/div2.offsetWidth);
 }
 
+// calculate days until trip
+function daysLeft(start){
+    let today = new Date();
+    let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    todayDt = new Date(todayDt);
 
+    let startDt = new Date(`${start} 00:00:00`);
+    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
+    daysLeft = Math.round((startDt - todayDt) / oneDayMs);
+    return daysLeft
+}
+
+function dayOfWeek(date){
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    let dt = new Date(`${date} 00:00:00`);
+    return days[dt.getDay()];
+}
+
+function localTime(tZone) {
+    let currentTime = new Date();
+    //document.getElementById('txt').innerHTML =
+/*    let timeHolder = document.createElement('span');
+    timeHolder.classList.add("local-time");*/
+    return currentTime.toLocaleString('en-US', { timeZone: tZone, year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+    //var t = setTimeout(localTime(tZone), 500);
+    //return t;
+  }
+  
 // main function for new trip submission
 const handleSubmit = async(event) => {
     event.preventDefault();
@@ -27,10 +54,43 @@ const handleSubmit = async(event) => {
         //update UI w/ the trip info results
         .then(function(res){
             toggleModal();
-            const tripImage = document.getElementById("trip-image");
-            console.log(`url("${res.image}")`);
-            tripImage.style.backgroundImage = `url("${res.image}")`;
-        
+           // const tripImage = document.getElementById("trip-image");
+            
+            //console.log(`url("${res.image}")`);
+          //  tripImage.style.backgroundImage = `url("${res.image}")`;
+            
+
+            let destination = "";
+            if(res.country == "United States"){
+                destination = `${res.city}, ${res.adminName1}`
+            }
+            else destination = `${res.city}, ${res.country}`;
+
+            let tripHolder = document.createElement("div");
+            tripHolder.className = "summary-wrapper";
+            tripHolder.innerHTML = `
+            <div class="trip-summary">
+            <div class="trip-image">
+            <img class = "trip-photo" src="${res.image}" alt="trip image">
+       </div>
+            <div class="modal-details">
+                <h2 class="locale">${destination}</h2>
+                <h3 class="dates">Depart:&nbsp<span id="depart-date">${start_dt} (${dayOfWeek(start_dt)})</span></h3>
+                <h3 class="dates">Return:&nbsp<span id="return-date">${end_dt} (${dayOfWeek(end_dt)})</span></h3>
+                <h3>Local Time:&nbsp<span class="local-time">${localTime(res.timeZone)}</span></h3>
+                <h3><span class="countdown">${daysLeft(start_dt)} days until your trip</h3>
+                <div class="btn-group">
+                    <button class="trip-btn">Save Trip</button>
+                    <button class="trip-btn">Delete Trip</button>
+                </div>
+            </div>
+        </div>
+            `
+            //console.log(tripHolder);
+            const modalContainer = document.querySelector(".modal-content");
+            modalContainer.prepend(tripHolder);        
+            
+    
         })
 
     }

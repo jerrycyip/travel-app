@@ -70,9 +70,10 @@
 }
 
 .modal-content {
-    grid-column: 2/-2;
-    display: flex;
+    //grid-column: 2/-2;
+    /*display: flex;
     flex-direction: column;
+    */
     height: 100%;
     width: 100%;
 }
@@ -102,24 +103,29 @@
 }
 
 .trip-image{
-    
     position: sticky;
     position: -webkit-sticky; /* Safari */
     left: 3em;
 
     grid-area: summary-image;
     width: 100%;
-    height: 100%;
+    height: auto;
     //margin-left: 1em;
     margin-right: 0;
-    border-radius: 5px;
-    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
-    background-image: url("../media/maldives.jpg");
+
+    /*background-image: url("../media/maldives.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
 }
 
+.trip-photo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
+}
 .modal-details{
 
 
@@ -146,8 +152,8 @@
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
     }
-    #local-time{
-        font-size: 0.9em;
+    .local-time{
+        font-size: 1em;
     }
     /*
     .days-left{
@@ -156,7 +162,7 @@
         //font-size: 0.95em;
     }
     */
-    #locale, #depart-date, #return-date, #local-time {
+    #locale, #depart-date, #return-date, .local-time {
         color: black;
         text-shadow: none;
         
