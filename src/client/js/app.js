@@ -34,10 +34,15 @@ function localTime(tZone) {
     //document.getElementById('txt').innerHTML =
 /*    let timeHolder = document.createElement('span');
     timeHolder.classList.add("local-time");*/
-    return currentTime.toLocaleString('en-US', { timeZone: tZone, year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+    return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
     //var t = setTimeout(localTime(tZone), 500);
     //return t;
   }
+
+ function dateString(date){
+     let dt = new Date(`${date} 00:00:00`);
+    return ((dt.getMonth() + 1)) + '/' + dt.getDate() + '/' + dt.getFullYear().toString().substr(-2);
+ } 
   
 // main function for new trip submission
 const handleSubmit = async(event) => {
@@ -75,8 +80,8 @@ const handleSubmit = async(event) => {
        </div>
             <div class="modal-details">
                 <h2 class="locale">${destination}</h2>
-                <h3 class="dates">Depart:&nbsp<span id="depart-date">${start_dt} (${dayOfWeek(start_dt)})</span></h3>
-                <h3 class="dates">Return:&nbsp<span id="return-date">${end_dt} (${dayOfWeek(end_dt)})</span></h3>
+                <h3 class="dates">Depart:&nbsp<span id="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
+                <h3 class="dates">Return:&nbsp<span id="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
                 <h3>Local Time:&nbsp<span class="local-time">${localTime(res.timeZone)}</span></h3>
                 <h3><span class="countdown">${daysLeft(start_dt)} days until your trip</h3>
                 <div class="btn-group">
