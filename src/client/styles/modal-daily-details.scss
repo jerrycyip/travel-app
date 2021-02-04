@@ -13,7 +13,7 @@
     min-width: 100%;
 }
 .trip-daily-wrapper{
-    //overflow-x: scroll;
+    /* div allows formatting*/
 }
 .forecast-container{
     position: sticky;
@@ -73,7 +73,8 @@
 .daily-forecasts{
     height: 100%;
     max-height: 100%;
-    width: 100%;
+    min-width: 80vw;
+    max-width: 100%;
     padding-top: 10px;
     border-top: 1px solid $brand-color;
     margin-top: 0.3em;
@@ -81,18 +82,19 @@
     flex-direction: row;
     padding-bottom: .75vh;
     // room for the itinerary schedule
-    padding-left: 4.75em;
+    padding-left: 4em;
     overflow-x: hidden;
     background-color: $sky-blue;
+    padding-right: 0.5em;
 }
 
 .day-forecast{
     display: inline;
     float: left;
     width: 16.5%;
-    min-width: 200px;
-    margin-left: -0.65em;
-    padding-right: 1em;
+    min-width: 190px;
+    //margin-left: -0.65em;
+    //padding-right: 1em;
     text-align: center;
     color: white;
     line-height: 1.45em;
@@ -135,7 +137,7 @@
 .itinerary-header {
     position: sticky;
     left: 0em;
-    width: 80vw; //100%; 
+    width: 80vw; 
     min-width: 80vw;
     max-width: 80vw;
     height: 100%;
@@ -192,6 +194,7 @@
     padding-top: 1.25em;
     background-color: $sky-blue;
     color: black;
+    width: 4em;
 }
 
 .itinerary-timeline{
@@ -205,8 +208,11 @@
 .itinerary-container{
     width: 100%;
     max-width: 100%;
-    margin-left: -1em;
+    //margin-left: -1em;
     margin-top: 0.75em;
+    padding-left: 4em;
+    padding-right: 0.5em;
+
 }
 
 .itinerary-wrapper { 
