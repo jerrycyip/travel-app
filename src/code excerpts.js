@@ -79,3 +79,71 @@ const postEntry = async (url = '', data = {}) => {
         console.log("error occurred:", error);
     }
 }
+
+
+<img class="trip-photo" src="../media/maldives.jpg" alt="Trip Photo">
+
+<h4 class="cat-fill">
+                            [ Categories <!--<span class="test">&#9658 </span>-->]
+                            <!-- <span class="material-icons md-18">
+                                format_color_fill
+                                
+                                    format_paint
+                                    palette 
+                                    label 
+                                    category 
+                                    format_paint 
+                                    brush
+                                
+                                </span>-->
+                        </h4>
+                        <!--
+                        <h4 class="food-cat">
+                            Food&nbsp
+                            <span class="material-icons md-18 ">
+                            restaurant local_bar
+                            </span>
+                        </h4>
+                        <h4 class="activity-cat">
+                            Activity&nbsp
+                            <span class="material-icons md-18">
+                                directions_run snowboarding
+                                </span>
+                        </h4>
+                        <h4 class="logistics-cat">
+                            Logistics&nbsp
+                            <span class="material-icons md-18 ">
+                                flight hotel
+                                </span>
+                        </h4>
+                        <h4 class="shopping-cat">
+                            Shopping&nbsp;
+                            <span class="material-icons md-18 ">
+                                shopping_bag store
+                                </span>
+                        </h4>
+                        <h4 class="entertainment-cat">
+                            Entertainmt.&nbsp
+                            <span class="material-icons md-18 ">
+                                local_activity theaters
+                                </span>                            
+                        </h4>
+                        <h4 class="other-cat">Other</h4>
+                    -->
+
+                    <!-- <div class="itinerary-more">
+                        <button class="expander">[ + ]</button>
+                    </div> -->                     
+
+                    //let dropletPath = 'media/droplet-2.png';
+                /*let testURL = 'https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png';
+                let weatherData = res.weather;
+                console.log("nested object:", weatherData);
+                let dayWeatherData = weatherData["2021-02-04"];
+                console.log("nested nested object:", dayWeatherData);
+                console.log("nested nested object2:", weatherData[dateStr2]);
+                console.log("nested nested object3:", res.weather[dateStr2]);
+                console.log("nested nested object4:", res.weather[dateStr2].icon);
+                console.log("nested nested object5:", `${res.weather[dateStr2].icon}`);
+//                console.log("src url:", `https://www.weatherbit.io/static/img/icons/${res.weather.dateStr2.icon}.png`);
+*/                    

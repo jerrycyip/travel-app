@@ -126,19 +126,12 @@ const handleSubmit = async(event) => {
                     <button class="trip-btn">Delete Trip</button>
                 </div>
             </div>
-        </div>
-        <div class="trip-daily-detail">
-        <div class="trip-daily-container">
-            <div class="trip-daily-wrapper">
-        <div class="forecast-container" id="sticky-weather">
-            <div id="forecast-header">
-            <h3 >Weather Forecast &nbsp</h3>
-             <div class="weather-details"> 
-                 <button class="expander">[ Details ]</button>
-             </div>
-            </div>   
+        </div>  
             `
             
+            const modalContainer = document.querySelector(".modal-content");
+            modalContainer.prepend(tripHolder); 
+/*
             let dailyForecasts = document.createElement("div");
             dailyForecasts.className = "daily-forecasts";
 
@@ -156,19 +149,6 @@ const handleSubmit = async(event) => {
                 let dateStr2 = (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2));
                 console.log("dateStr2 counter:", dateStr2);
 
-                let iconPath = '/Users/jerryyip/jerry_docs/fend_udacity/travel-app/src/client/media/weather_icons/'
-                //let dropletPath = 'media/droplet-2.png';
-                /*let testURL = 'https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png';
-                let weatherData = res.weather;
-                console.log("nested object:", weatherData);
-                let dayWeatherData = weatherData["2021-02-04"];
-                console.log("nested nested object:", dayWeatherData);
-                console.log("nested nested object2:", weatherData[dateStr2]);
-                console.log("nested nested object3:", res.weather[dateStr2]);
-                console.log("nested nested object4:", res.weather[dateStr2].icon);
-                console.log("nested nested object5:", `${res.weather[dateStr2].icon}`);
-//                console.log("src url:", `https://www.weatherbit.io/static/img/icons/${res.weather.dateStr2.icon}.png`);
-*/
                 dayForecast.innerHTML = `
                 <div class="day-border">
                 <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
@@ -180,20 +160,16 @@ const handleSubmit = async(event) => {
                 </div>
                 <div class="sunrise">Sunrise: 7:01AM</div>
                 <div class="sunset">Sunset: 6:09 PM</div>
-                <!--<h4 class="forecast-date">Thu 10/1</h4> -->
                 </div>
                 `
                 
                 dailyForecasts.appendChild(dayForecast);
                 dt.setDate(dt.getDate() + 1);
             }
-
-            tripHolder.append(dailyForecasts);
+            tripHolder.parentNode.insertBefore(dailyForecasts, tripHolder.nextSibling);
+            //tripHolder.append(dailyForecasts);
             //console.log(tripHolder);
-            const modalContainer = document.querySelector(".modal-content");
-            modalContainer.prepend(tripHolder);        
-            
-    
+*/
         })
 
     }

@@ -50,7 +50,8 @@
     padding-bottom: .75vh;
     
     // room for the itinerary schedule
-    padding-left: 4.65em;
+    padding-left: 4.75em;
+    
     /* experiment
     padding-right: 3em;
     */
@@ -63,7 +64,7 @@
     width: 100%;
     max-width: 100%;
     margin-left: -1em;
-    border-right: 1px solid $brand-color;
+    //border-right: 1px solid $brand-color;
     //border-left: 1px solid $brand-color;
 
     // correct for the left margin from itinerary schedule
@@ -148,7 +149,7 @@ background: lightgrey;
     display: inline;
     float: left;
     width: 16.5%;
-    min-width: 190px;
+    min-width: 200px;
 
     margin-left: -0.65em;
     padding-right: 1em;
@@ -213,7 +214,7 @@ background: lightgrey;
     max-height: 55px;
     
 
-    width: 16.5%;
+    width: 85%;
     min-width: 153px;
 
 
@@ -234,10 +235,7 @@ background: lightgrey;
       box-shadow: 1pt 2pt 2.5pt 5.5pt $brand-color;
 
   } 
-/* this class to be added to other classes for collapse functionality via JS Script*/
-.display-off{
-    display: none;
-}
+
 
 .itinerary-more{
     float:left;
@@ -431,7 +429,7 @@ button:focus {
     
     padding-left: 0.25em;
     padding-right: 0.1em;
-
+    
     /*
     width: 3em;
     margin-left: -0.25em;
@@ -445,7 +443,8 @@ button:focus {
     //display: none;
     border-right: 1px solid $brand-color;
     //padding-top: 1.2em;
-
+    width: 16.5%;
+    min-width: 190px;
 }
 .itinerary-timeline{
     min-height: 37px;
