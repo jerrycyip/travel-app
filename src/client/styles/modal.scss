@@ -70,10 +70,6 @@
 }
 
 .modal-content {
-    //grid-column: 2/-2;
-    /*display: flex;
-    flex-direction: column;
-    */
     height: 100%;
     width: 100%;
 }
@@ -83,16 +79,11 @@
     position: sticky;
     position: -webkit-sticky; /* Safari */
     left: 3em;
-    
     grid-area: trip-summary;
-    //padding-left: 4%;
-
-    //padding-right: 4%;
     padding-top: 1%;
     width: 75vw;
     max-width: 75vw;
-    min-width: 75vw;
-    
+    min-width: 75vw;  
     height: 37vh;
     max-height: 37vh;
     min-height: 37vh;
@@ -106,13 +97,11 @@
     position: sticky;
     position: -webkit-sticky; /* Safari */
     left: 3em;
-
     grid-area: summary-image;
     width: 100%;
     height: auto;
     //margin-left: 1em;
     margin-right: 0;
-
     /*background-image: url("../media/maldives.jpg");
     background-size: cover;
     background-position: center;
@@ -127,12 +116,8 @@
     box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
 }
 .modal-details{
-
-
     grid-area: summary-details;
     border-left: 1px solid $brand-color;
-//    float: right;
-    //width: 54%;
     margin-left: 8%;
     padding-left: 8%;
     margin-right:0;
@@ -145,7 +130,6 @@
         display: inline-block;
         color: black;
     }
-
     h3 {
         font-size: 1.4em;
         margin-top: 0.5em;
@@ -155,27 +139,21 @@
     .local-time{
         font-size: 0.95em;
     }
-    /*
-    .days-left{
-        color: black;
-        text-shadow: none;
-        //font-size: 0.95em;
-    }
-    */
     #locale, #depart-date, #return-date, .local-time {
         color: black;
-        text-shadow: none;
-        
+        text-shadow: none;  
     }
     .countdown{
         text-shadow: 1px 1px 5px black;
     }
 }
+
 .btn-group{
     display: block;
     margin-top: 2.5%;
     
 }
+
 .trip-btn{
     align-items: center;
     justify-content: center;
@@ -202,18 +180,4 @@
             outline: $brand-color;
     }
 }
-.trip-daily-detail{
-    height: 60vh;
-    max-height: 60vh;
-    width: 100%;
-}
-.trip-daily-container{
-   // grid-column: 2/-2;
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
-    min-width: 100%;
-}
-.trip-daily-wrapper{
-    //overflow-x: scroll;
-}
+

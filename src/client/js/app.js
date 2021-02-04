@@ -110,7 +110,7 @@ const handleSubmit = async(event) => {
 
             let tripHolder = document.createElement("div");
             tripHolder.className = "summary-wrapper";
-            tripHolder.innerHTML = `
+            let newTrip = `
             <div class="trip-summary">
             <div class="trip-image">
             <img class = "trip-photo" src="${res.image}" alt="trip image">
@@ -128,10 +128,11 @@ const handleSubmit = async(event) => {
             </div>
         </div>  
             `
-            
+            tripHolder.innerHTML = newTrip;
             const modalContainer = document.querySelector(".modal-content");
             modalContainer.prepend(tripHolder); 
 /*
+
             let dailyForecasts = document.createElement("div");
             dailyForecasts.className = "daily-forecasts";
 
