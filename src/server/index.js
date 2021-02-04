@@ -142,7 +142,7 @@ async function callApis(req, res) {
 
     if (startDt.getTime() > forecastEnd.getTime()) {
         const statWeather = await statWeatherAPI(start, end, geoCoords.lat, geoCoords.lng);
-        //console.log(statWeather);
+        //console.log("stat weather \n:", statWeather);
         try {
             for (day of statWeather['days']) {
                 trip.weather[day.datetime] = {}

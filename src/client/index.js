@@ -14,6 +14,9 @@ import './styles/header.scss'
 import './styles/modal.scss'
 import './styles/modal-daily-details.scss'
 
+// import images
+import droplet2 from "./media/droplet2.png";
+
 /*
 //import main 'newEntry' function from app.js
 import { newEntry } from './js/app.js' 
@@ -23,6 +26,7 @@ import { newEntry } from './js/app.js'
 console.log("CHANGE!!");
 */
 
+export {droplet2}
 export {handleSubmit}
 export{syncScroll}
 //export {stickyWeather}

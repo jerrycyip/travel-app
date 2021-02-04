@@ -1,4 +1,5 @@
 import {validateTrip} from "./helper.js";
+import {droplet2} from "../index.js";
 
 const serverURL = "http://localhost:8084/api";
 
@@ -29,12 +30,41 @@ function dayOfWeek(date){
     return days[dt.getDay()];
 }
 
+function localWeekDay(tZone) {
+    let currentTime = new Date();
+    return currentTime.toLocaleDateString('en-US', { timeZone: tZone, weekday:'short'});
+}
+
+function localDate(tZone) {
+    let currentTime = new Date();
+    return currentTime.toLocaleDateString('en-US', { timeZone: tZone, year: '2-digit', month: 'numeric', day: 'numeric' });
+}
+
+function localDateTime(tZone) {
+    let currentTime = new Date();
+    //document.getElementById('txt').innerHTML =
+/*    let timeHolder = document.createElement('span');
+    timeHolder.classList.add("local-time");*/
+    let localTime = currentTime.toLocaleTimeString('en-US',{ timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric', weekday:'short'});
+    let timeIndex = localTime.lastIndexOf(',')+2;
+    let dateIndex = localTime.indexOf(',')+2;
+    console.log(localTime.slice(timeIndex) + localTime.slice(dateIndex, timeIndex-2) + localTime.slice(0, dateIndex-2))
+    return localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex-2) + " (" + localTime.slice(0, dateIndex-2) +")";
+    //pNode.innerHTML = localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex-2) + "(" + localTime.slice(0, dateIndex-2) +")";
+    //var t = setTimeout(localDateTime(tZone), 500);
+    //return localTime;
+    //return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
+    //var t = setTimeout(localTime(tZone), 500);
+    //return t;
+  }
+
 function localTime(tZone) {
     let currentTime = new Date();
     //document.getElementById('txt').innerHTML =
 /*    let timeHolder = document.createElement('span');
     timeHolder.classList.add("local-time");*/
-    return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
+    return currentTime.toLocaleTimeString('en-US',{ timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true});
+    //return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
     //var t = setTimeout(localTime(tZone), 500);
     //return t;
   }
@@ -42,7 +72,14 @@ function localTime(tZone) {
  function dateString(date){
      let dt = new Date(`${date} 00:00:00`);
     return ((dt.getMonth() + 1)) + '/' + dt.getDate() + '/' + dt.getFullYear().toString().substr(-2);
- } 
+ }
+
+ function dateString2(date){
+ let dt = new Date(`${date} 00:00:00`);
+ console.log("dateString2:", 
+ (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2)));
+ return (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2));
+}
   
 // main function for new trip submission
 const handleSubmit = async(event) => {
@@ -82,7 +119,7 @@ const handleSubmit = async(event) => {
                 <h2 class="locale">${destination}</h2>
                 <h3 class="dates">Depart:&nbsp<span id="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
                 <h3 class="dates">Return:&nbsp<span id="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
-                <h3>Local Time:&nbsp<span class="local-time">${localTime(res.timeZone)}</span></h3>
+                <h3>Local Time:&nbsp<span class="local-time" data-${destination}>${localDateTime(res.timeZone)}</span></h3>
                 <h3><span class="countdown">${daysLeft(start_dt)} days until your trip</h3>
                 <div class="btn-group">
                     <button class="trip-btn">Save Trip</button>
@@ -90,7 +127,68 @@ const handleSubmit = async(event) => {
                 </div>
             </div>
         </div>
+        <div class="trip-daily-detail">
+        <div class="trip-daily-container">
+            <div class="trip-daily-wrapper">
+        <div class="forecast-container" id="sticky-weather">
+            <div id="forecast-header">
+            <h3 >Weather Forecast &nbsp</h3>
+             <div class="weather-details"> 
+                 <button class="expander">[ Details ]</button>
+             </div>
+            </div>   
             `
+            
+            let dailyForecasts = document.createElement("div");
+            dailyForecasts.className = "daily-forecasts";
+
+            let dt = new Date(`${start_dt} 00:00:00`);
+            let endDt = new Date(`${end_dt} 00:00:00`);
+            while (dt.getTime() <= endDt.getTime()) {
+
+                let dayForecast = document.createElement("div");
+                dayForecast.className = "day-forecast";
+                console.log("date counter:", dt);
+
+                let dateStr = (dt.getMonth() + 1) + '/' + dt.getDate();
+                console.log("dateStr counter:", dateStr);
+                
+                let dateStr2 = (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2));
+                console.log("dateStr2 counter:", dateStr2);
+
+                let iconPath = '/Users/jerryyip/jerry_docs/fend_udacity/travel-app/src/client/media/weather_icons/'
+                //let dropletPath = 'media/droplet-2.png';
+                /*let testURL = 'https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png';
+                let weatherData = res.weather;
+                console.log("nested object:", weatherData);
+                let dayWeatherData = weatherData["2021-02-04"];
+                console.log("nested nested object:", dayWeatherData);
+                console.log("nested nested object2:", weatherData[dateStr2]);
+                console.log("nested nested object3:", res.weather[dateStr2]);
+                console.log("nested nested object4:", res.weather[dateStr2].icon);
+                console.log("nested nested object5:", `${res.weather[dateStr2].icon}`);
+//                console.log("src url:", `https://www.weatherbit.io/static/img/icons/${res.weather.dateStr2.icon}.png`);
+*/
+                dayForecast.innerHTML = `
+                <div class="day-border">
+                <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
+                <img class="weather-icon" src="https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png" alt="weather icon">
+                <div class="weather-desc">${res.weather[dateStr2].description}</div>
+                <div class="high-low">${res.weather[dateStr2].high}&#176<span class="temp-divider"> | </span>${res.weather[dateStr2].low}&#176&nbsp
+                    <img class="precip-icon" src="${droplet2}" alt="precipitation probability">
+                    <span class="precip-prob">1%</span>
+                </div>
+                <div class="sunrise">Sunrise: 7:01AM</div>
+                <div class="sunset">Sunset: 6:09 PM</div>
+                <!--<h4 class="forecast-date">Thu 10/1</h4> -->
+                </div>
+                `
+                
+                dailyForecasts.appendChild(dayForecast);
+                dt.setDate(dt.getDate() + 1);
+            }
+
+            tripHolder.append(dailyForecasts);
             //console.log(tripHolder);
             const modalContainer = document.querySelector(".modal-content");
             modalContainer.prepend(tripHolder);        
@@ -182,7 +280,7 @@ function setEndMin() {
  if (end < start){
     let new_end = new Date(start);
     new_end.setDate(new_end.getDate()+2);
-    let dd = new_end.getDate();
+    let dd = ("0" + new_end.getDate()).slice(-2);
     let mm = ("0" + (new_end.getMonth() + 1)).slice(-2) //January is 0! & force 2 digit MM
     let yyyy = new_end.getFullYear();
     new_end = yyyy+'-'+mm+'-'+dd;
