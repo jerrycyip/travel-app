@@ -58,6 +58,10 @@ function localDateTime(tZone) {
     //return t;
   }
 
+function cToF(temp){
+    return Math.round((temp * 9/5))+32;
+}
+
 function toStandardTime(militaryTime) {
     let timeArray = militaryTime.split(':');
     if (timeArray[0].charAt(0) == 1 && timeArray[0].charAt(1) > 2) {
@@ -202,11 +206,11 @@ const handleSubmit = async(event) => {
                         <img class="weather-icon" src="https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png"
                             alt="few clouds">
                         <div class="weather-desc">${res.weather[dateStr2].description}</div>
-                        <div class="high-low">${res.weather[dateStr2].high}&#176<span class="temp-divider"> |
-                            </span>${res.weather[dateStr2].low}&#176&nbsp
+                        <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176<span class="temp-divider"> |
+                            </span>${cToF(res.weather[dateStr2].low)}&#176&nbsp
                             <img class="precip-icon" src="${droplet2}"
                                 alt="precipitation probability">
-                            <span class="precip-prob">1%</span>
+                            <span class="precip-prob">${res.weather[dateStr2].precipProb}%</span>
                         </div>
                         <div class="sunrise">Sunrise: ${toStandardTime(res.weather[dateStr2].sunrise)}</div>
                         <div class="sunset">Sunset: ${toStandardTime(res.weather[dateStr2].sunset)}</div>
