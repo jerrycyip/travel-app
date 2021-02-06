@@ -58,6 +58,16 @@ function localDateTime(tZone) {
     //return t;
   }
 
+function toStandardTime(militaryTime) {
+    let timeArray = militaryTime.split(':');
+    if (timeArray[0].charAt(0) == 1 && timeArray[0].charAt(1) > 2) {
+        return (timeArray[0] - 12) + ':' + timeArray[1] + ' PM';
+    } 
+    else {
+    return timeArray[0] + ':' + timeArray[1] + ' AM';
+    }
+}  
+
 function localTime(tZone) {
     let currentTime = new Date();
     //document.getElementById('txt').innerHTML =
@@ -131,21 +141,21 @@ const handleSubmit = async(event) => {
 
             let dt = new Date(`${start_dt} 00:00:00`);
             let endDt = new Date(`${end_dt} 00:00:00`);
+            let startDt = new Date(`${start_dt} 00:00:00`);
 
             let dailyDetail = `
             <div class="trip-daily-detail">
-            <div class="trip-daily-container">
-                <div class="trip-daily-wrapper">
-                    <div class="forecast-container" id="sticky-weather">
-                        <div id="forecast-header">
-                            <h3>Weather Forecast &nbsp</h3>
-                            <div class="weather-details">
-                                <button class="expander">[ Details
-                                </button>
+                <div class="trip-daily-container">
+                    <div class="trip-daily-wrapper">
+                        <div class="forecast-container" id="sticky-weather">
+                            <div class="forecast-header">
+                                <h3>Weather Forecast &nbsp</h3>
+                                <div class="weather-details">
+                                <button class="expander">[ Details ]</button>
                             </div>
                         </div>
-                        <div class="daily-forecasts" id="div1">
-                    `;
+                            <div class="daily-forecasts" id="div1">
+                        `;
             let itineraryHeader = `
                 </div>
                 <div class="itinerary-header">
@@ -175,59 +185,10 @@ const handleSubmit = async(event) => {
                 <div class="itinerary-timeline">11 PM &#9660</div>
             </div>
             `;
-            let dailyForecasts = `
-                            <div class="day-forecast">
-                    <div class="day-border">
-                        <h4 class="forecast-date">Thu 10/1</h4>
-                        <img class="weather-icon" src="../media/weather_icons/a01d.png"
-                            alt="few clouds">
-                        <div class="weather-desc">Few Clouds</div>
-                        <div class="high-low">81&#176<span class="temp-divider"> |
-                            </span>69&#176&nbsp
-                            <img class="precip-icon" src="../media/droplet2.png"
-                                alt="precipitation probability">
-                            <span class="precip-prob">1%</span>
-                        </div>
-                        <div class="sunrise">Sunrise: 7:01AM</div>
-                        <div class="sunset">Sunset: 6:09 PM</div>
-                    </div>
-                </div>
-                `;
-            let dailyItineraries = `
-            <div class="itinerary-container">
-            <div class="itinerary-wrapper" id="div2">
-                <div class="itinerary-input">
-                    <div class="textareaElement food" contenteditable>Pack breakfast for flight
-                        (example)</div>
-                    <div class="textareaElement logistics" contenteditable>7:30am Uber to ____
-                        airport (example)</div>
-                    <div class="textareaElement logistics" contenteditable>9:15am 2 hr flight to
-                        _____ (example)</div>
-                    <div class="textareaElement logistics" contenteditable></div>
-                    <div class="textareaElement logistics" contenteditable>Pick up rental @___ +
-                        drive to downtown (example)</div>
-                    <div class="textareaElement food" contenteditable>12pm Lunch resos @____
-                        (example) </div>
-                    <div class="textareaElement activity" contenteditable>Explore downtown and
-                        views @______ (example)</div>
-                    <div class="textareaElement activity" contenteditable></div>
-                    <div class="textareaElement logistics" contenteditable>Check-in to hotel
-                        @_____ (example)</div>
-                    <div class="textareaElement activity" contenteditable>2 hr hike around_____
-                        (example)</div>
-                    <div class="textareaElement activity" contenteditable></div>
-                    <div class="textareaElement food" contenteditable>6:30 Dinner resos @_____
-                        (example)</div>
-                    <div class="textareaElement food" contenteditable></div>
-                    <div class="textareaElement entertainment" contenteditable>8pm Tix to Show
-                        @_____ (example)</div>
-                    <div class="textareaElement entertainment" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                </div>
-                `;
+            let dailyForecasts = ``;
+            let dailyItineraries = ``;
 
-            while (dt.getTime() < endDt.getTime()) {
+            while (dt.getTime() <= endDt.getTime()) {
                 //console.log("date counter:", dt);
                 let dateStr = (dt.getMonth() + 1) + '/' + dt.getDate();
                 //console.log("dateStr counter:", dateStr);
@@ -237,24 +198,59 @@ const handleSubmit = async(event) => {
                 let dayForecast = `
                 <div class="day-forecast">
                     <div class="day-border">
-                        <h4 class="forecast-date">Thu 10/1</h4>
-                        <img class="weather-icon" src="../media/weather_icons/a01d.png"
+                        <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
+                        <img class="weather-icon" src="https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png"
                             alt="few clouds">
-                        <div class="weather-desc">Few Clouds</div>
-                        <div class="high-low">81&#176<span class="temp-divider"> |
-                            </span>69&#176&nbsp
-                            <img class="precip-icon" src="../media/droplet2.png"
+                        <div class="weather-desc">${res.weather[dateStr2].description}</div>
+                        <div class="high-low">${res.weather[dateStr2].high}&#176<span class="temp-divider"> |
+                            </span>${res.weather[dateStr2].low}&#176&nbsp
+                            <img class="precip-icon" src="${droplet2}"
                                 alt="precipitation probability">
                             <span class="precip-prob">1%</span>
                         </div>
-                        <div class="sunrise">Sunrise: 7:01AM</div>
-                        <div class="sunset">Sunset: 6:09 PM</div>
+                        <div class="sunrise">Sunrise: ${toStandardTime(res.weather[dateStr2].sunrise)}</div>
+                        <div class="sunset">Sunset: ${toStandardTime(res.weather[dateStr2].sunset)}</div>
                     </div>
                 </div>
                 `;
                 dailyForecasts = dailyForecasts + dayForecast;
-
+                if (dt.getTime() == startDt.getTime()){
                 let dayItinerary = `
+                <div class="itinerary-container">
+                <div class="itinerary-wrapper" id="div2">
+                    <div class="itinerary-input">
+                        <div class="textareaElement food" contenteditable>Pack breakfast for flight
+                            (example)</div>
+                        <div class="textareaElement logistics" contenteditable>7:30am Uber to ____
+                            airport (example)</div>
+                        <div class="textareaElement logistics" contenteditable>9:15am 2 hr flight to
+                            _____ (example)</div>
+                        <div class="textareaElement logistics" contenteditable></div>
+                        <div class="textareaElement logistics" contenteditable>Pick up rental @___ +
+                            drive to downtown (example)</div>
+                        <div class="textareaElement food" contenteditable>12pm Lunch resos @____
+                            (example) </div>
+                        <div class="textareaElement activity" contenteditable>Explore downtown and
+                            views @______ (example)</div>
+                        <div class="textareaElement activity" contenteditable></div>
+                        <div class="textareaElement logistics" contenteditable>Check-in to hotel
+                            @_____ (example)</div>
+                        <div class="textareaElement activity" contenteditable>2 hr hike around_____
+                            (example)</div>
+                        <div class="textareaElement activity" contenteditable></div>
+                        <div class="textareaElement food" contenteditable>6:30 Dinner resos @_____
+                            (example)</div>
+                        <div class="textareaElement food" contenteditable></div>
+                        <div class="textareaElement entertainment" contenteditable>8pm Tix to Show
+                            @_____ (example)</div>
+                        <div class="textareaElement entertainment" contenteditable></div>
+                        <div class="textareaElement" contenteditable></div>
+                        <div class="textareaElement" contenteditable></div>
+                    </div>`
+                    dailyItineraries = dailyItineraries + dayItinerary;
+                }
+                    else {
+                        let dayItinerary = `
                     <div class="itinerary-input">
                     <div class="textareaElement" contenteditable></div>
                     <div class="textareaElement" contenteditable></div>
@@ -276,6 +272,7 @@ const handleSubmit = async(event) => {
                 </div>
                 `;
                 dailyItineraries = dailyItineraries + dayItinerary;
+            }
 
                 dt.setDate(dt.getDate() + 1);
             }
