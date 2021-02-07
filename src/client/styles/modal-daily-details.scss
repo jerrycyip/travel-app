@@ -131,7 +131,8 @@
 .precip-icon{
     height: 1.1em;
     width: auto;
-    vertical-align: top;
+    vertical-align: center;
+    transform: translateY(0.15em);
 }
 
 .itinerary-header {

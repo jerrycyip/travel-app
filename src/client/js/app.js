@@ -1,5 +1,6 @@
 import {validateTrip} from "./helper.js";
 import {droplet2} from "../index.js";
+import {snowflake} from "../index.js";
 
 const serverURL = "http://localhost:8084/api";
 
@@ -198,7 +199,11 @@ const handleSubmit = async(event) => {
                 //console.log("dateStr counter:", dateStr);
                 let dateStr2 = (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2));
                 //console.log("dateStr2 counter:", dateStr2);
-
+                let precipIcon = droplet2;
+                if (res.weather[dateStr2].description.toLowerCase().includes('snow')){
+                    precipIcon = snowflake;
+                    
+                }
                 let dayForecast = `
                 <div class="day-forecast">
                     <div class="day-border">
@@ -208,9 +213,9 @@ const handleSubmit = async(event) => {
                         <div class="weather-desc">${res.weather[dateStr2].description}</div>
                         <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176<span class="temp-divider"> |
                             </span>${cToF(res.weather[dateStr2].low)}&#176&nbsp
-                            <img class="precip-icon" src="${droplet2}"
+                            <img class="precip-icon" src="${precipIcon}"
                                 alt="precipitation probability">
-                            <span class="precip-prob">${res.weather[dateStr2].precipProb}%</span>
+                            <span class="precip-prob">${Math.round(res.weather[dateStr2].precipProb)}%</span>
                         </div>
                         <div class="sunrise">Sunrise: ${toStandardTime(res.weather[dateStr2].sunrise)}</div>
                         <div class="sunset">Sunset: ${toStandardTime(res.weather[dateStr2].sunset)}</div>

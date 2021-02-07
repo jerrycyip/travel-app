@@ -16,6 +16,7 @@ import './styles/modal-daily-details.scss'
 
 // import images
 import droplet2 from "./media/droplet2.png";
+import snowflake from "./media/snowflakeblueoutline.png";
 
 /*
 //import main 'newEntry' function from app.js
@@ -27,6 +28,7 @@ console.log("CHANGE!!");
 */
 
 export {droplet2}
+export {snowflake}
 export {handleSubmit}
 export{syncScroll}
 //export {stickyWeather}
