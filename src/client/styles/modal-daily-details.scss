@@ -144,12 +144,19 @@
     //transform: translateY(-1.5em);
     //transform: scale(0.65);
 }
-
+.sun-icon{
+    height: 1.15em;
+    width: auto;
+    vertical-align: center;
+    transform: translateY(0.15em);
+}
+/*
 .sunTime{
     color: black;
     font-size: 0.9em;
     text-shadow: none;
 }
+*/
 
 .itinerary-header {
     position: sticky;

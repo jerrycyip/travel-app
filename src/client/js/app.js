@@ -2,6 +2,7 @@ import {validateTrip} from "./helper.js";
 import {droplet2} from "../index.js";
 import {snowflake} from "../index.js";
 import {wind} from "../index.js";
+import {sunshine} from "../index.js";
 
 const serverURL = "http://localhost:8084/api";
 
@@ -287,8 +288,15 @@ const handleSubmit = async(event) => {
                             <img class="wind-icon" src="${wind}" alt="wind icon">
                             <span class="wind-spd">${kmToMi(res.weather[dateStr2].wind)} mph ${windDirShort(res.weather[dateStr2].windDirFull)}</span>
                             </div>
-                        <div class="sunrise">Sunrise:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunrise)}</span></div>
-                        <div class="sunset">Sunset:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span></div>
+                        <div class="sunrise">
+                        <img class="sun-icon" src="${sunshine}" alt="sunrise sunset icon">
+                        <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunrise)}</span>
+                        <span class="temp-divider"> -</span>
+                        <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span>
+                        </div>
+                       <!-- 
+                       <div class="sunset">Sunset:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span></div>
+                       -->
                     </div>
                 </div>
                 `;
