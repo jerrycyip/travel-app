@@ -125,27 +125,31 @@
     color: white;
     height: 100%;
     h2, #locale {
-        font-size: 2.2em;
+        font-size: 2em;
         font-weight: 300;
         display: inline-block;
         color: black;
     }
     h3 {
-        font-size: 1.4em;
+        font-size: 1.2em;
         margin-top: 0.5em;
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
     }
+    /*
     .local-time{
         font-size: 0.95em;
     }
-    #locale, #depart-date, #return-date, .local-time {
+    */
+    .locale, .depart-date, .return-date, .duration, .local-time, .countdown {
         color: black;
         text-shadow: none;  
     }
+    /*
     .countdown{
         text-shadow: 1px 1px 5px black;
     }
+    */
 }
 
 .btn-group{

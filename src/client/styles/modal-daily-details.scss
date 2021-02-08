@@ -113,15 +113,18 @@
 }
 
 .weather-icon{
-    height: 6em;
-    margin-top: -10px;
-    margin-bottom: -23px;
+    height: 4em;
+    margin-top: -9px;
+    margin-bottom: -20px;
 }
 
 .weather-desc{
     text-shadow: 0px 1px 0px black;
 }
-
+.high-low, .precip, .wind-spd, .sunrise, .sunset{
+    text-shadow: 0px 1px 0px black;
+    font-size: 0.95em;
+}
 .temp-divider{
     font-size: 1.2em;
     color: $brand-color;// black;
@@ -133,6 +136,19 @@
     width: auto;
     vertical-align: center;
     transform: translateY(0.15em);
+}
+.wind-icon{
+    height: 0.55em;
+    width: auto;
+    transform: translateY(-0.04em);
+    //transform: translateY(-1.5em);
+    //transform: scale(0.65);
+}
+
+.sunTime{
+    color: black;
+    font-size: 0.9em;
+    text-shadow: none;
 }
 
 .itinerary-header {

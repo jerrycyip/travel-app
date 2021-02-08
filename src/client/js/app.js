@@ -1,6 +1,7 @@
 import {validateTrip} from "./helper.js";
 import {droplet2} from "../index.js";
 import {snowflake} from "../index.js";
+import {wind} from "../index.js";
 
 const serverURL = "http://localhost:8084/api";
 
@@ -12,7 +13,39 @@ const syncScroll = (event) => {
     let div2 = document.getElementById("div2");
     div1.scrollLeft = div2.scrollLeft*(div1.offsetWidth/div2.offsetWidth);
 }
+// Abbreviate wind direction
+function windDirShort(direction){
+    let shortDir =  direction.replace(/est/g, "");
+    shortDir = shortDir.replace(/ast/g, "");
+    shortDir = shortDir.replace(/orth/g, "");
+    shortDir = shortDir.replace(/outh/g, "");
+    return shortDir.toUpperCase();
+    /*
+    const dirs = direction.split('-');
+    let shortDir = dirs[0].charAt(0).toUpperCase();
+    let dirLength = dirs.length();
+    let counter = 1;
+    while (counter < dirLength){
+        shortDir = shortDir + "-" + dirs[counter].charAt(0).toUpperCase();
+        counter+=1;
+    }
+    return shortDir;
+    /*const compassSections = ["north","north-northeast","northeast","east-northeast","east","east-southeast","southeast","south-southeast",
+                            "south","south-southwest","southwest","west-southwest","west","west-northwest","northwest","north-northwest","north"];          
+   const compassSections = ["N","N-NE","NE","E-NE","E","E-SE","SE","S-SE",
+   "S","S-SW","SW","W-SW","W","W-NW","NW","N-NW","N"
+    */
+    
+}
 
+// convert km to miles
+function kmToMi(amt){
+    return Math.round(amt/1.609 * 10)/10;
+}
+// convert centimers to inches
+function cmToIn(amt){
+    return Math.round(amt/2.54 * 100)/100;
+}
 // calculate days until trip
 function daysLeft(start){
     let today = new Date();
@@ -22,6 +55,15 @@ function daysLeft(start){
     let startDt = new Date(`${start} 00:00:00`);
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
     daysLeft = Math.round((startDt - todayDt) / oneDayMs);
+    return daysLeft
+}
+
+// calculate days until trip
+function duration(start, end){
+    let startDt = new Date(`${start} 00:00:00`);
+    let endDt = new Date(`${end} 00:00:00`);
+    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
+    daysLeft = Math.round((endDt - startDt) / oneDayMs) + 1;
     return daysLeft
 }
 
@@ -122,7 +164,27 @@ const handleSubmit = async(event) => {
                 destination = `${res.city}, ${res.adminName1}`
             }
             else destination = `${res.city}, ${res.country}`;
-
+            let countdown = daysLeft(start_dt);
+            let countdownMsg = "";
+            switch(countdown){
+                case 0:
+                countdownMsg = `Your trip starts today!`;
+                break;
+                case 1:
+                countdownMsg =  `${countdown} day until your trip!`;
+                break;
+                default:
+                countdownMsg = `${countdown} days until your trip`;
+            }
+            let tripDuration = duration(start_dt, end_dt);
+            let durationMsg = "";
+            switch(tripDuration){
+                case 1:
+                    durationMsg = `1 Day`;
+                    break;
+                default:
+                    durationMsg = `${tripDuration} Days`;
+            }
             let newTrip = `
             <div class="summary-wrapper">
             <div class="trip-summary">
@@ -131,10 +193,11 @@ const handleSubmit = async(event) => {
             </div>
                     <div class="modal-details">
                         <h2 class="locale">${destination}</h2>
-                        <h3 class="dates">Depart:&nbsp<span id="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
-                        <h3 class="dates">Return:&nbsp<span id="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
+                        <h3 class="dates">Depart:&nbsp<span class="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
+                        <h3 class="dates">Return:&nbsp<span class="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
+                        <h3 class="dates">Duration:&nbsp<span class="duration">${durationMsg}</span></h3>
                         <h3>Local Time:&nbsp<span class="local-time" data-${destination}>${localDateTime(res.timeZone)}</span></h3>
-                        <h3><span class="countdown">${daysLeft(start_dt)} days until your trip</h3>
+                        <h3>Countdown:&nbsp<span class="countdown">${countdownMsg}</span></h3>
                         <div class="btn-group">
                             <button class="trip-btn">Save Trip</button>
                             <button class="trip-btn">Delete Trip</button>
@@ -211,14 +274,21 @@ const handleSubmit = async(event) => {
                         <img class="weather-icon" src="https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png"
                             alt="few clouds">
                         <div class="weather-desc">${res.weather[dateStr2].description}</div>
-                        <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176<span class="temp-divider"> |
-                            </span>${cToF(res.weather[dateStr2].low)}&#176&nbsp
-                            <img class="precip-icon" src="${precipIcon}"
-                                alt="precipitation probability">
+                        <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176
+                        <span class="temp-divider"> |</span>
+                        ${cToF(res.weather[dateStr2].low)}&#176
+                            </div>
+                            <div class ="precip">
+                            <img class="precip-icon" src="${precipIcon}" alt="precipitation probability">
                             <span class="precip-prob">${Math.round(res.weather[dateStr2].precipProb)}%</span>
-                        </div>
-                        <div class="sunrise">Sunrise: ${toStandardTime(res.weather[dateStr2].sunrise)}</div>
-                        <div class="sunset">Sunset: ${toStandardTime(res.weather[dateStr2].sunset)}</div>
+                            <span class="precip-amt">&nbsp${cmToIn(res.weather[dateStr2].precip)}"</span>
+                            </div>
+                            <div>                            
+                            <img class="wind-icon" src="${wind}" alt="wind icon">
+                            <span class="wind-spd">${kmToMi(res.weather[dateStr2].wind)} mph ${windDirShort(res.weather[dateStr2].windDirFull)}</span>
+                            </div>
+                        <div class="sunrise">Sunrise:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunrise)}</span></div>
+                        <div class="sunset">Sunset:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span></div>
                     </div>
                 </div>
                 `;

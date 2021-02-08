@@ -147,3 +147,5 @@ const postEntry = async (url = '', data = {}) => {
                 console.log("nested nested object5:", `${res.weather[dateStr2].icon}`);
 //                console.log("src url:", `https://www.weatherbit.io/static/img/icons/${res.weather.dateStr2.icon}.png`);
 */                    
+
+Countdown:&nbsp<span class="countdown"></span>
