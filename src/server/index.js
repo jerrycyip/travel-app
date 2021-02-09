@@ -168,7 +168,7 @@ async function callApis(req, res) {
                 trip.weather[day.datetime]['sunrise'] = day.sunrise;
                 trip.weather[day.datetime]['sunset'] = day.sunset;
                 trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
-                trip.weather[day.datetime]['description'] = day.conditions;
+                trip.weather[day.datetime]['description'] = day.conditions.replace("with", `w/`);
                 trip.weather[day.datetime]['precipProb'] = day.precipprob;
                 trip.weather[day.datetime]['precip'] = day.precip
                 trip.weather[day.datetime]['wind'] = day.windspeed;
@@ -204,7 +204,7 @@ async function callApis(req, res) {
                 trip.weather[day.datetime]['sunrise'] = day.sunrise;
                 trip.weather[day.datetime]['sunset'] = day.sunset;
                 trip.weather[day.datetime]['icon'] = weatherIconCode(day.icon);
-                trip.weather[day.datetime]['description'] = day.conditions;
+                trip.weather[day.datetime]['description'] = day.conditions.replace("with", `w/`);
                 trip.weather[day.datetime]['precipProb'] = day.precipprob;
                 trip.weather[day.datetime]['precip'] = day.precip
                 trip.weather[day.datetime]['wind'] = day.windspeed;
@@ -244,7 +244,7 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['sunrise'] = localTime(forecastWeather[dateFormatted].sunrise_ts, trip.timeZone);
                 trip.weather[dateFormatted]['sunset'] = localTime(forecastWeather[dateFormatted].sunset_ts, trip.timeZone);
                 trip.weather[dateFormatted]['icon'] = forecastWeather[dateFormatted].weather.icon;
-                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
+                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description.replace("with", `w/`);
                 trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
                 trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
                 trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd * 3.6;
@@ -284,7 +284,7 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['sunrise'] = localTime(forecastWeather[dateFormatted].sunrise_ts, trip.timeZone);
                 trip.weather[dateFormatted]['sunset'] = localTime(forecastWeather[dateFormatted].sunset_ts, trip.timeZone);
                 trip.weather[dateFormatted]['icon'] = forecastWeather[dateFormatted].weather.icon;
-                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description;
+                trip.weather[dateFormatted]['description'] = forecastWeather[dateFormatted].weather.description.replace("with", `w/`);
                 trip.weather[dateFormatted]['precipProb'] = forecastWeather[dateFormatted].pop;
                 trip.weather[dateFormatted]['precip'] = forecastWeather[dateFormatted].precip;
                 trip.weather[dateFormatted]['wind'] = forecastWeather[dateFormatted].wind_spd * 3.6;

@@ -155,8 +155,25 @@ const handleSubmit = async(event) => {
                 destination = `${res.city}, ${res.adminName1}`
             }
             else destination = `${res.city}, ${res.country}`;
+            
+            
             let countdown = daysLeft(start_dt);
+            console.log("localDate:", localDate(res.timeZone));
+            let localDt = new Date(localDate(res.timeZone));
+            
+            let startDt = new Date(`${start_dt} 00:00:00`);
+            console.log("localDt:", localDt);
+            console.log("startDt:", startDt);
+            let begunAlready = (startDt < localDt);
+            console.log("begunAlready", begunAlready)
+            //console.log("new Date localDate:", new Date(localDate(res.timeZone)));
+            //begunAlready = false; //daysLeft((localDate(res.timeZone)));
             let countdownMsg = "";
+            //console.log("begunAlready:", begunAlready);
+            if(begunAlready){
+                countdownMsg = `Your trip is underway!`;
+            }
+            else{
             switch(countdown){
                 case 0:
                 countdownMsg = `Your trip starts today!`;
@@ -167,6 +184,7 @@ const handleSubmit = async(event) => {
                 default:
                 countdownMsg = `${countdown} days until your trip`;
             }
+        }
             let tripDuration = duration(start_dt, end_dt);
             let durationMsg = "";
             switch(tripDuration){
@@ -200,7 +218,6 @@ const handleSubmit = async(event) => {
 
             let dt = new Date(`${start_dt} 00:00:00`);
             let endDt = new Date(`${end_dt} 00:00:00`);
-            let startDt = new Date(`${start_dt} 00:00:00`);
 
             let dailyDetail = `
             <div class="trip-daily-detail">
