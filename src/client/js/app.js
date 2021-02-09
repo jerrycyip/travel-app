@@ -5,7 +5,17 @@ import {wind} from "../index.js";
 import {sunshine} from "../index.js";
 
 const serverURL = "http://localhost:8084/api";
+let liveClocks = setInterval(setClocks, 1000);
 
+// set live clocks for different trip destinations
+function setClocks() {
+    let clocks = document.querySelectorAll(".local-time");
+    for(let clock of clocks){
+        let tzone = Object.keys(clock.dataset).toString().replace(`_`, `/`);
+        //console.log(tzone)
+        clock.innerHTML = localDateTime(tzone);
+    }
+}
 
 const syncScroll = (event) => {
     //event.preventDefault();
@@ -21,22 +31,6 @@ function windDirShort(direction){
     shortDir = shortDir.replace(/orth/g, "");
     shortDir = shortDir.replace(/outh/g, "");
     return shortDir.toUpperCase();
-    /*
-    const dirs = direction.split('-');
-    let shortDir = dirs[0].charAt(0).toUpperCase();
-    let dirLength = dirs.length();
-    let counter = 1;
-    while (counter < dirLength){
-        shortDir = shortDir + "-" + dirs[counter].charAt(0).toUpperCase();
-        counter+=1;
-    }
-    return shortDir;
-    /*const compassSections = ["north","north-northeast","northeast","east-northeast","east","east-southeast","southeast","south-southeast",
-                            "south","south-southwest","southwest","west-southwest","west","west-northwest","northwest","north-northwest","north"];          
-   const compassSections = ["N","N-NE","NE","E-NE","E","E-SE","SE","S-SE",
-   "S","S-SW","SW","W-SW","W","W-NW","NW","N-NW","N"
-    */
-    
 }
 
 // convert km to miles
@@ -86,20 +80,11 @@ function localDate(tZone) {
 
 function localDateTime(tZone) {
     let currentTime = new Date();
-    //document.getElementById('txt').innerHTML =
-/*    let timeHolder = document.createElement('span');
-    timeHolder.classList.add("local-time");*/
     let localTime = currentTime.toLocaleTimeString('en-US',{ timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric', weekday:'short'});
     let timeIndex = localTime.lastIndexOf(',')+2;
     let dateIndex = localTime.indexOf(',')+2;
-    console.log(localTime.slice(timeIndex) + localTime.slice(dateIndex, timeIndex-2) + localTime.slice(0, dateIndex-2))
+    //console.log(localTime.slice(timeIndex) + localTime.slice(dateIndex, timeIndex-2) + localTime.slice(0, dateIndex-2))
     return localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex-2) + " (" + localTime.slice(0, dateIndex-2) +")";
-    //pNode.innerHTML = localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex-2) + "(" + localTime.slice(0, dateIndex-2) +")";
-    //var t = setTimeout(localDateTime(tZone), 500);
-    //return localTime;
-    //return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
-    //var t = setTimeout(localTime(tZone), 500);
-    //return t;
   }
 
 function cToF(temp){
@@ -112,7 +97,12 @@ function toStandardTime(militaryTime) {
         return (timeArray[0] - 12) + ':' + timeArray[1] + ' PM';
     } 
     else {
-    return timeArray[0] + ':' + timeArray[1] + ' AM';
+        if (timeArray[0].charAt(0) == 0){
+            return timeArray[0].slice(1) + ':' + timeArray[1] + ' AM';
+        }
+        else{
+          return timeArray[0] + ':' + timeArray[1] + ' AM';
+        }
     }
 }  
 
@@ -197,8 +187,8 @@ const handleSubmit = async(event) => {
                         <h3 class="dates">Depart:&nbsp<span class="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
                         <h3 class="dates">Return:&nbsp<span class="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
                         <h3 class="dates">Duration:&nbsp<span class="duration">${durationMsg}</span></h3>
-                        <h3>Local Time:&nbsp<span class="local-time" data-${destination}>${localDateTime(res.timeZone)}</span></h3>
-                        <h3>Countdown:&nbsp<span class="countdown">${countdownMsg}</span></h3>
+                        <h3>Local Time:&nbsp<span class="local-time" data-${res.timeZone.replace(`/`, "_")}>${localDateTime(res.timeZone)}</span></h3>
+                        <h3>${countdownMsg}</h3>
                         <div class="btn-group">
                             <button class="trip-btn">Save Trip</button>
                             <button class="trip-btn">Delete Trip</button>
@@ -294,9 +284,6 @@ const handleSubmit = async(event) => {
                         <span class="temp-divider"> -</span>
                         <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span>
                         </div>
-                       <!-- 
-                       <div class="sunset">Sunset:&nbsp<span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span></div>
-                       -->
                     </div>
                 </div>
                 `;
@@ -374,7 +361,7 @@ const handleSubmit = async(event) => {
             /*let tripHolder = document.createElement("div");
             tripHolder.className = "summary-wrapper";*/
             newTrip = newTrip + dailyDetail + dailyForecasts + itineraryHeader + dailyItineraries + closer;
-            console.log(newTrip);
+            //console.log(newTrip);
             //tripHolder.innerHTML = newTrip;
             const modalContainer = document.querySelector(".modal-content");
             modalContainer.innerHTML = newTrip; 
@@ -474,6 +461,7 @@ function setEndMin() {
  else return;   
 }
 
+export{liveClocks}
 export{syncScroll}
 //export {newEntry}
 export {handleSubmit}

@@ -1,7 +1,7 @@
 // import main 'handleSubmit' function from app.js
 import { handleSubmit } from "./js/app.js"
 import { syncScroll } from "./js/app.js"
-
+import {liveClocks} from "./js/app.js"
 //import {stickyWeather} from "./js/app.js"
 
 // import SaSS stylesheets
@@ -35,4 +35,5 @@ export {wind}
 export {sunshine}
 export {handleSubmit}
 export{syncScroll}
+export {liveClocks}
 //export {stickyWeather}
