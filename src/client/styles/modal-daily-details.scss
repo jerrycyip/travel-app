@@ -125,10 +125,12 @@
     text-shadow: 0px 1px 0px black;
     font-size: 0.95em;
 }
-.temp-divider{
+.divider{
     font-size: 1.2em;
     color: $brand-color;// black;
     font-weight: 600;
+    text-shadow: 0px 0.5px 0px black;
+    border-radius: 4px;
 }
 
 .precip-icon{

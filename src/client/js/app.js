@@ -266,7 +266,7 @@ const handleSubmit = async(event) => {
                             alt="few clouds">
                         <div class="weather-desc">${res.weather[dateStr2].description}</div>
                         <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176
-                        <span class="temp-divider"> |</span>
+                        <span class="divider"> |</span>
                         ${cToF(res.weather[dateStr2].low)}&#176
                             </div>
                             <div class ="precip">
@@ -281,7 +281,7 @@ const handleSubmit = async(event) => {
                         <div class="sunrise">
                         <img class="sun-icon" src="${sunshine}" alt="sunrise sunset icon">
                         <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunrise)}</span>
-                        <span class="temp-divider"> -</span>
+                        <span class="divider"> &#8208</span>
                         <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span>
                         </div>
                     </div>
