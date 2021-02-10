@@ -8,7 +8,7 @@ import {weatherIcons} from "../index.js";
 
 
 const serverURL = "http://localhost:8084/api";
-let liveClocks = setInterval(setClocks, 1000);
+let liveClocks = setInterval(setClocks, 30000);
 
 // set live clocks and countdowns for different trip destinations
 function setClocks() {

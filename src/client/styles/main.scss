@@ -13,10 +13,11 @@
     min-height: 100vh;
     width: auto;
     grid-template-rows: 50px 525px auto 35px;
-    grid-template-rows: 675px auto 35px;
+    grid-template-rows: 650px auto 28px;
+    grid-template-rows: 80vh auto 28px;
     grid-template-areas: //"heading"
                          "plan-trip" 
-                         "all-trips" 
+                         "all-trips"
                          "footer";
     grid-template-columns: 1fr;
     background: white;
