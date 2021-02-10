@@ -141,8 +141,13 @@ async function callApis(req, res) {
     // call the Pixabay API to retrieve image of destination
     const localePix = await pixAPI(destination);
     console.log(localePix);
-    trip.image = localePix.webformatURL;
-
+    if(localePix == "no image"){
+        //trip.image = "https://pixabay.com/get/gb317d34e5dce42645251c83f1b66255fd5c73fb562d5aa59f8fb6a7f740dc1edb70668c7c4a8e907e924bc09a0641134940ba85032972233f0b12cdfb4a155fc_1280.jpg";
+        trip.image = "https://pixabay.com/get/gc129c9ff40123972163210fed7013af85d4e5fb994f13e06b049b5810b5661eb129893383edea06b39caf9cf8e83ba5528bfc7df8028de617abb343e2cbe492e_1280.jpg";
+    }
+    else{
+        trip.image = localePix.webformatURL;
+    }
     console.log("start:", start);
     console.log("startDt:", startDt);
     console.log("startDt.getDate()", startDt.getDate());
@@ -156,8 +161,8 @@ async function callApis(req, res) {
     console.log("forecastEnd.getTime():", forecastEnd.getTime());
     console.log("endDt.getTime()", endDt.getTime());
 
-    if(startDt.getTime() < destTimeDt.getTime()){
-        const obsWeather = await vcWeatherAPI(start, obsEnd, geoCoords.lat, geoCoords.lng, "obs%2Ccurrent");
+    if(startDt.getTime() <= destTimeDt.getTime()){
+        const obsWeather = await vcWeatherAPI(start, destDt/*obsEnd*/, geoCoords.lat, geoCoords.lng, "obs%2Ccurrent");
         try {
             for (day of obsWeather['days']) {
                 trip.weather[day.datetime] = {}
@@ -226,6 +231,7 @@ async function callApis(req, res) {
     else if (endDt.getTime() <= forecastEnd.getTime()) {
         
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
+        //console.log("forecastWeather", forecastWeather);
         try {
             console.log("filtered results:");
 
@@ -235,6 +241,7 @@ async function callApis(req, res) {
                 if(dt.getTime() >= startDt.getTime() && dt.getTime() <= endDt.getTime()){
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
+                if (dateFormatted in forecastWeather){
                 //console.log(forecastWeather[`${dateFormatted}`]);
                 trip.weather[dateFormatted] = {}
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
@@ -252,6 +259,7 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['windDirFull'] = forecastWeather[dateFormatted].wind_cdir_full;
                 trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
+            }
                 dt.setDate(dt.getDate() + 1);
                 console.log("next date counter:", dt);
             }
@@ -404,8 +412,14 @@ async function pixAPI(destination) {
         const resultsTravel = await responseTravel.json();
         const resultsAllCats = await responseAllCats.json()
         let results = "";
+        console.log("resultsAllCats:", resultsAllCats);
+        console.log("resultsAllCats.total:", resultsAllCats.total);
 
-        if (resultsTravel.total == 0) {
+        if(resultsAllCats.total == 0){
+            results = "no image";
+            return results;
+        }
+        else if (resultsTravel.total == 0) {
             results = resultsAllCats;
         }
         else {
