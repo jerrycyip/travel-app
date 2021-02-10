@@ -7,13 +7,21 @@ import {sunshine} from "../index.js";
 const serverURL = "http://localhost:8084/api";
 let liveClocks = setInterval(setClocks, 1000);
 
-// set live clocks for different trip destinations
+// set live clocks and countdowns for different trip destinations
 function setClocks() {
     let clocks = document.querySelectorAll(".local-time");
+    let ctdowns = document.querySelectorAll("h3.countdown");
+
     for(let clock of clocks){
         let tzone = Object.keys(clock.dataset).toString().replace(`_`, `/`);
-        //console.log(tzone)
         clock.innerHTML = localDateTime(tzone);
+    }
+    for(let ctdown of ctdowns){
+        let dataAtts = Object.keys(ctdown.dataset);
+        let tzone = dataAtts[0].toString().replace(`_`, `/`);
+        let startDt = dataAtts[1];
+        let countdownMsg = ctDown(startDt, tzone);
+        ctdown.innerHTML = countdownMsg;
     }
 }
 
@@ -43,14 +51,15 @@ function cmToIn(amt){
 }
 // calculate days until trip
 function daysLeft(start){
+    console.log("daysLeft called with:", start);
     let today = new Date();
     let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     todayDt = new Date(todayDt);
 
     let startDt = new Date(`${start} 00:00:00`);
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
-    daysLeft = Math.round((startDt - todayDt) / oneDayMs);
-    return daysLeft
+    let daysRemaining = Math.round((startDt - todayDt) / oneDayMs);
+    return daysRemaining;
 }
 
 // calculate days until trip
@@ -128,13 +137,52 @@ function localTime(tZone) {
  (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2)));
  return (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2));
 }
-  
+
+function ctDown(start, tzone){
+    //let countdown = daysLeft(start); /* for some reason this call fails*/
+    let today = new Date();
+    let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    todayDt = new Date(todayDt);
+    let startDt = new Date(`${start} 00:00:00`);
+    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
+    let countdown = Math.round((startDt - todayDt) / oneDayMs);
+    
+
+    //console.log("localDate:", localDate(tzone));
+    let localDt = new Date(localDate(tzone));
+    //let startDt = new Date(`${start} 00:00:00`);
+    //console.log("localDt:", localDt);
+   // console.log("startDt:", startDt);
+    let begunAlready = (startDt < localDt);
+   // console.log("begunAlready", begunAlready)
+    let countdownMsg = "";
+    if(begunAlready){
+        countdownMsg = `Your trip has started!`;
+        return countdownMsg;
+    }
+    else{
+        switch(countdown){
+            case 0:
+            countdownMsg = `Your trip starts today!`;
+            return countdownMsg;
+            break;
+            case 1:
+            countdownMsg =  `${countdown} day until your trip!`;
+            return countdownMsg;
+            break;
+            default:
+            countdownMsg = `${countdown} days until your trip`;
+            return countdownMsg;
+        }
+    }
+}
 // main function for new trip submission
 const handleSubmit = async(event) => {
     event.preventDefault();
 
     const locale = document.getElementById('destination').value;
     const start_dt = document.forms['trip-form']['start'].value;
+    //console.log("start_dt and type:", start_dt, typeof(start_dt));
     const end_dt = document.forms['trip-form']['end'].value;
 
     if(validateTrip(locale, start_dt, end_dt)){
@@ -156,35 +204,36 @@ const handleSubmit = async(event) => {
             }
             else destination = `${res.city}, ${res.country}`;
             
-            
+            let countdownMsg = ctDown(start_dt, res.timeZone);
+            console.log("countdownMsg2:", countdownMsg);
+            let startDt = new Date(`${start_dt} 00:00:00`);
+
+            /*
             let countdown = daysLeft(start_dt);
-            console.log("localDate:", localDate(res.timeZone));
+           // console.log("localDate:", localDate(res.timeZone));
             let localDt = new Date(localDate(res.timeZone));
             
-            let startDt = new Date(`${start_dt} 00:00:00`);
-            console.log("localDt:", localDt);
-            console.log("startDt:", startDt);
+            //console.log("localDt:", localDt);
+            //console.log("startDt:", startDt);
             let begunAlready = (startDt < localDt);
-            console.log("begunAlready", begunAlready)
-            //console.log("new Date localDate:", new Date(localDate(res.timeZone)));
-            //begunAlready = false; //daysLeft((localDate(res.timeZone)));
+            //console.log("begunAlready", begunAlready)
             let countdownMsg = "";
-            //console.log("begunAlready:", begunAlready);
             if(begunAlready){
-                countdownMsg = `Your trip is underway!`;
+                countdownMsg = `Your trip has started!`;
             }
             else{
-            switch(countdown){
-                case 0:
-                countdownMsg = `Your trip starts today!`;
-                break;
-                case 1:
-                countdownMsg =  `${countdown} day until your trip!`;
-                break;
-                default:
-                countdownMsg = `${countdown} days until your trip`;
+                switch(countdown){
+                    case 0:
+                    countdownMsg = `Your trip starts today!`;
+                    break;
+                    case 1:
+                    countdownMsg =  `${countdown} day until your trip!`;
+                    break;
+                    default:
+                    countdownMsg = `${countdown} days until your trip`;
+                }
             }
-        }
+            */
             let tripDuration = duration(start_dt, end_dt);
             let durationMsg = "";
             switch(tripDuration){
@@ -206,7 +255,7 @@ const handleSubmit = async(event) => {
                         <h3 class="dates">Return:&nbsp<span class="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
                         <h3 class="dates">Duration:&nbsp<span class="duration">${durationMsg}</span></h3>
                         <h3>Local Time:&nbsp<span class="local-time" data-${res.timeZone.replace(`/`, "_")}>${localDateTime(res.timeZone)}</span></h3>
-                        <h3>${countdownMsg}</h3>
+                        <h3 class="countdown" data-${res.timeZone.replace(`/`, "_")} data-${start_dt}>${countdownMsg}</h3>
                         <div class="btn-group">
                             <button class="trip-btn">Save Trip</button>
                             <button class="trip-btn">Delete Trip</button>
