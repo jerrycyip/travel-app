@@ -369,7 +369,7 @@ function weatherIconCode(description){
             return "w00d";
             break;        
         case "wind":
-            return "c04d"; //"z00d" if able to use own images
+            return "z00d"; //"c04d" if using weatherbit hosted icons, "z00d" if able to use own images
             break;
         case "cloudy":
             return "c04d";

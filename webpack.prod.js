@@ -39,9 +39,14 @@ module.exports = {
             },
             {
                 test: /\.(png|jp(e*)g|svg)$/,  
-                use: [
-                    'file-loader',
-                ]
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'imgs',
+                        publicPath: 'imgs'
+                    }
+                }
             }
         ]
     },

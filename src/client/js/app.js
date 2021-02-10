@@ -3,6 +3,9 @@ import {droplet2} from "../index.js";
 import {snowflake} from "../index.js";
 import {wind} from "../index.js";
 import {sunshine} from "../index.js";
+import {weatherIcons} from "../index.js";
+
+
 
 const serverURL = "http://localhost:8084/api";
 let liveClocks = setInterval(setClocks, 1000);
@@ -324,11 +327,12 @@ const handleSubmit = async(event) => {
                     precipIcon = snowflake;
                     
                 }
+                /*let weatherIconUrl = https://www.weatherbit.io/static/img/icons/;*/
                 let dayForecast = `
                 <div class="day-forecast">
                     <div class="day-border">
                         <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
-                        <img class="weather-icon" src="https://www.weatherbit.io/static/img/icons/${res.weather[dateStr2].icon}.png"
+                        <img class="weather-icon" src="/imgs/${res.weather[dateStr2].icon}.png"
                             alt="few clouds">
                         <div class="weather-desc">${res.weather[dateStr2].description}</div>
                         <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176
