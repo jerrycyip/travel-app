@@ -27,12 +27,17 @@
     color: white;
     text-align: center;
     text-shadow: 0.75px 0.75px black;
+    
     #weather-attrib{
         margin-left: 1.5em;
-       /* color: $brand-color;
+        color: $brand-color;
+        color: white;
         text-shadow: 0.75px 0.75px black;
-        */
+        
 
+    }
+    .co-titles{
+        color: white;
     }
         //vertical-align: text-bottom;
     
@@ -53,6 +58,14 @@
     vertical-align: middle;
     margin: -15px;
     margin-top: -16px;
+}
+#vc-logo, #wb-logo{
+    display: inline-block;
+    transform: scale(0.4);
+    vertical-align: middle;
+    margin: -18px;
+    margin-top: -20px;
+    margin-right: -25px;
 }
 
 a {

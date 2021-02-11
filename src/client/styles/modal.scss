@@ -14,7 +14,7 @@
    position: fixed;
    margin-bottom: 2.5vh;
    margin-top: 2.5vh;
-   margin-bottom: 3vh;
+   margin-bottom: 3.5vh;
    margin-left: 10vw;
    margin-right: 10vw;
    z-index: 10;
@@ -34,7 +34,7 @@
    background: $sky-blue;
    border-radius: 8px;
    border: 1px solid grey;
-   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.7);
+   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.7);
    overflow: hidden;
    //display: none;
 }
