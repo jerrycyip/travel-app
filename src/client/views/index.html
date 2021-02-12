@@ -40,208 +40,40 @@
         <section class="modal display-off" onload="liveClocks()" id="modal-test">
             <div class="trip-container">
                 <div class="modal-content">
-                    <!--
-                <div class="summary-wrapper">
-                <div class="trip-summary">
-                    <div class="trip-image">
-                     <img class = "trip-photo" src="../media/maldives.jpg"alt="trip image">
-                </div>
-                <div class="modal-details">
-                    <h2 class="locale">Cancun, Mexico</h2>
-                    <h3 class="dates">Depart:&nbsp<span id="depart-date">10/1/21 (Thu)</span></h3>
-                    <h3 class="dates">Return:&nbsp<span id="return-date">10/8/21 (Thu)</span></h3>
-                    <h3>Local Time:&nbsp<span id="local-time">7:53 AM, 7/28 (Wed)</span></h3>
-                    <h3><span class="countdown">100 days until your trip</h3>
-                    <div class="btn-group">
-                        <button class="trip-btn">Save Trip</button>
-                        <button class="trip-btn">Delete Trip</button>
-                    </div>
                 </div>
             </div>
-        </div>
-                    <div class="trip-daily-detail">
-                        <div class="trip-daily-container">
-                            <div class="trip-daily-wrapper">
-                                <div class="forecast-container" id="sticky-weather">
-                                    <div class="forecast-header">
-                                        <h3>Weather Forecast &nbsp</h3> -->
-                                        <!-- <span>&nbsp&nbsp[+]</span> -->
-<!--                                        <div class="weather-details"> <!-- </div> -->
-                                            <!-- <button class="expander">[ Details ] -->
-                                                <!-- <span class="expander-arrow">&#9660</span> -->
-<!--                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="daily-forecasts" id="div1">
-                                        <div class="day-forecast">
-                                            <div class="day-border">
-                                                <h4 class="forecast-date">Thu 10/1</h4>
-                                                <img class="weather-icon" src="../media/weather_icons/a01d.png"
-                                                    alt="few clouds">
-                                                <div class="weather-desc">Few Clouds</div>
-                                                <div class="high-low">81&#176<span class="temp-divider"> |
-                                                    </span>69&#176&nbsp
-                                                    <img class="precip-icon" src="../media/droplet2.png"
-                                                        alt="precipitation probability">
-                                                    <span class="precip-prob">1%</span>
-                                                </div>
-                                                <div class="sunrise">Sunrise: 7:01AM</div>
-                                                <div class="sunset">Sunset: 6:09 PM</div>
-                                            </div>
-                                        </div>
-                                        <div class="day-forecast">
-                                            <div class="day-border">
-                                                <h4 class="forecast-date">Fri 10/2</h4>
-                                                <img class="weather-icon" src="../media/weather_icons/a01d.png"
-                                                    alt="few clouds">
-                                                <div class="weather-desc">Few Clouds</div>
-                                                <div class="high-low">81&#176<span class="temp-divider"> |
-                                                    </span>69&#176&nbsp
-                                                    <img class="precip-icon" src="../media/droplet2.png"
-                                                        alt="precipitation probability">
-                                                    <span class="precip-prob">1%</span>
-                                                </div>
-                                                <div class="sunrise">Sunrise: 7:01AM</div>
-                                                <div class="sunset">Sunset: 6:09 PM</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="itinerary-header">
-                                        <h3>Itinerary</h3>
-                                        <h4 class="cat-fill">
-                                            [ Categories ]
-                                        </h4>
-                                    </div>
-                                </div>
-                                <div class="itinerary-schedule">
-                                    <div class="itinerary-timeline">7 AM <span class="sched-expand">&#9650</span></div>
-                                    <div class="itinerary-timeline">8 AM</div>
-                                    <div class="itinerary-timeline">9 AM</div>
-                                    <div class="itinerary-timeline">10 AM</div>
-                                    <div class="itinerary-timeline">11 AM</div>
-                                    <div class="itinerary-timeline">12 PM</div>
-                                    <div class="itinerary-timeline">1 PM</div>
-                                    <div class="itinerary-timeline">2 PM</div>
-                                    <div class="itinerary-timeline">3 PM</div>
-                                    <div class="itinerary-timeline">4 PM</div>
-                                    <div class="itinerary-timeline">5 PM</div>
-                                    <div class="itinerary-timeline">6 PM</div>
-                                    <div class="itinerary-timeline">7 PM</div>
-                                    <div class="itinerary-timeline">8 PM</div>
-                                    <div class="itinerary-timeline">9 PM</div>
-                                    <div class="itinerary-timeline">10 PM</div>
-                                    <div class="itinerary-timeline">11 PM &#9660</div>
-                                </div>
-                                <div class="itinerary-container">
-                                    <div class="itinerary-wrapper" id="div2">
-                                        <div class="itinerary-input">
-                                            <div class="textareaElement food" contenteditable>Pack breakfast for flight
-                                                (example)</div>
-                                            <div class="textareaElement logistics" contenteditable>7:30am Uber to ____
-                                                airport (example)</div>
-                                            <div class="textareaElement logistics" contenteditable>9:15am 2 hr flight to
-                                                _____ (example)</div>
-                                            <div class="textareaElement logistics" contenteditable></div>
-                                            <div class="textareaElement logistics" contenteditable>Pick up rental @___ +
-                                                drive to downtown (example)</div>
-                                            <div class="textareaElement food" contenteditable>12pm Lunch resos @____
-                                                (example) </div>
-                                            <div class="textareaElement activity" contenteditable>Explore downtown and
-                                                views @______ (example)</div>
-                                            <div class="textareaElement activity" contenteditable></div>
-                                            <div class="textareaElement logistics" contenteditable>Check-in to hotel
-                                                @_____ (example)</div>
-                                            <div class="textareaElement activity" contenteditable>2 hr hike around_____
-                                                (example)</div>
-                                            <div class="textareaElement activity" contenteditable></div>
-                                            <div class="textareaElement food" contenteditable>6:30 Dinner resos @_____
-                                                (example)</div>
-                                            <div class="textareaElement food" contenteditable></div>
-                                            <div class="textareaElement entertainment" contenteditable>8pm Tix to Show
-                                                @_____ (example)</div>
-                                            <div class="textareaElement entertainment" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                        </div>
-                                        <div class="itinerary-input">
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                            <div class="textareaElement" contenteditable></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
         </section>
         <!-- future enhancement: this section would provide a list of all prior entries:-->
-        <div class="all-trips">
+        <section class="all-trips">
             <div class="title">
                 <h3>My Trips</h3>
             </div>
             <div class="view-trips">
                 <div class="view-entry">
-                    <!--<div class="title">
-                    <h3 id="view-title">Paradise</h3>
-                </div> -->
-                <!--
-                    <div id="entryHolder">
-                        <div class="meta-details">
-                            <h4>
-                                <div id="destination2"></div>
-                                <div id="weather"></div>
-                                <div id="weather-info">
-                                    <div id="temp-details">
-                                        <div id="temp"></div>
-                                    </div>
-                                    <div class="weather-icon"></div>
-                                </div>
-                                <div id="date"></div>
-                            </h4>
-                        </div>
-                        <div class="mood-holder">
-                            <div id="content"></div>
-                        </div>
-                    </div>
--->
+
                 </div>
             </div>
-        </div>
+        </section>
         <div id="footer">
             <span id="creator">
-            Created & designed by Jerry Yip
-        </span>
+                Created & designed by Jerry Yip
+            </span>
             <a href="https://github.com/jerrycyip">
                 <img src="../media/GitHub-Mark-Light-64px.png" id="gh-logo">
-                </a>
+            </a>
             <a href="https://www.linkedin.com/in/jerrycyip/">
                 <img src="../media/In-White-59px-R.png" id="li-logo">
-                </a>
-                <span id="weather-attrib">
-                    Powered by&nbsp
-                    <a href="https://www.visualcrossing.com/weather-data">
-                        <img src="../media/visual_crossing_logo.png" id="vc-logo">
-                        </a>
-                &nbsp&nbsp<span class="co-titles">VisualCrossing Weather</span> &&nbsp
+            </a>
+            <span id="weather-attrib">
+                Powered by&nbsp
                 <a href="https://weatherbit.io/">
                     <img src="../media/weatherbit_logo.jpg" id="wb-logo">
-                    </a>
-                &nbsp&nbsp</span class="co-titles">Weatherbit.io</span>&nbsp
+                </a>
+                &nbsp&nbsp</span class="co-titles">Weatherbit.io</span>&nbsp&&nbsp
+            <a href="https://www.visualcrossing.com/weather-data">
+                <img src="../media/visual_crossing_logo.png" id="vc-logo">
+            </a>
+            &nbsp&nbsp<span class="co-titles">Visual<span id="crossing-title">Crossing</span></span>
 
             </span>
         </div>

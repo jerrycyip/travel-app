@@ -34,7 +34,7 @@
    background: $sky-blue;
    border-radius: 8px;
    border: 1px solid grey;
-   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.7);
+   box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.7);
    overflow: hidden;
    //display: none;
 }
@@ -177,6 +177,7 @@
     padding-left: .5em;//8px;
     padding-right: .5em;//8px;
     background-color: white;
+    opacity: 1;
     color: black;
     font-family: Arial, Helvetica, sans-serif;
     border-radius: 8px;

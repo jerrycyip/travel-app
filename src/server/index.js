@@ -53,6 +53,7 @@ app.post('/api', callApis);
 async function callApis(req, res) {
     // Trip object for storing data from api calls
     let trip = {
+        id: Date.now(),
         city: "",
         adminCode1: "",
         adminName1: "",

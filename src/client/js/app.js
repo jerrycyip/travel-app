@@ -59,7 +59,7 @@ function daysLeft(start){
     let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     todayDt = new Date(todayDt);
 
-    let startDt = new Date(`${start} 00:00:00`);
+    let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
     let daysRemaining = Math.round((startDt - todayDt) / oneDayMs);
     return daysRemaining;
@@ -67,8 +67,8 @@ function daysLeft(start){
 
 // calculate days until trip
 function duration(start, end){
-    let startDt = new Date(`${start} 00:00:00`);
-    let endDt = new Date(`${end} 00:00:00`);
+    let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
+    let endDt = new Date(`${end}T00:00:00`.replace(/\s/, 'T'));
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
     daysLeft = Math.round((endDt - startDt) / oneDayMs) + 1;
     return daysLeft
@@ -76,13 +76,8 @@ function duration(start, end){
 
 function dayOfWeek(date){
     const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    let dt = new Date(`${date} 00:00:00`);
+    let dt = new Date(`${date}T00:00:00`.replace(/\s/, 'T'));
     return days[dt.getDay()];
-}
-
-function localWeekDay(tZone) {
-    let currentTime = new Date();
-    return currentTime.toLocaleDateString('en-US', { timeZone: tZone, weekday:'short'});
 }
 
 function localDate(tZone) {
@@ -118,42 +113,24 @@ function toStandardTime(militaryTime) {
     }
 }  
 
-function localTime(tZone) {
-    let currentTime = new Date();
-    //document.getElementById('txt').innerHTML =
-/*    let timeHolder = document.createElement('span');
-    timeHolder.classList.add("local-time");*/
-    return currentTime.toLocaleTimeString('en-US',{ timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true});
-    //return currentTime.toLocaleString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric' });
-    //var t = setTimeout(localTime(tZone), 500);
-    //return t;
-  }
-
  function dateString(date){
-     let dt = new Date(`${date} 00:00:00`);
+     let dt = new Date(`${date}T00:00:00`.replace(/\s/, 'T'));
     return ((dt.getMonth() + 1)) + '/' + dt.getDate() + '/' + dt.getFullYear().toString().substr(-2);
  }
-
- function dateString2(date){
- let dt = new Date(`${date} 00:00:00`);
- console.log("dateString2:", 
- (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2)));
- return (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + (dt.getDate() + 1)).slice(-2));
-}
 
 function ctDown(start, tzone){
     //let countdown = daysLeft(start); /* for some reason this call fails*/
     let today = new Date();
     let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     todayDt = new Date(todayDt);
-    let startDt = new Date(`${start} 00:00:00`);
+    let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
     let countdown = Math.round((startDt - todayDt) / oneDayMs);
     
 
     //console.log("localDate:", localDate(tzone));
     let localDt = new Date(localDate(tzone));
-    //let startDt = new Date(`${start} 00:00:00`);
+    //let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
     //console.log("localDt:", localDt);
    // console.log("startDt:", startDt);
     let begunAlready = (startDt < localDt);
@@ -179,6 +156,48 @@ function ctDown(start, tzone){
         }
     }
 }
+/* Determine next steps for new trip
+*/
+export const handleResult = async (entry, data, ui, id) => {
+    let save = document.getElementById(`saveTrip_${id}`);
+    let deleteBtn = document.getElementById(`deleteTrip_${id}`);
+    let form = document.getElementById("travelForm");
+  
+    if (ui === "modal") {
+      // Handle buttons on the modal
+      save.addEventListener("click", () => {
+        // Clone the current trip object and push the new data to the global array variable
+        let obj = { ...data };
+        let itineraries = 
+        tripsArray.push(obj);
+        // Add new trip to local storage
+        localStorage.setItem("trips", JSON.stringify(tripsArray));
+        // Save new trip to Express server
+        postData("/addEntry", newTrip);
+  
+        // Update UI
+        save.style.display = "none";
+        tripList.prepend(entry);
+        tripList.scrollIntoView({ behavior: "smooth" });
+        form.reset();
+        closeModal();
+      });
+  
+      deleteBtn.addEventListener("click", () => {
+        deleteEntry(entry, id);
+        form.reset();
+        closeModal();
+      });
+    } else {
+      // Handle save and delete buttons on the trip list
+      save.style.display = "none";
+  
+      // Delete the selected trip entry from UI and local storage
+      deleteBtn.addEventListener("click", () => {
+        deleteEntry(entry, id);
+      });
+    }
+  };
 // main function for new trip submission
 const handleSubmit = async(event) => {
     event.preventDefault();
@@ -209,7 +228,7 @@ const handleSubmit = async(event) => {
             
             let countdownMsg = ctDown(start_dt, res.timeZone);
             console.log("countdownMsg2:", countdownMsg);
-            let startDt = new Date(`${start_dt} 00:00:00`);
+            let startDt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
 
             /*
             let countdown = daysLeft(start_dt);
@@ -268,8 +287,8 @@ const handleSubmit = async(event) => {
             </div> 
             `;
 
-            let dt = new Date(`${start_dt} 00:00:00`);
-            let endDt = new Date(`${end_dt} 00:00:00`);
+            let dt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
+            let endDt = new Date(`${end_dt}T00:00:00`.replace(/\s/, 'T'));
 
             let dailyDetail = `
             <div class="trip-daily-detail">
@@ -287,7 +306,7 @@ const handleSubmit = async(event) => {
             let itineraryHeader = `
                 </div>
                 <div class="itinerary-header">
-                    <h3>Itinerary</h3>
+                    <h3>Itinerary Planner</h3>
                     <h4 class="cat-fill">
                         [ Categories ]
                     </h4>
@@ -362,7 +381,7 @@ const handleSubmit = async(event) => {
                 let dayItinerary = `
                 <div class="itinerary-container">
                 <div class="itinerary-wrapper" id="div2">
-                    <div class="itinerary-input">
+                    <div class="itinerary-input ${dt}-itinerary">
                         <div class="textareaElement food" contenteditable>Pack breakfast for flight
                             (example)</div>
                         <div class="textareaElement logistics" contenteditable>7:30am Uber to ____
@@ -395,24 +414,24 @@ const handleSubmit = async(event) => {
                 }
                     else {
                         let dayItinerary = `
-                    <div class="itinerary-input">
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
-                    <div class="textareaElement" contenteditable></div>
+                    <div class="itinerary-input ${dt}-itinerary">
+                    <div class="textareaElement 7am" contenteditable></div>
+                    <div class="textareaElement 8am" contenteditable></div>
+                    <div class="textareaElement 9am" contenteditable></div>
+                    <div class="textareaElement 10am" contenteditable></div>
+                    <div class="textareaElement 11am" contenteditable></div>
+                    <div class="textareaElement 12pm" contenteditable></div>
+                    <div class="textareaElement 1pm" contenteditable></div>
+                    <div class="textareaElement 2pm" contenteditable></div>
+                    <div class="textareaElement 3pm" contenteditable></div>
+                    <div class="textareaElement 4pm" contenteditable></div>
+                    <div class="textareaElement 5pm" contenteditable></div>
+                    <div class="textareaElement 6pm" contenteditable></div>
+                    <div class="textareaElement 7pm" contenteditable></div>
+                    <div class="textareaElement 8pm" contenteditable></div>
+                    <div class="textareaElement 9pm" contenteditable></div>
+                    <div class="textareaElement 10pm" contenteditable></div>
+                    <div class="textareaElement 11pm" contenteditable></div>
                 </div>
                 `;
                 dailyItineraries = dailyItineraries + dayItinerary;
@@ -435,6 +454,8 @@ const handleSubmit = async(event) => {
             //tripHolder.innerHTML = newTrip;
             const modalContainer = document.querySelector(".modal-content");
             modalContainer.innerHTML = newTrip; 
+            let tripDetails = res;
+        handleResult(tripDetails);
         })
 
     }
@@ -442,6 +463,7 @@ const handleSubmit = async(event) => {
         alert("please provide a valid destination and date range");
         console.log("please provide a valid destination and date range");
     }
+    
 }
 
 

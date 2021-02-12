@@ -29,15 +29,18 @@
     text-shadow: 0.75px 0.75px black;
     
     #weather-attrib{
-        margin-left: 1.5em;
+        margin-left: 3em;
         color: $brand-color;
         color: white;
         text-shadow: 0.75px 0.75px black;
-        
-
     }
     .co-titles{
         color: white;
+    }
+    #crossing-title{
+        //color: black;
+        font-weight: 900;
+        //text-shadow: none;
     }
         //vertical-align: text-bottom;
     
