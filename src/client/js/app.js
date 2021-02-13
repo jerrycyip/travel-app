@@ -5,12 +5,26 @@ import {wind} from "../index.js";
 import {sunshine} from "../index.js";
 import {weatherIcons} from "../index.js";
 
+/** 
+ * Set Global variables 
+ * 
+*/
 
+let newTrip = {};
+let tripList = document.querySelector(".trip");
+let modal = document.querySelector(".modal");
 
+// Check for local storage
+let tripsArray = localStorage.getItem("trips")
+  ? JSON.parse(localStorage.getItem("trips"))
+  : [];
+const tripData = JSON.parse(localStorage.getItem("trips"));
 const serverURL = "http://localhost:8084/api";
-let liveClocks = setInterval(setClocks, 30000);
+
 
 // set live clocks and countdowns for different trip destinations
+let liveClocks = setInterval(setClocks, 30000);
+
 function setClocks() {
     let clocks = document.querySelectorAll(".local-time");
     let ctdowns = document.querySelectorAll("h3.countdown");
@@ -156,48 +170,7 @@ function ctDown(start, tzone){
         }
     }
 }
-/* Determine next steps for new trip
-*/
-export const handleResult = async (entry, data, ui, id) => {
-    let save = document.getElementById(`saveTrip_${id}`);
-    let deleteBtn = document.getElementById(`deleteTrip_${id}`);
-    let form = document.getElementById("travelForm");
-  
-    if (ui === "modal") {
-      // Handle buttons on the modal
-      save.addEventListener("click", () => {
-        // Clone the current trip object and push the new data to the global array variable
-        let obj = { ...data };
-        let itineraries = 
-        tripsArray.push(obj);
-        // Add new trip to local storage
-        localStorage.setItem("trips", JSON.stringify(tripsArray));
-        // Save new trip to Express server
-        postData("/addEntry", newTrip);
-  
-        // Update UI
-        save.style.display = "none";
-        tripList.prepend(entry);
-        tripList.scrollIntoView({ behavior: "smooth" });
-        form.reset();
-        closeModal();
-      });
-  
-      deleteBtn.addEventListener("click", () => {
-        deleteEntry(entry, id);
-        form.reset();
-        closeModal();
-      });
-    } else {
-      // Handle save and delete buttons on the trip list
-      save.style.display = "none";
-  
-      // Delete the selected trip entry from UI and local storage
-      deleteBtn.addEventListener("click", () => {
-        deleteEntry(entry, id);
-      });
-    }
-  };
+
 // main function for new trip submission
 const handleSubmit = async(event) => {
     event.preventDefault();
@@ -230,32 +203,6 @@ const handleSubmit = async(event) => {
             console.log("countdownMsg2:", countdownMsg);
             let startDt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
 
-            /*
-            let countdown = daysLeft(start_dt);
-           // console.log("localDate:", localDate(res.timeZone));
-            let localDt = new Date(localDate(res.timeZone));
-            
-            //console.log("localDt:", localDt);
-            //console.log("startDt:", startDt);
-            let begunAlready = (startDt < localDt);
-            //console.log("begunAlready", begunAlready)
-            let countdownMsg = "";
-            if(begunAlready){
-                countdownMsg = `Your trip has started!`;
-            }
-            else{
-                switch(countdown){
-                    case 0:
-                    countdownMsg = `Your trip starts today!`;
-                    break;
-                    case 1:
-                    countdownMsg =  `${countdown} day until your trip!`;
-                    break;
-                    default:
-                    countdownMsg = `${countdown} days until your trip`;
-                }
-            }
-            */
             let tripDuration = duration(start_dt, end_dt);
             let durationMsg = "";
             switch(tripDuration){
@@ -279,8 +226,9 @@ const handleSubmit = async(event) => {
                         <h3>Local Time:&nbsp<span class="local-time" data-${res.timeZone.replace(`/`, "_")}>${localDateTime(res.timeZone)}</span></h3>
                         <h3 class="countdown" data-${res.timeZone.replace(`/`, "_")} data-${start_dt}>${countdownMsg}</h3>
                         <div class="btn-group">
-                            <button class="trip-btn">Save Trip</button>
-                            <button class="trip-btn">Delete Trip</button>
+                            <button class="trip-btn update-btn" id=updateTrip-${res.id}>Update Trip</button>
+                            <button class="trip-btn" id=saveTrip-${res.id}>Save Trip</button>
+                            <button class="trip-btn" id=deleteTrip-${res.id}>Delete Trip</button>
                         </div>
                     </div>
                 </div>  
@@ -380,7 +328,7 @@ const handleSubmit = async(event) => {
                 if (dt.getTime() == startDt.getTime()){
                 let dayItinerary = `
                 <div class="itinerary-container">
-                <div class="itinerary-wrapper" id="div2">
+                <div class="itinerary-wrapper" id="itinerary-${res.id}">
                     <div class="itinerary-input ${dt}-itinerary">
                         <div class="textareaElement food" contenteditable>Pack breakfast for flight
                             (example)</div>
@@ -453,9 +401,10 @@ const handleSubmit = async(event) => {
             //console.log(newTrip);
             //tripHolder.innerHTML = newTrip;
             const modalContainer = document.querySelector(".modal-content");
+            modalContainer.id = res.id;
             modalContainer.innerHTML = newTrip; 
-            let tripDetails = res;
-        handleResult(tripDetails);
+//            let tripDetails = res;
+        handleResult(newTrip, tripDetails, "modal");
         })
 
     }
@@ -466,6 +415,109 @@ const handleSubmit = async(event) => {
     
 }
 
+/* Handle next steps for new and existing trips
+*/
+export const handleResult = async (entry, data, ui) => {
+    let saveBtn = document.getElementById(`saveTrip-${data.id}`);
+    let updateBtn = document.getElementById(`updateTrip-${data.id}`);
+    let deleteBtn = document.getElementById(`deleteTrip-${data.id}`);
+    let form = document.getElementById("travelForm");
+    let itineraryInfo = document.getElementById(`itinerary-${data.id}`);
+  
+    if (ui === "modal") {
+      // Handle buttons on the modal
+        saveBtn.addEventListener("click", () => {
+        // Copy the new trip object
+        let newTrip = { ...data };
+        // add itinerary info to newtrip object - for prod app would loop through child divs
+        newTrip.itineraries = itineraryInfo;
+        // if trip is new, add to global trips object otherwise replace
+        let tripExists = tripsArray.some((trip) => trip.id === data.id);
+        if(tripExists){
+            let replaceTrip = tripsArray.find((trip) => trip.id === data.id);
+            tripsArray.splice(tripsArray.indexOf(replaceTrip), 1, newTrip);
+            postData("/delete", { id });
+            localStorage.setItem("trips", JSON.stringify([]));
+            localStorage.setItem("trips", JSON.stringify(tripsArray));
+            // Save updated trip to Express server
+            postData("/addEntry", newTrip);            
+        }
+        else{
+            tripsArray.push(newTrip);
+            // Add new trip to local storage
+            localStorage.setItem("trips", JSON.stringify(tripsArray));
+            // Save new trip to Express server
+            postData("/addEntry", newTrip);
+        }              
+        // Update UI
+        saveBtn.style.display = "none";
+        updateBtn.style.display = "inline-block";    
+        tripList.prepend(entry);
+/*
+        var categoryItems = document.querySelectorAll("[data-category-group]");
+        var categoryItemsArray = Array.from(categoryItems);
+
+        let sorted = categoryItemsArray.sort((a,b) => b.date - a.date);
+
+function sorter(a,b) {
+    if(a.dataset.categoryGroup < b.dataset.categoryGroup) return -1;
+    if(a.dataset.categoryGroup > b.dataset.categoryGroup) return 1;
+    return 0;
+}
+        
+*/
+        tripList.scrollIntoView({ behavior: "smooth" });
+        form.reset();
+        closeModal();
+      });
+  
+      deleteBtn.addEventListener("click", () => {
+        deleteEntry(entry, id);
+        form.reset();
+        closeModal();
+      });
+    } else {
+      // Handle buttons on the trip container
+      save.style.display = "none";
+      updateBtn.style.display = "inline-block";
+      updateBtn.addEventListener("click"),() =>{
+          loadEntry(entry)
+      }
+
+      // Delete the selected trip entry from UI and local storage
+      deleteBtn.addEventListener("click", () => {
+        deleteEntry(entry, id);
+      });
+    }
+  };
+/**
+ * @description load the trip entry into the modal
+ * @param {*} entry - Element to be loaded
+ * @param {*} id - Trip id
+ */
+const loadEntry = (entry) => {
+    const modalContainer = document.querySelector(".modal-content");
+    modalContainer.innerHTML = entry;
+
+    // Handle buttons on the trip container
+    save.style.display = "inline-block";
+    updateBtn.style.display = "none";
+    
+};
+
+/**
+ * @description Delete trip entry
+ * @param {*} entry - Element to be deleted
+ * @param {*} id - Trip id
+ */
+const deleteEntry = (entry, id) => {
+    let removeTrip = tripsArray.find((trip) => trip.id === id);
+    tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
+    entry.remove(removeTrip);
+    postData("/delete", { id });
+    localStorage.setItem("trips", JSON.stringify([]));
+    localStorage.setItem("trips", JSON.stringify(tripsArray));
+  };
 
 function toggleModal(){
     let modal = document.getElementById("modal-test");
