@@ -1,7 +1,14 @@
 @import "config";
 
+.saved-trip {
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
+    height: 75vh;
+    min-height: 75vh;
+ }
 
-.all-trips {
+#all-trips {
     grid-area: all-trips;
     margin-top: 12px;
 
@@ -21,85 +28,6 @@
 }
 
 .view-trips {
-    display: flexbox;
-    flex-direction: row;
-}
-#entryHolder {
-    height: 85%;
-    display: grid;
-    grid-template-rows: 8% 6% 30% 6% 50%;
-    grid-template-areas: "destination2" "description" "temp-icon" "date" "mood";
-}
-
-.meta-details {
-    width: 85%;
-    margin-left: 7.5%;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    font-size: 1.1em;
-}
-
-#weather,
-#weather-details,
-#date {
-    font-weight: 500;
-}
-
-#weather {
-    grid-area: description;
-    text-align: center;
-    text-transform: capitalize;
-}
-
-#weather-info {
-    grid-area: temp-icon;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "temp icon";
-    margin-bottom: -10px;
-}
-
-#temp-details {
-    grid-area: temp;
-    align-self: center;
-    text-align: center;
-    margin-right: -15%;
-    font-size: 1.5em;
-}
-
-#temp {
-    margin: auto 0;
-    width: auto;
-}
-
-.weather-icon {
-    grid-area: icon;
-}
-
-#icon {
-    margin: auto 0;
-    width: auto;
-}
-
-#date {
-    grid-area: date;
-    color: white;
-    text-align: center;
-}
-
-.mood-holder {
-    grid-area: mood;
     display: flex;
     flex-direction: column;
-    height: 90%; //175px;
-    max-height: 90%; //175px;
-    width: 85%;
-    margin-left: 7.5%;
-    margin-top: 5%; //7px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    overflow-y: auto;
-    overflow-wrap: break-word;
-    color: white;
-    font-family: 'Handlee', 'Courgette';
 }

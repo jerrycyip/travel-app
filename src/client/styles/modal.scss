@@ -38,6 +38,13 @@
    overflow: hidden;
    //display: none;
 }
+.saved-trip {
+   width: 70vw;
+   min-width: 70vw;
+   max-width: 70vw;
+   height: 75vh;
+   min-height: 75vh;
+}
 .trip-container {
     height: 100%;
     min-height: 100%;
@@ -69,7 +76,7 @@
     background: $sky-blue;
 }
 
-.modal-content {
+.trip-content {
     height: 100%;
     width: 100%;
 }
