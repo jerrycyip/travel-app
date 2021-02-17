@@ -1,6 +1,5 @@
 // import main 'handleSubmit' function from app.js
 import { handleSubmit } from "./js/app.js"
-import { syncScroll } from "./js/app.js"
 import {liveClocks} from "./js/app.js"
 //import {stickyWeather} from "./js/app.js"
 
@@ -20,6 +19,7 @@ import snowflake from "./media/snowflakeblueoutline.png";
 import wind from "./media/windblue4.png";
 import sunshine from "./media/sunrisesunset3.png";
 // import weather icons
+import "./media/camera-travel.jpg";
 import "./media/weather_icons/a01d.png";
 import "./media/weather_icons/a01n.png";
 import "./media/weather_icons/a02d.png";
@@ -104,11 +104,11 @@ import { newEntry } from './js/app.js'
 console.log("CHANGE!!");
 */
 
+//export {cameraTravel}
 export {droplet2}
 export {snowflake}
 export {wind}
 export {sunshine}
 export {handleSubmit}
-export{syncScroll}
 export {liveClocks}
 //export {stickyWeather}

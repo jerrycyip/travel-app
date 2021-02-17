@@ -36,15 +36,17 @@
    border: 1px solid grey;
    box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.7);
    overflow: hidden;
+   visibility: hidden;
+   opacity: 0;
+   transition: visibility 0s, opacity 0.5s;
    //display: none;
 }
-.saved-trip {
-   width: 70vw;
-   min-width: 70vw;
-   max-width: 70vw;
-   height: 75vh;
-   min-height: 75vh;
-}
+
+.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  
 .trip-container {
     height: 100%;
     min-height: 100%;
@@ -126,6 +128,9 @@
     box-shadow: 0px 6px 16px 0px rgba(0, 0, 0, 0.3);
 }
 .modal-details{
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
+    right: 0;
     grid-area: summary-details;
     border-left: 1px solid $brand-color;
     margin-left: 8%;

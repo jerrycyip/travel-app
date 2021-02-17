@@ -335,3 +335,229 @@ Countdown:&nbsp<span class="countdown"></span>
                 </div>
             </div>
         </div>
+
+
+
+const syncScroll = (event) => {
+    //event.preventDefault();
+
+    let div1 = document.getElementById("div1");
+    let div2 = document.getElementById("div2");
+    div1.scrollLeft = div2.scrollLeft * (div1.offsetWidth / div2.offsetWidth);
+}
+
+/*
+        .then(function(res){
+            toggleModal();
+            let destination = "";
+            if(res.country == "United States"){
+                destination = `${res.city}, ${res.adminName1}`
+            }
+            else destination = `${res.city}, ${res.country}`;
+            
+            let countdownMsg = ctDown(start_dt, res.timeZone);
+            console.log("countdownMsg2:", countdownMsg);
+            let startDt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
+
+            let tripDuration = duration(start_dt, end_dt);
+            let durationMsg = "";
+            switch(tripDuration){
+                case 1:
+                    durationMsg = `1 Day`;
+                    break;
+                default:
+                    durationMsg = `${tripDuration} Days`;
+            }
+            let newTrip = `
+            <div class="summary-wrapper">
+            <div class="trip-summary">
+            <div class="trip-image">
+            <img class = "trip-photo" src="${res.image}" alt="trip image">
+            </div>
+                    <div class="modal-details">
+                        <h2 class="locale">${destination}</h2>
+                        <h3 class="dates">Depart:&nbsp<span class="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
+                        <h3 class="dates">Return:&nbsp<span class="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
+                        <h3 class="dates">Duration:&nbsp<span class="duration">${durationMsg}</span></h3>
+                        <h3>Local Time:&nbsp<span class="local-time" data-${res.timeZone.replace(`/`, "_")}>${localDateTime(res.timeZone)}</span></h3>
+                        <h3 class="countdown" data-${res.timeZone.replace(`/`, "_")} data-${start_dt}>${countdownMsg}</h3>
+                        <div class="btn-group">
+                            <button class="trip-btn update-btn" id=updateTrip-${res.id}>Update Trip</button>
+                            <button class="trip-btn" id=saveTrip-${res.id}>Save Trip</button>
+                            <button class="trip-btn" id=deleteTrip-${res.id}>Delete Trip</button>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+            `;
+
+            let dt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
+            let endDt = new Date(`${end_dt}T00:00:00`.replace(/\s/, 'T'));
+
+            let dailyDetail = `
+            <div class="trip-daily-detail">
+                <div class="trip-daily-container">
+                    <div class="trip-daily-wrapper">
+                        <div class="forecast-container" id="sticky-weather">
+                            <div class="forecast-header">
+                                <h3>Weather Forecast &nbsp</h3>
+                                <div class="weather-details">
+                                <button class="expander">[ Details ]</button>
+                            </div>
+                        </div>
+                            <div class="daily-forecasts" id="div1">
+                        `;
+            let itineraryHeader = `
+                </div>
+                <div class="itinerary-header">
+                    <h3>Itinerary Planner</h3>
+                    <h4 class="cat-fill">
+                        [ Categories ]
+                    </h4>
+                </div>
+            </div>
+            <div class="itinerary-schedule">
+                <div class="itinerary-timeline">7 AM <span class="sched-expand">&#9650</span></div>
+                <div class="itinerary-timeline">8 AM</div>
+                <div class="itinerary-timeline">9 AM</div>
+                <div class="itinerary-timeline">10 AM</div>
+                <div class="itinerary-timeline">11 AM</div>
+                <div class="itinerary-timeline">12 PM</div>
+                <div class="itinerary-timeline">1 PM</div>
+                <div class="itinerary-timeline">2 PM</div>
+                <div class="itinerary-timeline">3 PM</div>
+                <div class="itinerary-timeline">4 PM</div>
+                <div class="itinerary-timeline">5 PM</div>
+                <div class="itinerary-timeline">6 PM</div>
+                <div class="itinerary-timeline">7 PM</div>
+                <div class="itinerary-timeline">8 PM</div>
+                <div class="itinerary-timeline">9 PM</div>
+                <div class="itinerary-timeline">10 PM</div>
+                <div class="itinerary-timeline">11 PM &#9660</div>
+            </div>
+            `;
+            let dailyForecasts = ``;
+            let dailyItineraries = ``;
+
+            while (dt.getTime() <= endDt.getTime()) {
+                //console.log("date counter:", dt);
+                let dateStr = (dt.getMonth() + 1) + '/' + dt.getDate();
+                //console.log("dateStr counter:", dateStr);
+                let dateStr2 = (dt.getFullYear()+'-'+ ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2));
+                //console.log("dateStr2 counter:", dateStr2);
+                let precipIcon = droplet2;
+                if (res.weather[dateStr2].description.toLowerCase().includes('snow')){
+                    precipIcon = snowflake;
+                    
+                }
+                let dayForecast = `
+                <div class="day-forecast">
+                    <div class="day-border">
+                        <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
+                        <img class="weather-icon" src="/imgs/${res.weather[dateStr2].icon}.png"
+                            alt="few clouds">
+                        <div class="weather-desc">${res.weather[dateStr2].description}</div>
+                        <div class="high-low">${cToF(res.weather[dateStr2].high)}&#176
+                        <span class="divider"> |</span>
+                        ${cToF(res.weather[dateStr2].low)}&#176
+                            </div>
+                            <div class ="precip">
+                            <img class="precip-icon" src="${precipIcon}" alt="precipitation probability">
+                            <span class="precip-prob">${Math.round(res.weather[dateStr2].precipProb)}%</span>
+                            <span class="precip-amt">&nbsp${cmToIn(res.weather[dateStr2].precip)}"</span>
+                            </div>
+                            <div>                            
+                            <img class="wind-icon" src="${wind}" alt="wind icon">
+                            <span class="wind-spd">${kmToMi(res.weather[dateStr2].wind)} mph ${windDirShort(res.weather[dateStr2].windDirFull)}</span>
+                            </div>
+                        <div class="sunrise">
+                        <img class="sun-icon" src="${sunshine}" alt="sunrise sunset icon">
+                        <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunrise)}</span>
+                        <span class="divider"> &#8208</span>
+                        <span class="sunTime">${toStandardTime(res.weather[dateStr2].sunset)}</span>
+                        </div>
+                    </div>
+                </div>
+                `;
+                dailyForecasts = dailyForecasts + dayForecast;
+                if (dt.getTime() == startDt.getTime()){
+                let dayItinerary = `
+                <div class="itinerary-container">
+                <div class="itinerary-wrapper" id="itinerary-${res.id}">
+                    <div class="itinerary-input ${dt}-itinerary">
+                        <div class="textareaElement food" contenteditable>Pack breakfast for flight
+                            (example)</div>
+                        <div class="textareaElement logistics" contenteditable>7:30am Uber to ____
+                            airport (example)</div>
+                        <div class="textareaElement logistics" contenteditable>9:15am 2 hr flight to
+                            _____ (example)</div>
+                        <div class="textareaElement logistics" contenteditable></div>
+                        <div class="textareaElement logistics" contenteditable>Pick up rental @___ +
+                            drive to downtown (example)</div>
+                        <div class="textareaElement food" contenteditable>12pm Lunch resos @____
+                            (example) </div>
+                        <div class="textareaElement activity" contenteditable>Explore downtown and
+                            views @______ (example)</div>
+                        <div class="textareaElement activity" contenteditable></div>
+                        <div class="textareaElement logistics" contenteditable>Check-in to hotel
+                            @_____ (example)</div>
+                        <div class="textareaElement activity" contenteditable>2 hr hike around_____
+                            (example)</div>
+                        <div class="textareaElement activity" contenteditable></div>
+                        <div class="textareaElement food" contenteditable>6:30 Dinner resos @_____
+                            (example)</div>
+                        <div class="textareaElement food" contenteditable></div>
+                        <div class="textareaElement entertainment" contenteditable>8pm Tix to Show
+                            @_____ (example)</div>
+                        <div class="textareaElement entertainment" contenteditable></div>
+                        <div class="textareaElement" contenteditable></div>
+                        <div class="textareaElement" contenteditable></div>
+                    </div>`
+                    dailyItineraries = dailyItineraries + dayItinerary;
+                }
+                    else {
+                        let dayItinerary = `
+                    <div class="itinerary-input ${dt}-itinerary">
+                    <div class="textareaElement 7am" contenteditable></div>
+                    <div class="textareaElement 8am" contenteditable></div>
+                    <div class="textareaElement 9am" contenteditable></div>
+                    <div class="textareaElement 10am" contenteditable></div>
+                    <div class="textareaElement 11am" contenteditable></div>
+                    <div class="textareaElement 12pm" contenteditable></div>
+                    <div class="textareaElement 1pm" contenteditable></div>
+                    <div class="textareaElement 2pm" contenteditable></div>
+                    <div class="textareaElement 3pm" contenteditable></div>
+                    <div class="textareaElement 4pm" contenteditable></div>
+                    <div class="textareaElement 5pm" contenteditable></div>
+                    <div class="textareaElement 6pm" contenteditable></div>
+                    <div class="textareaElement 7pm" contenteditable></div>
+                    <div class="textareaElement 8pm" contenteditable></div>
+                    <div class="textareaElement 9pm" contenteditable></div>
+                    <div class="textareaElement 10pm" contenteditable></div>
+                    <div class="textareaElement 11pm" contenteditable></div>
+                </div>
+                `;
+                dailyItineraries = dailyItineraries + dayItinerary;
+            }
+
+                dt.setDate(dt.getDate() + 1);
+            }
+            let closer = `
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            `;
+
+
+            newTrip = newTrip + dailyDetail + dailyForecasts + itineraryHeader + dailyItineraries + closer;
+            //console.log(newTrip);
+            //tripHolder.innerHTML = newTrip;
+            const modalContainer = document.querySelector(".trip-content");
+            modalContainer.id = res.id;
+            modalContainer.innerHTML = newTrip; 
+//            let tripDetails = res;
+        handleResult(newTrip, tripDetails, "modal");
+        })
+*/

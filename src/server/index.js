@@ -144,7 +144,9 @@ async function callApis(req, res) {
     //console.log(localePix);
     if(localePix == "no image"){
         //trip.image = "https://pixabay.com/get/gb317d34e5dce42645251c83f1b66255fd5c73fb562d5aa59f8fb6a7f740dc1edb70668c7c4a8e907e924bc09a0641134940ba85032972233f0b12cdfb4a155fc_1280.jpg";
-        trip.image = "https://pixabay.com/get/gc129c9ff40123972163210fed7013af85d4e5fb994f13e06b049b5810b5661eb129893383edea06b39caf9cf8e83ba5528bfc7df8028de617abb343e2cbe492e_1280.jpg";
+        //trip.image = "https://pixabay.com/get/gc129c9ff40123972163210fed7013af85d4e5fb994f13e06b049b5810b5661eb129893383edea06b39caf9cf8e83ba5528bfc7df8028de617abb343e2cbe492e_1280.jpg";
+        //trip.image = "https://pixabay.com/get/g9fe9acd544da11c85c986c238398c85e534f0ac81226b3a54d1ad9d3dd0f927e7b2e2967680d4ca9fe3233ff67249061_640.jpg";
+        trip.image = "none";
     }
     else{
         trip.image = localePix.webformatURL;
