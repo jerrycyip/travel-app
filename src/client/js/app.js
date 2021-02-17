@@ -42,7 +42,6 @@ const handleSubmit = async (event) => {
         console.log("trip submission passed initial validation");
         // api GET call to geonames api with destination name
         let res = await postTrip(serverURL, { destination: locale, start: start_dt, end: end_dt })
-        console.log("api res:", res);
         //update UI w/ the trip info 
         try{
             (displayTrip(res, "modal"));
@@ -264,14 +263,18 @@ export const displayTrip = (tripData, type) => {
     if(type == "savedTrips") {
         let itineraryContainer = document.createElement("div");
         itineraryContainer.classList.add("itinerary-container");
+        console.log("saved itinerary Info:", tripData.itineraries);
         itineraryContainer.innerHTML = tripData.itineraries;
-        
+        console.log("savedTrip itinerary:", itineraryContainer);
+
         closer = `      </div>    
                     </div>
                 </div>
             </div>
         </div>
         `;
+
+        dailyItineraries = itineraryContainer.outerHTML;
     }
             else{
                 closer = `
@@ -304,7 +307,17 @@ export const displayTrip = (tripData, type) => {
         //savedTrip.id = tripData.id;
         //console.log("saved TripContainer:", tripContainer);
         savedTrip.append(tripContainer);
-        //console.log(savedTrip);
+        // style UI for saved Trips
+        document.querySelectorAll(".trip-container").forEach(el =>{
+            el.style.overflowY = "hidden";
+            el.style.overflowX = "hidden";
+        });
+        
+        let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
+        for (let el of elems){
+            hideElement(el);
+        }
+        
 
         let savedTrips = document.getElementById("view-trips");
         savedTrips.prepend(savedTrip);
@@ -319,11 +332,12 @@ export const handleResult = async (entry, tripData, ui) => {
     let updateBtn = document.getElementById(`updateTrip-${tripData.id}`);
     let deleteBtn = document.getElementById(`deleteTrip-${tripData.id}`);
     let tripForm = document.getElementById("trip-form");
-    let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`);
 
     if (ui === "modal") {
         // Handle buttons on the modal
         saveBtn.addEventListener("click", () => {
+            let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
+            console.log("itineraryInfo to be saved:", itineraryInfo);
             // Copy the new trip object
             let newTrip = { ...tripData };
             // add itinerary info to newtrip object - for prod app would loop through child divs
@@ -346,11 +360,22 @@ export const handleResult = async (entry, tripData, ui) => {
                 // Save new trip to Express server
                 //postData("/addEntry", newTrip);
             }
-            // Update UI
+
             //toggleModal();
 
+            
+
+            // update trip entry with latest including itinerary info
             let savedTrip = document.createElement("div");
             savedTrip.classList.add("saved-trip");
+            let updatedTrip = document.querySelector(".modal").innerHTML;
+            savedTrip.innerHTML = updatedTrip;
+            let savedTrips = document.getElementById("view-trips");
+            //console.log("savedTrips");
+            savedTrips.prepend(savedTrip);
+            savedTrips.scrollIntoView({ behavior: "smooth" });
+            
+            // Update UI            
             saveBtn.style.display = "none";
             updateBtn.style.display = "inline-block";
             
@@ -359,24 +384,16 @@ export const handleResult = async (entry, tripData, ui) => {
                 el.style.overflowX = "hidden";
             });
             
+            console.log("updated saved Trip:", savedTrip);
+
             let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
             for (let el of elems){
                 hideElement(el);
             }
-    
-
-            let updatedEntry = document.querySelector(".modal").innerHTML;
-            //console.log(updatedEntry);
-            savedTrip.innerHTML = updatedEntry;
-            //console.log("saved Trip w updatedEntry:", savedTrip);
-
-            let savedTrips = document.getElementById("view-trips");
-            //console.log("savedTrips");
-            savedTrips.prepend(savedTrip);
-            savedTrips.scrollIntoView({ behavior: "smooth" });
-
+            // clear form and close modal
             tripForm.reset();
             closeModal(entry);
+            handleResult(savedTrip, tripData, "saved-trips");
             //tripList.prepend(savedTrip);
 
             // sort the trips by start date
@@ -388,7 +405,8 @@ export const handleResult = async (entry, tripData, ui) => {
             tripForm.reset();
             closeModal(entry);
         });
-    } else {
+    } 
+    else {
         // Handle buttons on the trip container
         saveBtn.style.display = "none";
         updateBtn.style.display = "inline-block";
@@ -397,12 +415,33 @@ export const handleResult = async (entry, tripData, ui) => {
             //loadEntry(entry)
         }
         */
+       let tripContainer = entry.parentNode;
         // Delete the selected trip entry from UI and local storage
         deleteBtn.addEventListener("click", () => {
-            deleteEntry(entry.parentNode, tripData.id);
+            deleteEntry(entry, tripData.id);
         });
+        console.log("tripContainer:", tripContainer);
+        //tripContainer.innerHTML = "";
+
     }
 };
+
+/**
+ * @description Delete trip entry
+ * @param {*} entry - Element to be deleted
+ * @param {*} id - Trip id
+ */
+const deleteEntry = (entry, id) => {
+    let removeTrip = tripsArray.find((trip) => trip.id === id);
+    tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
+    //entry.remove(); //entry.remove(removeTrip);
+    entry.remove(removeTrip);
+    
+    //postData("/delete", { id });
+    localStorage.setItem("trips", JSON.stringify([]));
+    localStorage.setItem("trips", JSON.stringify(tripsArray));
+};
+
 /**
  * @description load the trip entry into the modal
  * @param {*} entry - Element to be loaded
@@ -432,25 +471,10 @@ const loadTrips = () => {
     }
 };
 
-//window.onload = () => loadTrips();
+window.onload = () => loadTrips();
 //document.addEventListener("onload", loadTrips());
 //document.addEventListiner("onload", liveClocks());
 
-/**
- * @description Delete trip entry
- * @param {*} entry - Element to be deleted
- * @param {*} id - Trip id
- */
-const deleteEntry = (entry, id) => {
-    let removeTrip = tripsArray.find((trip) => trip.id === id);
-    tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
-    //entry.remove(); //entry.remove(removeTrip);
-    entry.remove(removeTrip);
-    
-    //postData("/delete", { id });
-    localStorage.setItem("trips", JSON.stringify([]));
-    localStorage.setItem("trips", JSON.stringify(tripsArray));
-};
 
 function toggleModal() {
     let modal = document.querySelector(".modal");
