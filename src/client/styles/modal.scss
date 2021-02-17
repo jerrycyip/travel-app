@@ -94,9 +94,8 @@
     max-width: 75vw;
     min-width: 75vw;  
     height: 37vh;
-    height: 100%;
-    max-height: 100%;
-    min-height: 100%;
+    max-height: 37vh;
+    min-height: 37vh;
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-areas: "summary-image summary-details";

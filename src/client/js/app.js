@@ -4,7 +4,8 @@ import { wind } from "../index.js";
 import { sunshine } from "../index.js";
 import { weatherIcons } from "../index.js";
 //import {cameraTravel} from  "../index.js";
-import {validateTrip, setClocks, windDirShort, kmToMi, cmToIn, daysLeft, duration, dayOfWeek, localDate, localDateTime,
+import {validateTrip, setClocks, setMinDates, setEndMin, windDirShort, kmToMi, 
+    cmToIn, daysLeft, duration, dayOfWeek, localDate, localDateTime,
     cToF, toStandardTime, dateString, ctDown} from "./helper.js";
 /** 
  * Set Global variables 
@@ -13,19 +14,20 @@ import {validateTrip, setClocks, windDirShort, kmToMi, cmToIn, daysLeft, duratio
 
 const serverURL = "http://localhost:8084/api";
 let newTrip = {};
-let tripList = document.querySelector(".view-trips");
+let tripList = document.getElementById(".view-trips");
 //let modal = document.querySelector(".modal");
 
-// Check for local storage
+// Check for existing trips in local storage
 let tripsArray = localStorage.getItem("trips")
     ? JSON.parse(localStorage.getItem("trips"))
     : [];
-const tripData = JSON.parse(localStorage.getItem("trips"));
+const tripsData = JSON.parse(localStorage.getItem("trips"));
 
 
 // set live clocks and countdowns for different trip destinations
 let liveClocks = setInterval(setClocks, 30000);
-
+document.addEventListener("onload", setMinDates());
+document.getElementById('start').addEventListener('change', setEndMin);
 
 // main function for new trip submission
 const handleSubmit = async (event) => {
@@ -40,6 +42,7 @@ const handleSubmit = async (event) => {
         console.log("trip submission passed initial validation");
         // api GET call to geonames api with destination name
         let res = await postTrip(serverURL, { destination: locale, start: start_dt, end: end_dt })
+        console.log("api res:", res);
         //update UI w/ the trip info 
         try{
             (displayTrip(res, "modal"));
@@ -56,6 +59,7 @@ const handleSubmit = async (event) => {
 }
 
 export const displayTrip = (tripData, type) => {
+
     const start_dt = tripData.start;
     const end_dt = tripData.end;
     // define countdown message
@@ -80,14 +84,12 @@ export const displayTrip = (tripData, type) => {
     if(tripData.image == "none"){
         tripData.image = "/imgs/camera-travel.jpg"; 
     }
-    
     // define startDt and endDt as used by o/ functions for display
     let startDt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
     let endDt = new Date(`${end_dt}T00:00:00`.replace(/\s/, 'T'));
 
     // create trip info
     let newTrip = `
-    <div class="trip-container">
         <div class="trip-content">
             <div class="summary-wrapper">
             <div class="trip-summary">
@@ -196,7 +198,7 @@ export const displayTrip = (tripData, type) => {
         dailyForecasts = dailyForecasts + dayForecast;
         if (dt.getTime() == startDt.getTime()) {
             let dayItinerary = `
-            <div class="itinerary-container">
+            <div class="itinerary-container" >
             <div class="itinerary-wrapper" id="itinerary-${tripData.id}">
                 <div class="itinerary-input ${dt}-itinerary">
                     <div class="textareaElement food" contenteditable>Pack breakfast for flight
@@ -256,33 +258,57 @@ export const displayTrip = (tripData, type) => {
 
         dt.setDate(dt.getDate() + 1);
     }
-    let closer = `
-                            </div>
-                            </div>
-                        </div>
+    let closer = "";
+    /* If saved trip, overwrite with existing itinerary info */
+    
+    if(type == "savedTrips") {
+        let itineraryContainer = document.createElement("div");
+        itineraryContainer.classList.add("itinerary-container");
+        itineraryContainer.innerHTML = tripData.itineraries;
+        
+        closer = `      </div>    
                     </div>
                 </div>
             </div>
         </div>
         `;
-
-
+    }
+            else{
+                closer = `
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            }
+    
     newTrip = newTrip + dailyDetail + dailyForecasts + itineraryHeader + dailyItineraries + closer;
+    let tripContainer = document.createElement("div");
+    tripContainer.classList.add("trip-container");
+    tripContainer.innerHTML = newTrip;
+
     if (type == "modal") {
         toggleModal();
-        const modalContainer = document.querySelector(".modal");
-        modalContainer.id = tripData.id;
-        modalContainer.innerHTML = newTrip;
-        handleResult(newTrip, tripData, "modal");
+        let modalContainer = document.querySelector(".modal");
+        // revisit if this id assignment is necessary
+        //modalContainer.id = tripData.id;
+        modalContainer.append(tripContainer);
+        handleResult(tripContainer, tripData, "modal");
     }
     else{
         let savedTrip = document.createElement("div");
         savedTrip.classList.add("saved-trip");
-        savedTrip.innerHTML = newTrip;
+        //savedTrip.id = tripData.id;
+        //console.log("saved TripContainer:", tripContainer);
+        savedTrip.append(tripContainer);
+        //console.log(savedTrip);
 
-        let tripsContainer= document.getElementById("view-trips");
-        tripsContainer.prepend(savedTrip);
-        handleResult(newTrip, tripData, "savedTrips");
+        let savedTrips = document.getElementById("view-trips");
+        savedTrips.prepend(savedTrip);
+        handleResult(tripContainer, tripData, "savedTrips");
     }
 }
 
@@ -340,45 +366,40 @@ export const handleResult = async (entry, tripData, ui) => {
     
 
             let updatedEntry = document.querySelector(".modal").innerHTML;
-            console.log(updatedEntry);
+            //console.log(updatedEntry);
             savedTrip.innerHTML = updatedEntry;
-            closeModal();
+            //console.log("saved Trip w updatedEntry:", savedTrip);
 
-            tripList.prepend(savedTrip);
-            // sort the trips by start date
-            /* 
-            var categoryItems = document.querySelectorAll("[data-category-group]");
-            var categoryItemsArray = Array.from(categoryItems);
-    
-            let sorted = categoryItemsArray.sort((a,b) => b.date - a.date);
-    
-    function sorter(a,b) {
-        if(a.dataset.categoryGroup < b.dataset.categoryGroup) return -1;
-        if(a.dataset.categoryGroup > b.dataset.categoryGroup) return 1;
-        return 0;
-    }
-            
-    */
-            tripList.scrollIntoView({ behavior: "smooth" });
+            let savedTrips = document.getElementById("view-trips");
+            //console.log("savedTrips");
+            savedTrips.prepend(savedTrip);
+            savedTrips.scrollIntoView({ behavior: "smooth" });
+
             tripForm.reset();
+            closeModal(entry);
+            //tripList.prepend(savedTrip);
+
+            // sort the trips by start date
+
         });
 
         deleteBtn.addEventListener("click", () => {
-            deleteEntry(entry, id);
+            deleteEntry(entry, tripData.id);
             tripForm.reset();
-            closeModal();
+            closeModal(entry);
         });
     } else {
         // Handle buttons on the trip container
-        save.style.display = "none";
+        saveBtn.style.display = "none";
         updateBtn.style.display = "inline-block";
-        updateBtn.addEventListener("click"), () => {
+        
+        /*updateBtn.addEventListener("click"), () => {
             //loadEntry(entry)
         }
-
+        */
         // Delete the selected trip entry from UI and local storage
         deleteBtn.addEventListener("click", () => {
-            deleteEntry(entry, id);
+            deleteEntry(entry.parentNode, tripData.id);
         });
     }
 };
@@ -406,11 +427,12 @@ const hideElement = (dataClass) => {
  * @description - Load/display saved trips from local storage
  */
 const loadTrips = () => {
-    for (let trip of tripData) {
+    for (let trip of tripsData) {
         displayTrip(trip, "savedTrips");
     }
 };
 
+//window.onload = () => loadTrips();
 //document.addEventListener("onload", loadTrips());
 //document.addEventListiner("onload", liveClocks());
 
@@ -422,8 +444,10 @@ const loadTrips = () => {
 const deleteEntry = (entry, id) => {
     let removeTrip = tripsArray.find((trip) => trip.id === id);
     tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
+    //entry.remove(); //entry.remove(removeTrip);
     entry.remove(removeTrip);
-    postData("/delete", { id });
+    
+    //postData("/delete", { id });
     localStorage.setItem("trips", JSON.stringify([]));
     localStorage.setItem("trips", JSON.stringify(tripsArray));
 };
@@ -434,11 +458,13 @@ function toggleModal() {
     modal.classList.add("active");
 }
 
-function closeModal() {
+function closeModal(entry) {
     let modal = document.querySelector(".modal");
     //modal.classList.add("display-off");
     modal.classList.remove("active");
-
+    // revisit whether this needs to be entry.remove instead
+    modal.innerHTML = "";
+    
 
 }
 // Post fetch request to server with provided trip details
@@ -463,65 +489,6 @@ const postTrip = async (url = '', data = {}) => {
 }
 
 
-// Set minimum dates for trip
-function setMinDates() {
-    let today = new Date();
-    let tm = new Date(today);
-    tm.setDate(tm.getDate() + 1);
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; //January is 0!
-    let yyyy = today.getFullYear();
-    let dd2 = tm.getDate();
-    let mm2 = tm.getMonth() + 1;
-    let yyyy2 = tm.getFullYear();
-
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    if (dd2 < 10) {
-        dd2 = '0' + dd2
-    }
-    if (mm2 < 10) {
-        mm2 = '0' + mm2
-    }
-    today = yyyy + '-' + mm + '-' + dd;
-    tm = yyyy2 + '-' + mm2 + '-' + dd2;
-
-    document.getElementById('start').setAttribute("min", today);
-    document.getElementById('start').setAttribute("value", today);
-
-    document.getElementById('end').setAttribute("min", today);
-    document.getElementById('end').setAttribute("value", tm);
-
-}
-
-
-
-//setMinDates();
-document.addEventListener("onload", setMinDates());
-
-document.getElementById('start').addEventListener('change', setEndMin);
-
-function setEndMin() {
-    let start = document.getElementById("start").value;
-    let end = document.getElementById("end").value;
-    document.getElementById("end").setAttribute("min", start);
-
-    if (end < start) {
-        let new_end = new Date(start);
-        new_end.setDate(new_end.getDate() + 2);
-        let dd = ("0" + new_end.getDate()).slice(-2);
-        let mm = ("0" + (new_end.getMonth() + 1)).slice(-2) //January is 0! & force 2 digit MM
-        let yyyy = new_end.getFullYear();
-        new_end = yyyy + '-' + mm + '-' + dd;
-
-        document.getElementById("end").setAttribute("value", new_end);
-    }
-    else return;
-}
 
 export { liveClocks }
 //export {newEntry}

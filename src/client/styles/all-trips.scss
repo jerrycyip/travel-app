@@ -4,8 +4,8 @@
     width: 75vw;
     min-width: 75vw;
     max-width: 75vw;
-    height: 67vh;
-    min-height: 67vh;
+    height: 70vh;
+    min-height: 70vh;
     margin-left: auto;
     margin-right: auto;
     background: $sky-blue;
@@ -37,7 +37,7 @@
     text-align: center;
 }
 
-.view-trips {
+#view-trips {
     display: flex;
     flex-direction: column;
     min-height: 100%;
