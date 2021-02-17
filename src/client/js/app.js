@@ -102,7 +102,7 @@ export const displayTrip = (tripData, type) => {
                         <h3>Local Time:&nbsp<span class="local-time" data-${tripData.timeZone.replace(`/`, "_")}>${localDateTime(tripData.timeZone)}</span></h3>
                         <h3 class="countdown" data-${tripData.timeZone.replace(`/`, "_")} data-${start_dt}>${countdownMsg}</h3>
                         <div class="btn-group">
-                            <button class="trip-btn update-btn" id=updateTrip-${tripData.id}>Update Trip</button>
+                            <button class="trip-btn update-btn" id=updateTrip-${tripData.id}>View Trip</button>
                             <button class="trip-btn save-btn" id=saveTrip-${tripData.id}>Save Trip</button>
                             <button class="trip-btn" id=deleteTrip-${tripData.id}>Delete Trip</button>
                         </div>
@@ -330,8 +330,15 @@ export const handleResult = async (entry, tripData, ui) => {
             
             document.querySelectorAll(".trip-container").forEach(el =>{
                 el.style.overflowY = "hidden";
+                el.style.overflowX = "hidden";
             });
             
+            let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
+            for (let el of elems){
+                hideElement(el);
+            }
+    
+
             let updatedEntry = document.querySelector(".modal").innerHTML;
             console.log(updatedEntry);
             savedTrip.innerHTML = updatedEntry;
@@ -388,6 +395,11 @@ const loadEntry = (entry) => {
     save.style.display = "inline-block";
     updateBtn.style.display = "none";
 
+};
+
+const hideElement = (dataClass) => {
+    document.querySelectorAll(dataClass).forEach(el =>{
+        el.style.display = "none";});
 };
 
 /**
