@@ -35,11 +35,9 @@ const handleSubmit = async (event) => {
 
     const locale = document.getElementById('destination').value;
     const start_dt = document.forms['trip-form']['start'].value;
-    //console.log("start_dt and type:", start_dt, typeof(start_dt));
     const end_dt = document.forms['trip-form']['end'].value;
 
     if (validateTrip(locale, start_dt, end_dt)) {
-        console.log("trip submission passed initial validation");
         // api GET call to geonames api with destination name
         let res = await postTrip(serverURL, { destination: locale, start: start_dt, end: end_dt })
         //update UI w/ the trip info 
@@ -263,9 +261,7 @@ export const displayTrip = (tripData, type) => {
     if(type == "savedTrips") {
         let itineraryContainer = document.createElement("div");
         itineraryContainer.classList.add("itinerary-container");
-        console.log("saved itinerary Info:", tripData.itineraries);
         itineraryContainer.innerHTML = tripData.itineraries;
-        console.log("savedTrip itinerary:", itineraryContainer);
 
         closer = `      </div>    
                     </div>
@@ -304,9 +300,10 @@ export const displayTrip = (tripData, type) => {
     else{
         let savedTrip = document.createElement("div");
         savedTrip.classList.add("saved-trip");
-        //savedTrip.id = tripData.id;
-        //console.log("saved TripContainer:", tripContainer);
         savedTrip.append(tripContainer);
+
+        let savedTrips = document.getElementById("view-trips");
+        savedTrips.prepend(savedTrip);
         // style UI for saved Trips
         document.querySelectorAll(".trip-container").forEach(el =>{
             el.style.overflowY = "hidden";
@@ -316,11 +313,7 @@ export const displayTrip = (tripData, type) => {
         let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
         for (let el of elems){
             hideElement(el);
-        }
-        
-
-        let savedTrips = document.getElementById("view-trips");
-        savedTrips.prepend(savedTrip);
+        }        
         handleResult(tripContainer, tripData, "savedTrips");
     }
 }
@@ -337,7 +330,6 @@ export const handleResult = async (entry, tripData, ui) => {
         // Handle buttons on the modal
         saveBtn.addEventListener("click", () => {
             let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
-            console.log("itineraryInfo to be saved:", itineraryInfo);
             // Copy the new trip object
             let newTrip = { ...tripData };
             // add itinerary info to newtrip object - for prod app would loop through child divs
@@ -371,7 +363,6 @@ export const handleResult = async (entry, tripData, ui) => {
             let updatedTrip = document.querySelector(".modal").innerHTML;
             savedTrip.innerHTML = updatedTrip;
             let savedTrips = document.getElementById("view-trips");
-            //console.log("savedTrips");
             savedTrips.prepend(savedTrip);
             savedTrips.scrollIntoView({ behavior: "smooth" });
             
@@ -384,8 +375,6 @@ export const handleResult = async (entry, tripData, ui) => {
                 el.style.overflowX = "hidden";
             });
             
-            console.log("updated saved Trip:", savedTrip);
-
             let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
             for (let el of elems){
                 hideElement(el);
@@ -420,9 +409,6 @@ export const handleResult = async (entry, tripData, ui) => {
         deleteBtn.addEventListener("click", () => {
             deleteEntry(entry, tripData.id);
         });
-        console.log("tripContainer:", tripContainer);
-        //tripContainer.innerHTML = "";
-
     }
 };
 
@@ -493,7 +479,6 @@ function closeModal(entry) {
 }
 // Post fetch request to server with provided trip details
 const postTrip = async (url = '', data = {}) => {
-    console.log("postRequest executing to url:", url);
     const response = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
