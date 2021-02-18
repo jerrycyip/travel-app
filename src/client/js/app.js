@@ -258,10 +258,12 @@ export const displayTrip = (tripData, type) => {
     let closer = "";
     /* If saved trip, overwrite with existing itinerary info */
     
-    if(type == "savedTrips") {
+    if(type == "savedTrips" || type == "updateTrip") {
         let itineraryContainer = document.createElement("div");
         itineraryContainer.classList.add("itinerary-container");
         itineraryContainer.innerHTML = tripData.itineraries;
+        console.log("trip.Data.itineraries:", tripData.itineraries);
+        console.log("filled itinContainer:", itineraryContainer);
 
         closer = `      </div>    
                     </div>
@@ -289,7 +291,7 @@ export const displayTrip = (tripData, type) => {
     tripContainer.classList.add("trip-container");
     tripContainer.innerHTML = newTrip;
 
-    if (type == "modal") {
+    if (type =="modal" || type == "updateTrip" ) {
         toggleModal();
         let modalContainer = document.querySelector(".modal");
         // revisit if this id assignment is necessary
@@ -317,6 +319,7 @@ export const displayTrip = (tripData, type) => {
         for (let el of elems){
             hideElement(el);
         }        
+        // revisit if passing savedTrip vs tripContainer is okay
         handleResult(savedTrip, tripData, "savedTrips");
     }
 }
@@ -407,12 +410,20 @@ export const handleResult = async (entry, tripData, ui) => {
         // Handle buttons on the saved trip list container
         saveBtn.style.display = "none";
         updateBtn.style.display = "inline-block";
+
         
+        updateBtn.addEventListener("click", () =>{
+            let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
+            let newTrip = { ...tripData };
+            // add itinerary info to newtrip object - for prod app would loop through child divs
+            newTrip.itineraries = itineraryInfo;
+            displayTrip(newTrip, "updateTrip");
+            entry.remove();
+        })
         /*updateBtn.addEventListener("click"), () => {
             //loadEntry(entry)
         }
         */
-       let tripContainer = entry.parentNode;
         // Delete the selected trip entry from UI and local storage
         deleteBtn.addEventListener("click", () => {
             deleteEntry(entry, tripData.id);
