@@ -309,12 +309,15 @@ export const displayTrip = (tripData, type) => {
             el.style.overflowY = "hidden";
             el.style.overflowX = "hidden";
         });
+        document.querySelectorAll(".modal-details").forEach(el=>{
+            el.style.borderLeft = "none";
+        });
         
         let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
         for (let el of elems){
             hideElement(el);
         }        
-        handleResult(tripContainer, tripData, "savedTrips");
+        handleResult(savedTrip, tripData, "savedTrips");
     }
 }
 
@@ -379,6 +382,9 @@ export const handleResult = async (entry, tripData, ui) => {
             for (let el of elems){
                 hideElement(el);
             }
+            document.querySelectorAll(".modal-details").forEach(el=>{
+                el.style.borderLeft = "none";
+            });
             // clear form and close modal
             tripForm.reset();
             closeModal(entry);
@@ -396,7 +402,9 @@ export const handleResult = async (entry, tripData, ui) => {
         });
     } 
     else {
-        // Handle buttons on the trip container
+        // revisit differentiate deleting previously loaded trips and first time saved trips
+
+        // Handle buttons on the saved trip list container
         saveBtn.style.display = "none";
         updateBtn.style.display = "inline-block";
         
@@ -417,16 +425,20 @@ export const handleResult = async (entry, tripData, ui) => {
  * @param {*} entry - Element to be deleted
  * @param {*} id - Trip id
  */
+
 const deleteEntry = (entry, id) => {
+    // if trip is previously saved delete from storage, o/wise only from modal
     let removeTrip = tripsArray.find((trip) => trip.id === id);
-    tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
-    //entry.remove(); //entry.remove(removeTrip);
-    entry.remove(removeTrip);
-    
-    //postData("/delete", { id });
-    localStorage.setItem("trips", JSON.stringify([]));
-    localStorage.setItem("trips", JSON.stringify(tripsArray));
-};
+    console.log("removeTrip:", removeTrip);
+    if(removeTrip){
+        tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
+        entry.remove(removeTrip);
+        //postData("/delete", { id });
+        localStorage.setItem("trips", JSON.stringify([]));
+        localStorage.setItem("trips", JSON.stringify(tripsArray));
+    }
+    else{ entry.remove();}
+}
 
 /**
  * @description load the trip entry into the modal
@@ -443,6 +455,10 @@ const loadEntry = (entry) => {
 
 };
 
+/**
+ * @description hide all elements of a certain class
+ * @param {*} dataClass - classes to be affected
+ */
 const hideElement = (dataClass) => {
     document.querySelectorAll(dataClass).forEach(el =>{
         el.style.display = "none";});
@@ -496,8 +512,6 @@ const postTrip = async (url = '', data = {}) => {
         console.log("error occured:", error);
     }
 }
-
-
 
 export { liveClocks }
 //export {newEntry}
