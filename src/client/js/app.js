@@ -12,7 +12,7 @@ import {validateTrip, setClocks, setMinDates, setEndMin, windDirShort, kmToMi,
  * 
 */
 
-const serverURL = "http://localhost:8084/api";
+const serverURL = "http://localhost:8084";
 let newTrip = {};
 let tripList = document.getElementById(".view-trips");
 //let modal = document.querySelector(".modal");
@@ -39,7 +39,7 @@ const handleSubmit = async (event) => {
 
     if (validateTrip(locale, start_dt, end_dt)) {
         // api GET call to geonames api with destination name
-        let res = await postTrip(serverURL, { destination: locale, start: start_dt, end: end_dt })
+        let res = await postTrip(`${serverURL}/api`, { destination: locale, start: start_dt, end: end_dt })
         //update UI w/ the trip info 
         try{
             (displayTrip(res, "modal"));
@@ -262,8 +262,6 @@ export const displayTrip = (tripData, type) => {
         let itineraryContainer = document.createElement("div");
         itineraryContainer.classList.add("itinerary-container");
         itineraryContainer.innerHTML = tripData.itineraries;
-        console.log("trip.Data.itineraries:", tripData.itineraries);
-        console.log("filled itinContainer:", itineraryContainer);
 
         closer = `      </div>    
                     </div>
@@ -345,24 +343,22 @@ export const handleResult = async (entry, tripData, ui) => {
             if (tripExists) {
                 let replaceTrip = tripsArray.find((trip) => trip.id === tripData.id);
                 tripsArray.splice(tripsArray.indexOf(replaceTrip), 1, newTrip);
-                //postData("/delete", { id });
+                
+                // revisit deletion of modal content
+                /*postTrip(`${serverURL}/delete`, {id});*/
+
                 localStorage.setItem("trips", JSON.stringify([]));
                 localStorage.setItem("trips", JSON.stringify(tripsArray));
                 // Save updated trip to Express server
-                //postData("/addEntry", newTrip);
+                postTrip(`${serverURL}/updateEntry`, newTrip);
             }
             else {
                 tripsArray.push(newTrip);
                 // Add new trip to local storage
                 localStorage.setItem("trips", JSON.stringify(tripsArray));
                 // Save new trip to Express server
-                //postData("/addEntry", newTrip);
+                postTrip(`${serverURL}/addEntry`, newTrip);
             }
-
-            //toggleModal();
-
-            
-
             // update trip entry with latest including itinerary info
             let savedTrip = document.createElement("div");
             savedTrip.classList.add("saved-trip");
@@ -418,6 +414,11 @@ export const handleResult = async (entry, tripData, ui) => {
             // add itinerary info to newtrip object - for prod app would loop through child divs
             newTrip.itineraries = itineraryInfo;
             displayTrip(newTrip, "updateTrip");
+            /*window.scroll({
+                top: 0, 
+                left: 0, 
+                behavior: 'auto' 
+               });*/
             entry.remove();
         })
         /*updateBtn.addEventListener("click"), () => {
@@ -438,17 +439,21 @@ export const handleResult = async (entry, tripData, ui) => {
  */
 
 const deleteEntry = (entry, id) => {
-    // if trip is previously saved delete from storage, o/wise only from modal
+    // if trip is previously saved delete from storage & server, o/wise only from modal
     let removeTrip = tripsArray.find((trip) => trip.id === id);
     console.log("removeTrip:", removeTrip);
     if(removeTrip){
+        console.log("trip exists and will be deleted from server & local storage");
+        postTrip(`${serverURL}/delete`, { id });
         tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
         entry.remove(removeTrip);
-        //postData("/delete", { id });
         localStorage.setItem("trips", JSON.stringify([]));
         localStorage.setItem("trips", JSON.stringify(tripsArray));
     }
-    else{ entry.remove();}
+    else{ 
+        console.log("trip not yet saved, so modal is simply cleared");
+        entry.remove();
+    }
 }
 
 /**
@@ -476,12 +481,14 @@ const hideElement = (dataClass) => {
 };
 
 /**
- * @description - Load/display saved trips from local storage
+ * @description - Load/display saved trips from local storage if any
  */
 const loadTrips = () => {
+    if(tripsData){
     for (let trip of tripsData) {
         displayTrip(trip, "savedTrips");
     }
+}
 };
 
 window.onload = () => loadTrips();

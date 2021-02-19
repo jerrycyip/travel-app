@@ -1,5 +1,5 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = [];
+// Setup empty JS object to act as endpoint for all routes and save client created data
+tripData = [];
 
 // Require Express to run server and routes
 const express = require('express');
@@ -44,6 +44,46 @@ app.use(express.static('dist'))
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('src/client/views/index.html'))
 })
+
+// Add new trip entry to the server (DB server for real-world app)
+app.post("/updateEntry", (req, res) => {
+    const entry = req.body;
+
+    // if trip is new, add to global trips array otherwise replace
+    let tripExists = tripData.some((trip) => trip.id === entry.id);
+    if (tripExists) {
+        let replaceTrip = tripData.find((trip) => trip.id === entry.id);
+        tripData.splice(tripData.indexOf(replaceTrip), 1, entry);    
+        console.log("Updated trip data:", tripData);
+        res.send(tripData);
+        }
+    else{
+        tripData.push(entry);
+        console.log("Trip Data after added Trip:", tripData);
+        res.send(tripData);
+    }
+  });
+
+  
+// Add new trip entry to the server (DB server for real-world app)
+app.post("/addEntry", (req, res) => {
+    const entry = req.body;
+    tripData.push(entry);
+    console.log("Trip Data after added Trip:", tripData);
+    res.send(tripData);
+    //return res;
+});
+
+// Delete trip entry from the server (DB server for real-world app)
+app.post("/delete", (req, res) => {
+    console.log("made it to server call");    
+    let { id } = req.body;
+    tripData = tripData.filter((trip) => trip.id !== id);
+    console.log("Trip Data after deleting Trip:", tripData);
+    res.send(tripData);
+    //return res;
+});
+
 
 /* API calls */
 // POST method to recieve initial trip details from user's client browser
@@ -570,15 +610,15 @@ async function geoNamesAPI(locale) {
 
 
 function addEntry(req, res) {
-    projectData.push(req.body);
-    res.send(projectData[projectData.length - 1]);
+    tripData.push(req.body);
+    res.send(tripData[tripData.length - 1]);
 }
 // Get all weather journal entries
 app.get('/all', getEntries);
 
 function getEntries(req, res) {
-    /*console.log(projectData);*/
-    res.send(projectData);
+    /*console.log(tripData);*/
+    res.send(tripData);
 }
 
 // Define port #
