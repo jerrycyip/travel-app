@@ -115,9 +115,9 @@ export const displayTrip = (tripData, type) => {
                 <div class="trip-daily-wrapper">
                     <div class="forecast-container" id="sticky-weather">
                         <div class="forecast-header">
-                            <h3>Weather Forecast &nbsp</h3>
+                            <h3>Itinerary Planner &nbsp</h3>
                             <div class="weather-details">
-                            <button class="expander">[ Details ]</button>
+                            <button class="expander">[ Forecast Details ]</button>
                         </div>
                     </div>
                         <div class="daily-forecasts" id="div1">

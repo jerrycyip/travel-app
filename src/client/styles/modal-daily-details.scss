@@ -20,7 +20,7 @@
     position: -webkit-sticky; /* Safari */
     top: 0em;
     /* hide the forecast title*/
-    top: -2.7em;
+    //top: -2.7em;
     height: 100%;
     max-height: 40vh;
     padding-top: 0.25em;
@@ -33,8 +33,10 @@
 .forecast-header {
     height: 100%;
     width: 100%;
+    
     h3 {
         position: sticky;
+        position: -webkit-sticky; /* Safari */
         left: 0em;
         font-size: 1.75em;
         padding-bottom: 1px;
@@ -86,6 +88,10 @@
     overflow-x: hidden;
     background-color: $sky-blue;
     padding-right: 0.5em;
+
+    // test out min itin header
+    border-bottom: 1px solid $brand-color;
+    padding-bottom: 0.75em;
 }
 
 .day-forecast{
@@ -169,6 +175,8 @@
     height: 100%;
     background-color: $sky-blue;
     border-bottom: 1px solid $brand-color;
+    // test hiding itinerary header
+    display: none;
     h3 {
         display: inline-block;
         padding-left: 2em;
