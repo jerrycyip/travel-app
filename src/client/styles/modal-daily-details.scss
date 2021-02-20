@@ -33,7 +33,14 @@
 .forecast-header {
     height: 100%;
     width: 100%;
-    
+    width: 80vw;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+    position: sticky;
+    left: 0;
+    padding-bottom: 0.25em;
+
     h3 {
         position: sticky;
         position: -webkit-sticky; /* Safari */
@@ -49,13 +56,13 @@
 }
 
 .weather-details{
-    position: sticky;
-    left: 16em;
+    //position: sticky;
+    //left: 16em;
     display: inline-block;
 }
 
 .expander{
-    font-size: 0.95em;
+    //font-size: 0.95em;
     font-weight: 300;
     // have to confirm if this disables button functionality
     border: none;

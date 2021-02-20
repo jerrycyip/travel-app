@@ -100,11 +100,6 @@ export const displayTrip = (tripData, type) => {
                         <h3 class="dates">Duration:&nbsp<span class="duration">${durationMsg}</span></h3>
                         <h3>Local Time:&nbsp<span class="local-time" data-${tripData.timeZone.replace(`/`, "_")}>${localDateTime(tripData.timeZone)}</span></h3>
                         <h3 class="countdown" data-${tripData.timeZone.replace(`/`, "_")} data-${start_dt}>${countdownMsg}</h3>
-                        <div class="btn-group">
-                            <button class="trip-btn update-btn" id=updateTrip-${tripData.id}>View Trip</button>
-                            <button class="trip-btn save-btn" id=saveTrip-${tripData.id}>Save Trip</button>
-                            <button class="trip-btn" id=deleteTrip-${tripData.id}>Delete Trip</button>
-                        </div>
                     </div>
                 </div>  
             </div> 
@@ -115,10 +110,16 @@ export const displayTrip = (tripData, type) => {
                 <div class="trip-daily-wrapper">
                     <div class="forecast-container" id="sticky-weather">
                         <div class="forecast-header">
-                            <h3>Itinerary Planner &nbsp</h3>
+                            <h3>Trip Planner &nbsp 
                             <div class="weather-details">
-                            <button class="expander">[ Forecast Details ]</button>
-                        </div>
+                            <button class="expander">[ Forecast ]</button>
+                            </div>
+                            </h3>
+                        <div class="btn-group">
+                        <button class="trip-btn update-btn" id=updateTrip-${tripData.id}>View Trip</button>
+                        <button class="trip-btn save-btn" id=saveTrip-${tripData.id}>Save Trip</button>
+                        <button class="trip-btn" id=deleteTrip-${tripData.id}>Delete Trip</button>
+                    </div>
                     </div>
                         <div class="daily-forecasts" id="div1">
                     `;

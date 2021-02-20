@@ -139,6 +139,17 @@
     text-align: left;
     color: white;
     height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /*display: flex;
+    flex-direction: column;
+    font-size: 1.1em;
+    justify-content: space-between;
+    padding-bottom: 0.25em;
+    */
+
     h2, #locale {
         font-size: 2em;
         font-weight: 300;
@@ -169,7 +180,9 @@
 
 .btn-group{
     display: block;
-    margin-top: 2.5%;
+    //margin-top: 2.5%;
+    position: sitcky;
+    top: 0;
     
 }
 
