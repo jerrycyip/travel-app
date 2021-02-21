@@ -138,8 +138,10 @@
     margin-right:0;
     text-align: left;
     color: white;
-    height: 100%;
-    
+    height: 37vh;
+    max-height: 37vh;
+    padding-bottom: 1em;
+
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -158,7 +160,7 @@
     }
     h3 {
         font-size: 1.2em;
-        margin-top: 0.5em;
+        //margin-top: 0.5em;
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
     }
@@ -177,13 +179,18 @@
     }
     */
 }
+.dtl-flx{
+    flex:1;
+}
 
 .btn-group{
     display: block;
     //margin-top: 2.5%;
     position: sitcky;
     top: 0;
-    
+}
+.trip-btn:hover{
+    cursor: pointer;
 }
 
 .trip-btn{

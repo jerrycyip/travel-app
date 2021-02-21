@@ -110,11 +110,12 @@ export const displayTrip = (tripData, type) => {
                 <div class="trip-daily-wrapper">
                     <div class="forecast-container" id="sticky-weather">
                         <div class="forecast-header">
-                            <h3>Trip Planner &nbsp 
+                            <div class = "planner-title">
+                            <h3>Trip Planner &nbsp </h3>
                             <div class="weather-details">
                             <button class="expander">[ Forecast ]</button>
                             </div>
-                            </h3>
+                            </div>
                         <div class="btn-group">
                         <button class="trip-btn update-btn" id=updateTrip-${tripData.id}>View Trip</button>
                         <button class="trip-btn save-btn" id=saveTrip-${tripData.id}>Save Trip</button>

@@ -44,7 +44,7 @@
     h3 {
         position: sticky;
         position: -webkit-sticky; /* Safari */
-        left: 0em;
+        left: 0;
         font-size: 1.75em;
         padding-bottom: 1px;
         font-weight: 400;
@@ -64,6 +64,7 @@
 .expander{
     //font-size: 0.95em;
     font-weight: 300;
+    cursor: pointer;
     // have to confirm if this disables button functionality
     border: none;
     background-color: $sky-blue;
@@ -77,6 +78,10 @@
         font-size: 0.85em;
         text-shadow: 1px 0px 0px white;
     }
+}
+
+.expander:hover{
+    cursor: pointer;
 }
 
 .daily-forecasts{
