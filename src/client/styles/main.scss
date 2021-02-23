@@ -63,3 +63,15 @@
     color: white;
     text-align: center;
 }
+
+@media only screen and (max-width: 800px){
+    #app {
+        grid-template-rows: 65vh auto 28px;
+
+    }
+}
+@media only screen and (max-width: 650px){
+    #app {
+        grid-template-rows: 80vh auto 28px;
+    }
+}

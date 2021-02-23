@@ -450,6 +450,9 @@ button:focus {
     .expander{
         margin-left: 0.25em;
     }
+    .day-border{
+        max-height: 175px;
+    }
 }
 @media only screen and (max-width: 580px){
     .expander{
