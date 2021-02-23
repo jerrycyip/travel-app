@@ -98,7 +98,7 @@
     flex-direction: row;
     padding-bottom: .75vh;
     // room for the itinerary schedule
-    padding-left: 4em;
+    padding-left: 2.25em;
     overflow-x: hidden;
     background-color: $sky-blue;
     padding-right: 0.5em;
@@ -246,7 +246,7 @@
     padding-top: 1.25em;
     background-color: $sky-blue;
     color: black;
-    width: 4em;
+    width: 3em;
 }
 
 .itinerary-timeline{
@@ -262,7 +262,7 @@
     max-width: 100%;
     //margin-left: -1em;
     margin-top: 0.75em;
-    padding-left: 4em;
+    padding-left: 3em;
     padding-right: 0.5em;
 
 }
@@ -271,9 +271,10 @@
     height: 100%;
     display: flex;
     flex-direction: row;
-    overflow-x: hidden;
+    //overflow-x: hidden;
     padding-top: 0.25em;
     padding-top: 0em;
+    margin-left: -0.75em;
 }
 
 .itinerary-input{

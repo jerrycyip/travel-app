@@ -561,3 +561,7 @@ const syncScroll = (event) => {
         handleResult(newTrip, tripDetails, "modal");
         })
 */
+
+<span class="sched-expand">&#9650</span>
+
+<div class="itinerary-timeline">11 PM &#9660</div>
