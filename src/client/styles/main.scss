@@ -72,7 +72,7 @@
 }
 @media only screen and (max-width: 650px){
     #app {
-        grid-template-rows: 80vh auto 28px;
+        grid-template-rows: 75vh auto 28px;
         font-size: 0.8em;
     }
     #new-trip {
@@ -80,4 +80,10 @@
         margin-bottom: 5%;
     }
 
+}
+
+@media only screen and (max-width: 500px){
+    #app {
+        grid-template-rows: 65vh auto 28px;
+    }
 }

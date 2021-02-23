@@ -344,88 +344,6 @@
     background-color: lightyellow;
 }
 
-
-// declare variables for dynamic grid (alternative to SASS variables)
-/*
-:root {
-    --colNum: 5;
-    --gridHeight: 120px;
-  }
-
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    //outline: none;
-}
-
-.sunset{
-    //border-bottom: 1px solid $brand-color;
-}
-
-.sched-expand{
-    //font-size: 0.9em;
-}
-
-.hourly-details{
-    resize: none;
-    width: 93%;
-    height: 35px;
-    border-radius: 4px;
-    background-color: rgb(255,250,250);
-    margin-bottom: -4px;
-}
-
-.itinerary{
-    grid-area: trip-itinerary;
-    width: 100%;
-    min-height: 29vh;
-    max-height: 29vh;
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-bottom: 1em;
-}
-*/
-/* inside itinerary header */
-/*
-    .food-cat{
-        color: black;
-        text-shadow: none;
-        span {color: lightgreen;}
-    }
-
-    .activity-cat{
-        color: black;
-        text-shadow: none;
-        span{color: lightblue;}
-    }
-    .logistics-cat{
-        color: black;
-        text-shadow: none;
-        span{color: lightyellow;}
-    }
-    .entertainment-cat{
-        color: black;
-        text-shadow: none;
-        span {color: lightgray;}
-    }
-    .shopping-cat{
-        color: black;
-        text-shadow: none;
-        span {color: lightsalmon;}
-    }
-    .other-cat{
-        color: black;
-        text-shadow: none;
-        span { color: white;}
-    }
-    span{
-        color: black;
-        font-size: 0.5em;
-        text-shadow: none;
-    }
-*/
-
 @media only screen and (max-width: 800px){
     .forecast-container {
         font-size:0.9em;
@@ -451,7 +369,7 @@ button:focus {
         margin-left: 0.25em;
     }
     .day-border{
-        max-height: 175px;
+        max-height: 150px;
     }
 }
 @media only screen and (max-width: 580px){
