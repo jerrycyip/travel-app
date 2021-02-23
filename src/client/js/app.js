@@ -169,8 +169,10 @@ export const displayTrip = (tripData, type) => {
             <div class="day-forecast">
                 <div class="day-border">
                     <h4 class="forecast-date">${dayOfWeek(dateStr2)} ${dateStr}</h4>
+                    <div class="icon-div">
                     <img class="weather-icon" src="/imgs/${tripData.weather[dateStr2].icon}.png"
                         alt="few clouds">
+                        </div>
                     <div class="weather-desc">${tripData.weather[dateStr2].description}</div>
                     <div class="high-low">${cToF(tripData.weather[dateStr2].high)}&#176
                     <span class="divider"> |</span>
@@ -311,6 +313,13 @@ export const displayTrip = (tripData, type) => {
             el.style.overflowY = "hidden";
             el.style.overflowX = "hidden";
         });
+        document.querySelectorAll(".forecast-header").forEach(el =>{
+            el.style.width = "74vw";
+            el.style.maxWidth = "74vw";
+        });
+        document.querySelectorAll(".btn-group").forEach(el =>{
+            el.style.marginLeft = 0;
+        });
         document.querySelectorAll(".modal-details").forEach(el=>{
             el.style.borderLeft = "none";
         });
@@ -378,7 +387,13 @@ export const handleResult = async (entry, tripData, ui) => {
                 el.style.overflowY = "hidden";
                 el.style.overflowX = "hidden";
             });
-            
+            document.querySelectorAll(".forecast-header").forEach(el =>{
+                el.style.width = "74vw";
+                el.style.maxWidth = "74vw";
+            });
+            document.querySelectorAll(".btn-group").forEach(el =>{
+                el.style.marginLeft = 0;
+            });
             let elems = [".itinerary-header",".itinerary-schedule",".itinerary-container"];
             for (let el of elems){
                 hideElement(el);

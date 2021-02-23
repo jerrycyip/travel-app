@@ -33,7 +33,9 @@
 .forecast-header {
     height: 100%;
     width: 100%;
-    width: 80vw;
+    width: 79vw;
+    max-width: 79vw;
+    margin-right: -0.5em;
 
     display: grid;
     grid-template-columns: 50% 50%;
@@ -115,7 +117,7 @@
     //padding-right: 1em;
     text-align: center;
     color: white;
-    line-height: 1.45em;
+    //line-height: 1.45em;
 }
 
 .day-border{
@@ -124,6 +126,10 @@
     background-color: $sky-blue;
     margin-top: -0.5em;
     border-right: 1px solid $brand-color;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .forecast-date{

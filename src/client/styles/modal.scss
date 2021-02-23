@@ -140,7 +140,8 @@
     color: white;
     height: 37vh;
     max-height: 37vh;
-    padding-bottom: 1.5em;
+    padding-bottom: 1.75em;
+    font-size: 1.05em;
 
     display: flex;
     flex-direction: column;
@@ -188,6 +189,7 @@
     //margin-top: 2.5%;
     position: sitcky;
     top: 0;
+    margin-left: 1em;
 }
 .trip-btn:hover{
     cursor: pointer;
