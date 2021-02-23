@@ -118,3 +118,13 @@ input {
 #search-button:hover{
     cursor: pointer;
 }
+
+@media only screen and (max-width: 650px){
+    .trip-details{
+        height: 55%;
+        max-height: 250px;
+     //   margin-bottom: auto;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
