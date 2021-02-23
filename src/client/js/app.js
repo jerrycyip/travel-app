@@ -319,6 +319,9 @@ export const displayTrip = (tripData, type) => {
             el.style.overflowY = "hidden";
             el.style.overflowX = "hidden";
         });
+        document.querySelectorAll(".daily-forecasts").forEach(el =>{
+            el.style.paddingLeft = "0em";
+        });
         document.querySelectorAll(".forecast-header").forEach(el =>{
             el.style.width = "74vw";
             el.style.maxWidth = "74vw";
@@ -392,6 +395,9 @@ export const handleResult = async (entry, tripData, ui) => {
             document.querySelectorAll(".trip-container").forEach(el =>{
                 el.style.overflowY = "hidden";
                 el.style.overflowX = "hidden";
+            });
+            document.querySelectorAll(".daily-forecasts").forEach(el =>{
+                el.style.paddingLeft = "0em";
             });
             document.querySelectorAll(".forecast-header").forEach(el =>{
                 el.style.width = "74vw";
