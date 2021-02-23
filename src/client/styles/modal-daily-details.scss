@@ -243,10 +243,17 @@
     display: inline;
     padding-left: 0.25em;
     padding-right: 0.1em;
-    padding-top: 1.25em;
+    margin-top: -0.1em;
     background-color: $sky-blue;
     color: black;
     width: 3em;
+}
+.expand-itin{
+    color: black;
+    text-shadow: 0px 1px 1px white;
+}
+.expand-itin:hover{
+    cursor: pointer;
 }
 
 .itinerary-timeline{
@@ -256,7 +263,12 @@
     font-size: 0.9em;
     margin-top: 0.06em;
 }
-
+.itin-up{
+    margin-top: -0.4em;
+}
+.itin-down{
+    margin-bottom: -1.45em;
+}
 .itinerary-container{
     width: 100%;
     max-width: 100%;

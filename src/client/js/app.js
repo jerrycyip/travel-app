@@ -134,7 +134,10 @@ export const displayTrip = (tripData, type) => {
             </div>
         </div>
         <div class="itinerary-schedule">
-            <div class="itinerary-timeline">7 AM</div>
+            <span class="material-icons expand-itin">
+            &nbsp;keyboard_arrow_up
+            </span>
+            <div class="itinerary-timeline itin-up">7 AM</div>
             <div class="itinerary-timeline">8 AM</div>
             <div class="itinerary-timeline">9 AM</div>
             <div class="itinerary-timeline">10 AM</div>
@@ -150,7 +153,10 @@ export const displayTrip = (tripData, type) => {
             <div class="itinerary-timeline">8 PM</div>
             <div class="itinerary-timeline">9 PM</div>
             <div class="itinerary-timeline">10 PM</div>
-            <div class="itinerary-timeline">11 PM</div>
+            <div class="itinerary-timeline itin-down">11 PM</div>
+            <span class="material-icons expand-itin">
+            &nbsp;keyboard_arrow_down
+            </span>
         </div>
         `;
     // load forecast and itinerary data
