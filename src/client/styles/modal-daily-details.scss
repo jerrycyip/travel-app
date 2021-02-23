@@ -1,7 +1,7 @@
 @import "config";
 
 .trip-daily-detail{
-    height: 60vh;
+    
     max-height: 60vh;
     width: 100%;
 }
@@ -61,6 +61,7 @@
     //position: sticky;
     //left: 16em;
     display: inline-block;
+    margin-left: 1em;
 }
 
 .expander{
@@ -127,6 +128,7 @@
     margin-top: -0.5em;
     border-right: 1px solid $brand-color;
     height: 25vh;
+    max-height:230px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -423,3 +425,34 @@ button:focus {
         text-shadow: none;
     }
 */
+
+@media only screen and (max-width: 800px){
+    .forecast-container {
+        font-size:0.9em;
+    }
+    .forecast-header h3{
+        padding-left: 0.5em;
+    }
+    .weather-details{
+        margin-left: 0.25em;
+    }
+    .btn-group{
+        margin-left: 0;
+        margin-right: -2em;
+    }
+    .trip-btn{
+        margin-right: 5%;
+        padding: .25em;
+    }
+    .forecast-header{
+        padding-left: 0.75em;
+    }
+    .expander{
+        margin-left: 0.25em;
+    }
+}
+@media only screen and (max-width: 580px){
+    .expander{
+        margin-left: 0.75em;
+    }
+}

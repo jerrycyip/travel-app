@@ -82,7 +82,9 @@
     height: 100%;
     width: 100%;
 }
-
+.summary-wrapper{
+    max-height:400px;
+}
 .trip-summary{
     // surface 
     position: sticky;
@@ -109,6 +111,7 @@
     grid-area: summary-image;
     width: 100%;
     height: 37vh;
+    max-height:400px;
     //margin-left: 1em;
     margin-right: 0;
     border-radius: 5px;
@@ -139,7 +142,7 @@
     text-align: left;
     color: white;
     height: 37vh;
-    max-height: 37vh;
+    max-height:400px;
     padding-bottom: 1.75em;
     font-size: 1.05em;
 
@@ -165,11 +168,11 @@
         font-weight: 400;
         text-shadow: 1px 1px 5px black;
     }
-    /*
+    
     .local-time{
         font-size: 0.95em;
     }
-    */
+    
     .locale, .depart-date, .return-date, .duration, .local-time {
         color: black;
         text-shadow: none;  
@@ -207,9 +210,9 @@
     margin-left: 0%;
     margin-right: 12.5%;
     height: auto;
-    padding: .3em;//4px;
-    padding-left: .5em;//8px;
-    padding-right: .5em;//8px;
+    padding: .3em;
+    padding-left: .5em;
+    padding-right: .5em;
     background-color: white;
     opacity: 1;
     color: black;
@@ -227,3 +230,31 @@
     display: none;
 }
 
+@media only screen and (max-width: 800px){
+    .modal {
+        width: 90vw;
+        min-width: 90vw;
+        max-width: 90vw;
+        margin-left: 5vw;
+        margin-right: 5vw;
+    }
+    .trip-summary{
+        left: 1.5em;
+        padding-top: 0.75em;
+    }
+    .modal-details{
+        border-left: none;
+        margin-left: 4%;
+        padding-left: 4%;
+        font-size: 0.9em;
+        margin-right: -1.5em;
+    }
+    .trip-image{
+        left:0;
+    }
+}
+@media only screen and (max-width: 610px){
+    .expander{
+        margin-left: 0.75em;
+    }
+}

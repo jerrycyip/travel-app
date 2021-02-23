@@ -80,7 +80,7 @@ function localDateTime(tZone) {
     let timeIndex = localTime.lastIndexOf(',') + 2;
     let dateIndex = localTime.indexOf(',') + 2;
     //console.log(localTime.slice(timeIndex) + localTime.slice(dateIndex, timeIndex-2) + localTime.slice(0, dateIndex-2))
-    return localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex - 2) + " (" + localTime.slice(0, dateIndex - 2) + ")";
+    return localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex - 2).slice(0,-3) + " (" + localTime.slice(0, dateIndex - 2) + ")";
 }
 
 function dateString(date) {
