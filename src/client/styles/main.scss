@@ -66,11 +66,23 @@
 
 @media only screen and (max-width: 800px){
     #app {
-        grid-template-rows: 65vh auto 28px;
+        grid-template-rows: 80vh auto 28px;
         font-size: 0.9em;
     }
 }
-@media only screen and (max-width: 650px){
+@media only screen and (max-width: 639px) {
+    #app{
+        font-size: 0.8em;
+    }
+    /* address iphone 5se responsiveness*/
+    #new-trip{
+        width: 43%;
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}
+/* height rqmt addresses iphone 5se responsiveness*/
+@media only screen and (max-width: 639px) and (min-height: 350px){
     #app {
         grid-template-rows: 75vh auto 28px;
         font-size: 0.8em;
@@ -80,15 +92,16 @@
         margin-bottom: 5%;
     }
 }
-@media only screen and (max-height: 500px){
+
+@media only screen and (max-width: 500px){
     #app {
-        font-size: 0.8em;
+        grid-template-rows: 80vh auto 28px;
     }
 }
 
-
-@media only screen and (max-width: 500px){
+@media only screen and (min-height: 650px){
     #app {
         grid-template-rows: 65vh auto 28px;
     }
 }
+
