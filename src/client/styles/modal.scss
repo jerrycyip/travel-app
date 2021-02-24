@@ -98,6 +98,7 @@
     height: 37vh;
     max-height: 37vh;
     min-height: 37vh;
+    
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-areas: "summary-image summary-details";
@@ -262,6 +263,39 @@
     .expander{
         margin-left: 0.75em;
     }
+}
+
+@media only screen and (min-width:450px){
+    .modal-details{
+        background-image: none !important;
+    }
+}
+
+@media only screen and (max-width: 450px){
+    .trip-summary{
+    grid-template-columns: 100%;
+    grid-template-areas: "summary-details";
+    left: 0.5em;
+    height: 100%;
+    min-height: 100%;
+    }
+    .modal-details{
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    border-radius: 5px;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+    .locale, .depart-date, .return-date, .duration, .local-time {
+        color: white;
+        text-shadow: 1px 1px 5px black;
+    }
+    }
+    .trip-image{
+        display: none;
+    }
+
 }
 
 @media only screen and (max-height: 500px){

@@ -93,7 +93,7 @@ export const displayTrip = (tripData, type) => {
             <div class="trip-image">
             <img class = "trip-photo" src="${tripData.image}" alt="trip image">
             </div>
-                    <div class="modal-details">
+                    <div class="modal-details" style="background-image: url('${tripData.image}')">
                         <h2 class="locale">${destination}</h2>
                         <h3 class="dates">Depart:&nbsp<span class="depart-date">${dateString(start_dt)} (${dayOfWeek(start_dt)})</span></h3>
                         <h3 class="dates">Return:&nbsp<span class="return-date">${dateString(end_dt)} (${dayOfWeek(end_dt)})</span></h3>
