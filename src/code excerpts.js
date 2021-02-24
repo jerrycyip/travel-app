@@ -563,5 +563,6 @@ const syncScroll = (event) => {
 */
 
 <span class="sched-expand">&#9650</span>
+<span class="sched-expand">&#8249</span>
 
 <div class="itinerary-timeline">11 PM &#9660</div>
