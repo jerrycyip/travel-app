@@ -45,7 +45,10 @@
         //text-shadow: none;
     }
         //vertical-align: text-bottom;
-    
+}
+
+#creator, #data-attrib{
+    display: inline-block;
 }
 
 #gh-logo {
@@ -81,13 +84,13 @@ a {
         font-size:0.85em;
     }
     #footer #weather-attrib{
-        margin-left: 0.75em;
+        //margin-left: 0.85em;
     }
 }
 
 @media only screen and (max-width: 700px){
     #footer {
-        font-size:0.75em;
+        font-size:0.9em;
     }
     #footer #weather-attrib{
         margin-left: 0em;
@@ -96,27 +99,28 @@ a {
         margin-right: -20px;
     }
 }
-@media only screen and (max-width: 380px){
-   /* footer{
-        padding: 8px 15px;
-    }    
-
-    h1 {
-        font-size: .6em;
-    }
-    */
-    #li-logo {
+/* two line footer for mobile phone devices */
+@media only screen and (max-width: 475px){
+    #gh-logo, #li-logo{
         transform: scale(0.25);
-        margin: -22px;
+    }
+    #vc-logo, #wb-logo{
+        transform: scale(0.3);
+    }
+    #creator, #data-attribu{
+        margin-top: -0.75em;
+        margin-bottom: -0.75em;
+    }
+}
+@media only screen and (max-width: 380px){
+
+    #li-logo {
+        transform: scale(0.2);
+        margin: -25px;
     }
     
     #gh-logo {
-        transform: scale(0.25);
-        margin: -20px;
+        transform: scale(0.2);
+        margin: -25px;
     }
-    /*
-    #li-logo, #gh-logo {
-        transform: scale(0.3);
-    }
-    */
 }
