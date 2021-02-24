@@ -23,7 +23,7 @@
     //top: -2.7em;
     height: 100%;
     max-height: 40vh;
-    padding-top: 0.25em;
+    //padding-top: 0.25em;
     width: 80vw;
     width: 100%;
     background-color: $sky-blue;
@@ -369,11 +369,31 @@
         margin-left: 0.25em;
     }
     .day-border{
-        max-height: 150px;
+        height: 100%;
+        //max-height: 200px;
+    }
+    .weather-icon{
+        margin-bottom: -10px;
+    }
+    .trip-btn{
+        width: 29%;
+        min-width: 66px;
     }
 }
 @media only screen and (max-width: 580px){
     .expander{
         margin-left: 0.75em;
+    }
+}
+@media only screen and (max-height: 500px){
+    .day-border{
+        height: 100%;
+        min-height: 100%;
+    }
+    .weather-icon{
+        margin-bottom: -10px;
+    }
+    .forecast-container{
+        max-height: 100%;
     }
 }
