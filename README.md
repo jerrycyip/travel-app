@@ -4,19 +4,25 @@
 This project is the final capstone for Udacity's Front End Web Developer Nanodegree program.  The project requirements are to build a travel application that uses Web APIs to pull data from Geonames, Weatherberbit and Pixabay.  Based on a user's input destination and travel dates, the application retrieves cooresponding geographical coordinates from Geonames, weather forecast data from Weatherbit, and destination image data from Pixabay.  As an extra feature, my application also pulls statistical weather forecast data for travel dates greater than 14 days in the future from the Visual Crossing weather API.  With the resulting API data, the application is dynamically updated to display the results to the user as well as provide a trip countdown, the current local time of the destination, and itinerary planning functionality.  HTML, CSS, JavaScript and NodeJS are employed for this project with specific requirements and implementation details provided below.  A screenshot and gif of the resulting web app is also provided below for illustration purposes.
 
 ## Tools Required
-Tools required to develop and run this project, are as follows: 
+Tools required to develop and run this project are as follows: 
 - text editor (e.g. [Atom](https://atom.io/)) or Integrated Development Environment - IDE (e.g. MS Visual Studio)
 - web browser (e.g. Chrome/Safari/Firefox)
-- Node.js
-- 3rd party Node.js packages: express, body-parser, cors (Note: these package dependencies are captured in the package.json file with actual packages included in the node_modules folder)
-- a free developers account from openweathermap.org (required only if you wish to use your open API token for retrieving data)
+- Node.js (for webserver functionality)
+- 3rd party Node.js packages as listed in package.json, including:
+    - Webserver - Node.js
+    - Express (Web application framework)
+    - body-parser (middleware body parser)
+    - cors (cross origin routing)
+    - Webpack (Build Tool for setting up dev and prod environments)
+    - Service Worker (External Script for offline functionality)
+- free developers accounts from weatherbit.io, pixabay.com, geonames.org and visualcrossing.com (these are required if you wish to use your open API token for retrieving data)
 
 ## Development & Instructions
 ### HTML
-The main landing page (aka homepage) is accessed via the index.html file and comprises a series of cards that allow for adding new journal entries as well as viewing the latest journal entry.
+The main landing page (aka homepage) is accessed via the index.html file and comprises an initial trip planning input form along with cards showing summary data of previously planned trips.
 
 ### CSS
-The supporting css file governs overall layout of the site including media queries for mobile responsive functionality.
+The supporting css files governs overall layout of the site including media queries for mobile responsive functionality.
 
 ### JavaScript: app.js
 The supporting javascript file, "app.js", controls dynamic functionality on the landing page including: 
