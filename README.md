@@ -75,6 +75,20 @@ The backend server file, "server.js", employs the Node.js web application framew
 - Middleware functionality including GET and POST routines that correspond to the POST and GET calls from the browser aka client-side (as implemented by app.js).  Here, the planned trips comprise forecasted weather data, trip destination images and users' input itinerary data that are posted and retrieved.  The Node.js 'body-parser' package is used for json string parsing of the trip entry payloads.
 - In addition, the Node.js 'cors' (cross origin resource sharing) package is also installed for communication with the front end application.
 
+### Webpack Set Up Instructions
+- Create your src folder first. The src folder should contain a client folder and a server folder.
+- Your server folder should contain your server.js content.
+- Your client folder should contain a js folder, media folder, styles folder, and views folder, as well as an index.js file.
+- Your application js should go into the js file, your css into styles, and your index.html into views.
+- Convert your stylesheet from a .css file to a .scss file
+- Remember that webpack builds a dist file. You’ll need to update your server js to access the dist folder. (Hint: app.use(express.what goes here?))
+- Your index.js file inside the client folder should import the main function of your application javascript, it should import your scss, and it should export your main function from your application javascript. But in order to import, where will you need to export it?
+- Instead of adding event listeners to the trip form submit button itself, this project uses .addEventListener(). Since we are exporting functions from our application.js file, our event listeners can’t go there.
+- Now that your src folder is set up, it’s time to get webpack going. As per dependencies listed in the Installation & Configuration section above, we need to add babel, babel loader, css loader, file loader, html loader, html webpack plugin, node sass, sass loader, style loader, webpack, webpack cli, and webpack dev server. 
+- Next, update the scripts in package.json. You will want to have test, dev, start, and build. NOTE: Start will be for your express server, dev will be so that you can take advantage of web dev server. It is possible depending on your setup to run both of these with one command.
+- Get your webpack config set up. 
+- To get webpack running, you’ll want to first run npm run dev, then npm build to get your dist folder created. Once that is created you can run npm run dev and npm start simultaneously to have hot loading of your project as well as a working express environment.
+
 ## Setting up the APIs
 
 ### Step 1: Sign-up for developer API keys
