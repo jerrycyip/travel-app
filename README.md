@@ -82,7 +82,7 @@ The backend server file, "server.js", employs the Node.js web application framew
 ### Step 1: Signup for the API keys
 This project uses the GeoNames API found [here](http://www.geonames.org/export/web-services.html) to retrieve latitude and longitude GPS coordinates given the user's input destination city.  The returned latitude and longitude values are inputs for a subsequent API call to retrieve 14-day weather forecast data from the Weatherbit API found [here](https://www.weatherbit.io/account/create).  In the case of travel dates extending beyond the next 14 dates (and/or starting on today's date), additional statistical weather forecast data from VisualCrossing API found [here](https://www.visualcrossing.com/weather-api) -- note, this is extra functionality beyond the scope of the project requirements .  Lastly, using the destination city name we retrieve associated image data from the Pixabay API found [here](https://pixabay.com/api/docs/).  For each of these APIs, a free developer's account must be created in order to obtain a free API key to start using the APIs. These APIs do not require SDKs, so set-up steps are minimal.
 
-### Environment Variables
+### Step 2: Environment Variables
 We configure our .gitignore file in order to declare the various API keys and ensure they remain private as opposed to publicly visible on GitHub environment when pushing to GitHub:
 
 - [ ] Use npm or yarn to install the dotenv package ```npm install dotenv```. This will allow us to use environment variables we set in a new file
@@ -102,3 +102,28 @@ dotenv.config();
 ```
 console.log(`Your API key is ${process.env.API_KEY}`);
 ```
+### Step 3: After adding APIs
+Once we are hooked up to the different 3rd party APIs, we are half way there! Here are a few other steps to complete prior to deployment.
+
+- Parse the response body to dynamically fill content on the page.
+- Test that the server and new trip form submission work, making sure to also handle error responses if the user input does not match API requirements (e.g. default image returned if none found for an obscure location).
+- Go back to the web pack prod config and add the setup for service workers:
+    npm i -D workbox-webpack-plugin
+- Test that the (prod) site is now available even when you stop your local server
+
+## Additional Project Features
+As part of the project requirements, at least one additional piece of functionality needed to be added.  The following additional features were implemented as part of this project:
+- Support for user input end date and displaying the calculated length (duration) of the trip.
+- Allowing the user to remove and view existing (previously planned) trips.
+- Using [Local Storage](https://www.taniarascia.com/how-to-use-local-storage-with-javascript/) to save the data on the user's front end client (e.g. browser) so that when they close the application, then revisit the page in the same browser, their information is still there.
+- Instead of just pulling a single day's forecast, pulling the forecast for the entire length of the trip.
+- Incorporating weather icons into the forecast data.
+- Allowing the user to add an itinerary for their trip.
+- Allowing the user to add multiple trips via a save button for viewing later (view button).
+
+## Future Enhancement(s)
+
+A great step to take with the finished project would be to deploy it! As it is out of scope for this project, you will have to checkout [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/) for further info on free hosting options.
+
+
+
