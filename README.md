@@ -1,14 +1,19 @@
 # Travel App - FEND Capstone Project
 
 ## Project Description
-This project is the final capstone for Udacity's Front End Web Developer Nanodegree program.  The project requirements are to build a travel application that uses Web APIs to pull data from Geonames, Weatherberbit and Pixabay.  Based on a user's input destination and travel dates, the application retrieves cooresponding geographical coordinates from Geonames, weather forecast data from Weatherbit, and destination image data from Pixabay.  As an extra feature, my application also pulls statistical weather forecast data for travel dates greater than 14 days in the future from the Visual Crossing weather API.  With the resulting API data, the application is dynamically updated to display the results to the user as well as provide a trip countdown, the current local time of the destination, and itinerary planning functionality.  HTML, CSS, JavaScript and NodeJS are employed for this project with specific requirements and implementation details provided below.  A screenshot and gif of the resulting web app is also provided below for illustration purposes.
+This project is the final capstone for Udacity's Front End Web Developer Nanodegree program.  The project requirements are to build a travel application that uses Web APIs to pull data from Geonames, Weatherberbit and Pixabay.  Based on a user's input destination and travel dates, the application retrieves cooresponding geographical coordinates from Geonames, weather forecast data from Weatherbit, and destination image data from Pixabay.  As an extra feature, my application also pulls statistical weather forecast data for travel dates greater than 14 days in the future from the Visual Crossing weather API.  With the resulting API data, the application is dynamically updated to display the results to the user as well as provide a trip countdown, the current local time of the destination, and itinerary planning functionality.  HTML, CSS, JavaScript and NodeJS are employed for this project with specific requirements and implementation details provided below.  A screenshot and .gif of the resulting web app is also provided below for illustration purposes.
+
+## Result
+
+## Demo
+![Travel App]
 
 ## Tools Required
 Tools required to develop and run this project are as follows: 
 - text editor (e.g. [Atom](https://atom.io/)) or Integrated Development Environment - IDE (e.g. MS Visual Studio)
 - web browser (e.g. Chrome/Safari/Firefox)
 - Node.js (for webserver functionality)
-- 3rd party Node.js packages as listed in package.json, including:
+- 3rd party Node.js packages as listed in package.json, including (additional loaders and plugins listed in next section):
     - Webserver - Node.js
     - Express (Web application framework)
     - body-parser (middleware body parser)
@@ -53,7 +58,7 @@ The following loaders and plugins were installed for development, with Service W
 The main landing page (aka homepage) is accessed via the index.html file and comprises an initial trip planning input form along with cards showing summary data of previously planned trips.
 
 ### CSS
-The supporting css file govern overall layout of the site including media queries for mobile responsive functionality.
+The supporting css files govern overall layout of the site including media queries for mobile responsive functionality.
 
 ### JavaScript: app.js
 The supporting javascript file, "app.js", controls dynamic functionality on the landing page including: 
@@ -67,13 +72,33 @@ The supporting javascript file, "app.js", controls dynamic functionality on the 
 - browser aka client-side post (POST) and retrieval (GET) of planned trip data including user input itinerary information to a local express server for storing and retrieving data.
 
 ### JavaScript: server.js
-The backend server file, "server.js", employs the Node.js web application framework 'Express' for setting up a local server.  Note, as the scope of this project does not implement any dedicated backend datastore (e.g. database) as a complement to the local server, this setup mainly serves local testing and development purposes rather than implementing true data persistence (e.g. across server restarts/user sessions etc). Functionality provided includes:
+The backend server file, "server.js", employs the Node.js web application framework 'Express' for setting up a local server.  Note, as the scope of this project does not implement any dedicated backend datastore (e.g. database) as a complement to the local server, this setup mainly serves local testing and development purposes rather than implementing true data persistence (e.g. across server restarts/user sessions/devices etc). Functionality provided includes:
 - Basic routing for loading the main landing page (as provided by index.html).
-- Middleware functionality including GET and POST routines that correspond to the POST and GET calls from the browser aka client-side (as implemented by app.js).  Here, the journal entries comprising weather data and user's input are posted and retrieved.  The Node.js 'body-parser' package is used for json string parsing of the journal entry payloads.  
-- In addition, the Node.js 'cors' (cross origin resource sharing) package is also installed.  That said, as requests to openweathermap.org are made from the browser/client-side and not the server, the installation of the cors package is employed as more of an exercise for how real world applications are implemented.
+- Middleware functionality including GET and POST routines that correspond to the POST and GET calls from the browser aka client-side (as implemented by app.js).  Here, the planned trips comprise forecasted weather data, trip destination images and users' input itinerary data that are posted and retrieved.  The Node.js 'body-parser' package is used for json string parsing of the trip entry payloads.
+- In addition, the Node.js 'cors' (cross origin resource sharing) package is also installed for communication with the front end application.
 
-## Web App Result
-![Weather Journal App](/weather_journal_preview.png)
+## Setting up the APIs
 
-## Mobile View Result
-![Weather Journal App Mobile](/weather_journal_mobile.png)
+### Step 1: Signup for the API keys
+This project uses the GeoNames API found [here](http://www.geonames.org/export/web-services.html) to retrieve latitude and longitude GPS coordinates given the user's input destination city.  The returned latitude and longitude values are inputs for a subsequent API call to retrieve 14-day weather forecast data from the Weatherbit API found [here](https://www.weatherbit.io/account/create).  In the case of travel dates extending beyond the next 14 dates (and/or starting on today's date), additional statistical weather forecast data from VisualCrossing API found [here](https://www.visualcrossing.com/weather-api) -- note, this is extra functionality beyond the scope of the project requirements .  Lastly, using the destination city name we retrieve associated image data from the Pixabay API found [here](https://pixabay.com/api/docs/).  For each of these APIs, a free developer's account must be created in order to obtain a free API key to start using the APIs. These APIs do not require SDKs, so set-up steps are minimal.
+
+### Environment Variables
+We configure our .gitignore file in order to declare the various API keys and ensure they remain private as opposed to publicly visible on GitHub environment when pushing to GitHub:
+
+- [ ] Use npm or yarn to install the dotenv package ```npm install dotenv```. This will allow us to use environment variables we set in a new file
+- [ ] Create a new ```.env``` file in the root of your project
+- [ ] Go to your .gitignore file and add ```.env``` - this will make sure that we don't push our environment variables to Github! If you forget this step, all of the work we did to protect our API keys was pointless.
+- [ ] Fill the .env file with your API keys like this:
+```
+API_ID=**************************
+API_KEY=**************************
+```
+- [ ] Add this code to the very top of your server/index.js file:
+```
+const dotenv = require('dotenv');
+dotenv.config();
+```
+- [ ] Reference variables you created in the .env file by putting ```process.env``` in front of it, an example might look like this:
+```
+console.log(`Your API key is ${process.env.API_KEY}`);
+```
