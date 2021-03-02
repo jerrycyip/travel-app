@@ -16,19 +16,56 @@ Tools required to develop and run this project are as follows:
     - Webpack (Build Tool for setting up dev and prod environments)
     - Service Worker (External Script for offline functionality)
 - free developers accounts from weatherbit.io, pixabay.com, geonames.org and visualcrossing.com (these are required if you wish to use your open API token for retrieving data)
+- (not required) This project and related requirements was tracked and managed via the following [kanban board](https://trello.com/b/3R28aGDc/travel-app)
 
+## Installation & Configuration
+
+The following loaders and plugins were installed for development, with Service Workers installed for production only.
+(Choose the necessary installation for your development mode and preferences)
+- Install Webpack and the command line instructions (CLI) tool:
+    npm i webpack webpack-cli 
+- (Babel: for transpiling ECMA2016+ JavaScript to standard JavaScript)\
+    npm i -D @babel/core @babel/preset-env babel-loader\
+    (short for "npm install --save-dev @babel/core @babel/preset-env babel-loader")
+- (For creating separate designated css file that is transpiled from SASS)\
+    npm i -D style-loader node-sass css-loader sass-loader
+- (For hot/live reloading of the page, only for Development mode, and automatically re-build of the application)
+    npm i -D webpack-dev-server
+- (To automate replacement of 'dist' folder with new bundled assets each time we rerun webpack build scripts)\
+    npm i -D clean-webpack-plugin
+- (For automatically including reference to bundled Javascript bundle in a script tag in our html file)\
+    npm i -D html-webpack-plugin
+- (For css file minification for performance and website load size management)\
+    npm i -D mini-css-extract-plugin
+    npm i -D optimize-css-assets-webpack-plugin terser-webpack-plugin
+- (Inclusion of images/logos on site )\
+    npm i -D file-loader
+    npm i -D html-loader
+- Install the following npm packages that are used by the express server:\
+    npm i --save path\
+    npm i --save body-parser\
+    npm i --save cors
+- Install fetch-node (or alternatively axios) for making api fetch requests to 3rd party APIs\
+    npm i fetch-node --save-dev    
+    
 ## Development & Instructions
 ### HTML
 The main landing page (aka homepage) is accessed via the index.html file and comprises an initial trip planning input form along with cards showing summary data of previously planned trips.
 
 ### CSS
-The supporting css files governs overall layout of the site including media queries for mobile responsive functionality.
+The supporting css file govern overall layout of the site including media queries for mobile responsive functionality.
 
 ### JavaScript: app.js
 The supporting javascript file, "app.js", controls dynamic functionality on the landing page including: 
-- population of the current date
-- retrieval (GET) of the current weather data from openweathermap.org (retrieves the API for current weather by zip: https://openweathermap.org/current#zip)
-- browser aka client-side post (POST) and retrieval (GET) of said weather data plus user journal entries to a local express server for storing and retrieving data.  
+- setting live clocks for previously planned trip destinations
+- setting live countdowns for previously planned trips
+- setting default minimum dates (today's date) for the new trip planning form
+- retrieval (GET) of the geocoordinates of the trip destination from the Geonames api
+- retrieval (GET) of the weather forecast data from the Weatherbit API for the next 14 days
+- retrieval (GET) of extended statistical weather forecast data from the VisualCrossing API for dates beyond 14 days as well as today's date (in the event the trip starts today)
+- retrieval (GET) of an image of the travel destination from Pixabay or a default image if none is found.
+- browser aka client-side post (POST) and retrieval (GET) of planned trip data including user input itinerary information to a local express server for storing and retrieving data.
+
 ### JavaScript: server.js
 The backend server file, "server.js", employs the Node.js web application framework 'Express' for setting up a local server.  Note, as the scope of this project does not implement any dedicated backend datastore (e.g. database) as a complement to the local server, this setup mainly serves local testing and development purposes rather than implementing true data persistence (e.g. across server restarts/user sessions etc). Functionality provided includes:
 - Basic routing for loading the main landing page (as provided by index.html).
