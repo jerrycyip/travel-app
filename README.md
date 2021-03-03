@@ -18,6 +18,7 @@ Tools required to develop and run this project are as follows:
     - cors (cross origin routing)
     - Webpack (Build Tool for setting up dev and prod environments)
     - Service Worker (External Script for offline functionality)
+    - Jest (unit testing)
 - free developers accounts from weatherbit.io, pixabay.com, geonames.org and visualcrossing.com (these are required if you wish to use your open API token for retrieving data)
 - (not required) This project and related requirements was tracked and managed via the following [kanban board](https://trello.com/b/3R28aGDc/travel-app)
 
