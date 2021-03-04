@@ -96,14 +96,13 @@ The backend server file, "server.js", employs the Node.js web application framew
 This project uses the GeoNames API found [here](http://www.geonames.org/export/web-services.html) to retrieve latitude and longitude GPS coordinates given the user's input destination city.  The returned latitude and longitude values are inputs for a subsequent API call to retrieve 14-day weather forecast data from the Weatherbit API found [here](https://www.weatherbit.io/account/create).  In the case of travel dates extending beyond the next 14 dates (and/or starting on today's date), additional statistical weather forecast data from VisualCrossing API found [here](https://www.visualcrossing.com/weather-api) -- note, this is extra functionality beyond the scope of the project requirements .  Lastly, using the destination city name we retrieve associated image data from the Pixabay API found [here](https://pixabay.com/api/docs/).  For each of these APIs, a free developer's account must be created in order to obtain a free API key to start using the APIs. These APIs do not require SDKs, so set-up steps are minimal.
 
 ### Step 2: Environment Variables
-We configure our .gitignore file in order to declare the various API keys and ensure they remain private as opposed to publicly visible on GitHub environment when pushing to GitHub:
+We configure our .gitignore file in order to declare the various API keys and ensure they remain private as opposed to publicly visible on GitHub environment when pushing to GitHub.  Note, for some of the 3rd Party API providers your username serves as your API key:
 
 - [ ] Use npm or yarn to install the dotenv package ```npm install dotenv```. This will allow us to use environment variables we set in a new file
 - [ ] Create a new ```.env``` file in the root of your project
 - [ ] Go to your .gitignore file and add ```.env``` - this will make sure that we don't push our environment variables to Github! If you forget this step, all of the work we did to protect our API keys was pointless.
 - [ ] Fill the .env file with your API keys like this:
 ```
-API_ID=**************************
 API_KEY=**************************
 ```
 - [ ] Add this code to the very top of your server/index.js file:
