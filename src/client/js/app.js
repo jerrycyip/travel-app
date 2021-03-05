@@ -32,7 +32,7 @@ document.addEventListener("onload", setMinDates());
 document.getElementById('start').addEventListener('change', setEndMin);
 
 /**
-* @description - main function for submitting new trip input form
+*@description - main function for submitting new trip input form
  */
 const handleSubmit = async (event) => {
     event.preventDefault();
