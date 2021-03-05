@@ -303,8 +303,10 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
             }
-                dt.setDate(dt.getDate() + 1);
-                console.log("next date counter:", dt);
+            dt.setTime(dt.getTime() + oneDayMs);
+            // old statement fails for Daylight Savings Time:
+            //dt.setDate(dt.getDate() + 1);
+            console.log("next date counter:", dt);
             }
         }
             console.log(trip);
@@ -343,7 +345,11 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['windDirFull'] = forecastWeather[dateFormatted].wind_cdir_full;
                 trip.weather[dateFormatted]['snow'] = forecastWeather[dateFormatted].snow;
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
-                dt.setDate(dt.getDate() + 1);
+                
+                //test_dt = new Date(dt.valueOf() + oneDayMs);
+                dt.setTime(dt.getTime() + oneDayMs);
+                // old statement fails for Daylight Savings Time:
+                //dt.setDate(dt.getDate() + 1);                
                 console.log("next date counter:", dt);
                 }
             }

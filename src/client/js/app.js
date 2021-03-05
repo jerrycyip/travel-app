@@ -15,7 +15,6 @@ import {validateTrip, setClocks, setMinDates, setEndMin, windDirShort, kmToMi,
 const serverURL = "http://localhost:8084";
 let newTrip = {};
 let tripList = document.getElementById(".view-trips");
-//let modal = document.querySelector(".modal");
 
 // Check for existing trips in local storage
 let tripsArray = localStorage.getItem("trips")
@@ -24,12 +23,17 @@ let tripsArray = localStorage.getItem("trips")
 const tripsData = JSON.parse(localStorage.getItem("trips"));
 
 
-// set live clocks and countdowns for different trip destinations
+// trigger live local clocks and live countdowns for each trip destination
 let liveClocks = setInterval(setClocks, 30000);
+
+// trigger trip form initial minimum start and end date as today's date
 document.addEventListener("onload", setMinDates());
+// trigger trip form minimum end date based on input start date
 document.getElementById('start').addEventListener('change', setEndMin);
 
-// main function for new trip submission
+/**
+* @description - main function for submitting new trip input form
+ */
 const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -37,10 +41,11 @@ const handleSubmit = async (event) => {
     const start_dt = document.forms['trip-form']['start'].value;
     const end_dt = document.forms['trip-form']['end'].value;
 
+    // validate trip dates are valid
     if (validateTrip(locale, start_dt, end_dt)) {
-        // api GET call to geonames api with destination name
+        // api call to express server with trip input details
         let res = await postTrip(`${serverURL}/api`, { destination: locale, start: start_dt, end: end_dt })
-        //update UI w/ the trip info 
+        //update UI with the returned 3rd party weather forecast data and destination image
         try{
             (displayTrip(res, "modal"));
         }
@@ -351,7 +356,7 @@ export const handleResult = async (entry, tripData, ui) => {
     let tripForm = document.getElementById("trip-form");
 
     if (ui === "modal") {
-        // Handle buttons on the modal
+        // button functionality on the modal
         saveBtn.addEventListener("click", () => {
             let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
             // Copy the new trip object
@@ -366,13 +371,15 @@ export const handleResult = async (entry, tripData, ui) => {
                 
                 // revisit deletion of modal content
                 /*postTrip(`${serverURL}/delete`, {id});*/
-
+                
+                // update local storage w/ latest trip info
                 localStorage.setItem("trips", JSON.stringify([]));
                 localStorage.setItem("trips", JSON.stringify(tripsArray));
                 // Save updated trip to Express server
                 postTrip(`${serverURL}/updateEntry`, newTrip);
             }
             else {
+                // add new trip to local storage
                 tripsArray.push(newTrip);
                 // Add new trip to local storage
                 localStorage.setItem("trips", JSON.stringify(tripsArray));
