@@ -25,7 +25,7 @@ Tools required to develop and run this project are as follows:
 
 ## Installation & Configuration
 
-The following loaders and plugins were installed, with Service Workers installed for production only.
+The following loaders and plugins were installed for development, with Service Workers installed for production only.
 (Choose the necessary installation for your development mode and preferences)
 - Install Webpack and the command line instructions (CLI) tool for dev and prod:
     npm i webpack webpack-cli 
