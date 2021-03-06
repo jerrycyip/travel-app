@@ -3,15 +3,13 @@ import { snowflake } from "../index.js";
 import { wind } from "../index.js";
 import { sunshine } from "../index.js";
 import { weatherIcons } from "../index.js";
-//import {cameraTravel} from  "../index.js";
 import {validateTrip, setClocks, setMinDates, setEndMin, windDirShort, kmToMi, 
-    cmToIn, daysLeft, duration, dayOfWeek, localDate, localDateTime,
-    cToF, toStandardTime, dateString, ctDown} from "./helper.js";
+    cmToIn, duration, dayOfWeek, localDateTime, cToF, toStandardTime, dateString, 
+    ctDown} from "./helper.js";
+
 /** 
  * Set Global variables 
- * 
 */
-
 const serverURL = "http://localhost:8084";
 let newTrip = {};
 let tripList = document.getElementById(".view-trips");
@@ -22,17 +20,21 @@ let tripsArray = localStorage.getItem("trips")
     : [];
 const tripsData = JSON.parse(localStorage.getItem("trips"));
 
-
 // trigger live local clocks and live countdowns for each trip destination
 let liveClocks = setInterval(setClocks, 30000);
 
-// trigger trip form initial minimum start and end date as today's date
+// trigger new trip form initial minimum start and end date
 document.addEventListener("onload", setMinDates());
-// trigger trip form minimum end date based on input start date
+
+// user input start date triggers trip form minimum end date
 document.getElementById('start').addEventListener('change', setEndMin);
 
+// trigger for loading saved trips once window loads
+window.onload = () => loadTrips();
+// alternatively: document.addEventListener("onload", loadTrips());
+
 /**
-*@description - main function for submitting new trip input form
+*@description - main function for submitting new trip input form to retrieve 3rd party api data
  */
 const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,6 +62,11 @@ const handleSubmit = async (event) => {
 
 }
 
+/**
+ * @description - display trip entry in either modal or saved trip list
+ * @param {*} tripData - trip info to be displayed
+ * @param {*} type - identify where trip is to be displayed on the UI (modal or saved trip list)
+ */
 export const displayTrip = (tripData, type) => {
 
     const start_dt = tripData.start;
@@ -83,14 +90,18 @@ export const displayTrip = (tripData, type) => {
     }
     else destination = `${tripData.city}, ${tripData.country}`;
 
+    // define default trip image if no image is found by Pixabay
     if(tripData.image == "none"){
         tripData.image = "/imgs/camera-travel.jpg"; 
     }
-    // define startDt and endDt as used by o/ functions for display
+    // define startDt and endDt as used by o/ functions for display purposes
+    /* to address Safari invalid date issue: \s metacharacter regex is used to replace whitespace characters with 'T'
+    https://stackoverflow.com/questions/4310953/invalid-date-in-safari */
+
     let startDt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));
     let endDt = new Date(`${end_dt}T00:00:00`.replace(/\s/, 'T'));
 
-    // create trip info
+    // populate html template for displaying trip info
     let newTrip = `
         <div class="trip-content">
             <div class="summary-wrapper">
@@ -164,18 +175,19 @@ export const displayTrip = (tripData, type) => {
             </span>
         </div>
         `;
-    // load forecast and itinerary data
-    // define containers for forecast and itinerary data    
+    
+    // instantiate html containers for forecast and itinerary data    
     let dailyForecasts = ``;
     let dailyItineraries = ``;
-    // define dt counter for loop logic
+
+    // define dt counter for loop logic for weather forecast and itinerary days
     let dt = new Date(`${start_dt}T00:00:00`.replace(/\s/, 'T'));    
     while (dt.getTime() <= endDt.getTime()) {
         let dateStr = (dt.getMonth() + 1) + '/' + dt.getDate();
         let dateStr2 = (dt.getFullYear() + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2));
         let snowing = tripData.weather[dateStr2].description.toLowerCase().includes('snow');
         let precipIcon = snowing ? snowflake : droplet2;
-
+    // html template for weather forecast and itinerary data
         let dayForecast = `
             <div class="day-forecast">
                 <div class="day-border">
@@ -271,7 +283,8 @@ export const displayTrip = (tripData, type) => {
         dt.setDate(dt.getDate() + 1);
     }
     let closer = "";
-    /* If saved trip, overwrite with existing itinerary info */
+    
+    // if displaying a previously saved trip, overwrite empty itinerary template with existing itinerary info
     
     if(type == "savedTrips" || type == "updateTrip") {
         let itineraryContainer = document.createElement("div");
@@ -298,18 +311,17 @@ export const displayTrip = (tripData, type) => {
             </div>
             `;
             }
-    
+    // combine different elements to create final html template
     newTrip = newTrip + dailyDetail + dailyForecasts + itineraryHeader + dailyItineraries + closer;
     let tripContainer = document.createElement("div");
     tripContainer.classList.add("trip-container");
     tripContainer.innerHTML = newTrip;
-
+    // display either in the modal or saved trip list based on input 'type' parameter
     if (type =="modal" || type == "updateTrip" ) {
         toggleModal();
         let modalContainer = document.querySelector(".modal");
-        // revisit if this id assignment is necessary
-        //modalContainer.id = tripData.id;
         modalContainer.append(tripContainer);
+        // call function for handling button behavior on modal
         handleResult(tripContainer, tripData, "modal");
     }
     else{
@@ -319,7 +331,7 @@ export const displayTrip = (tripData, type) => {
 
         let savedTrips = document.getElementById("view-trips");
         savedTrips.prepend(savedTrip);
-        // style UI for saved Trips
+        // style UI for saved trips versus modal display
         document.querySelectorAll(".trip-container").forEach(el =>{
             el.style.overflowY = "hidden";
             el.style.overflowX = "hidden";
@@ -342,13 +354,17 @@ export const displayTrip = (tripData, type) => {
         for (let el of elems){
             hideElement(el);
         }        
-        // revisit if passing savedTrip vs tripContainer is okay
+        // call function for handling button behavior on saved trip list
         handleResult(savedTrip, tripData, "savedTrips");
     }
 }
 
-/* Handle next steps for new and existing trips
-*/
+/**
+ * @description - Handle button behavior for new and existing trips 
+ * @param {*} entry - html trip container
+ * @param {*} tripData - trip information for local storage and other processesing logic
+ * @param {*} ui - - identify where said trip is displayed on the UI (modal or saved trip list)
+ * */ 
 export const handleResult = async (entry, tripData, ui) => {
     let saveBtn = document.getElementById(`saveTrip-${tripData.id}`);
     let updateBtn = document.getElementById(`updateTrip-${tripData.id}`);
@@ -356,21 +372,18 @@ export const handleResult = async (entry, tripData, ui) => {
     let tripForm = document.getElementById("trip-form");
 
     if (ui === "modal") {
-        // button functionality on the modal
+        // save button functionality on the modal
         saveBtn.addEventListener("click", () => {
             let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
             // Copy the new trip object
             let newTrip = { ...tripData };
-            // add itinerary info to newtrip object - for prod app would loop through child divs
+            // add itinerary info to newtrip object - for a prod app we would loop through child divs
             newTrip.itineraries = itineraryInfo;
             // if trip is new, add to global trips object otherwise replace
             let tripExists = tripsArray.some((trip) => trip.id === tripData.id);
             if (tripExists) {
                 let replaceTrip = tripsArray.find((trip) => trip.id === tripData.id);
                 tripsArray.splice(tripsArray.indexOf(replaceTrip), 1, newTrip);
-                
-                // revisit deletion of modal content
-                /*postTrip(`${serverURL}/delete`, {id});*/
                 
                 // update local storage w/ latest trip info
                 localStorage.setItem("trips", JSON.stringify([]));
@@ -422,46 +435,38 @@ export const handleResult = async (entry, tripData, ui) => {
             });
             // clear form and close modal
             tripForm.reset();
-            closeModal(entry);
-            handleResult(savedTrip, tripData, "saved-trips");
-            //tripList.prepend(savedTrip);
+            setMinDates();
+            closeModal();
+            // call function to handle button behavior for the now saved Trip
+            handleResult(savedTrip, tripData, "savedTrips");
 
-            // sort the trips by start date
+            // future enhancement(s): sort the trips by start date
 
         });
-
+        // delete button functionality on the modal
         deleteBtn.addEventListener("click", () => {
             deleteEntry(entry, tripData.id);
             tripForm.reset();
-            closeModal(entry);
+            setMinDates();
+            closeModal();
         });
     } 
-    else {
-        // revisit differentiate deleting previously loaded trips and first time saved trips
-
-        // Handle buttons on the saved trip list container
+    // Handle buttons on the saved trip list container
+    else if (ui == "savedTrips") {
         saveBtn.style.display = "none";
         updateBtn.style.display = "inline-block";
-
         
+        // 'view' button functionality for viewing/updating existing trip
         updateBtn.addEventListener("click", () =>{
             let itineraryInfo = document.getElementById(`itinerary-${tripData.id}`).parentNode.innerHTML;
             let newTrip = { ...tripData };
-            // add itinerary info to newtrip object - for prod app would loop through child divs
+            // add itinerary info to newtrip object - for a prod app we would loop through child divs
             newTrip.itineraries = itineraryInfo;
             displayTrip(newTrip, "updateTrip");
-            /*window.scroll({
-                top: 0, 
-                left: 0, 
-                behavior: 'auto' 
-               });*/
+
             entry.remove();
         })
-        /*updateBtn.addEventListener("click"), () => {
-            //loadEntry(entry)
-        }
-        */
-        // Delete the selected trip entry from UI and local storage
+        // delete button functionality for existing trips deletes trip from UI and local storage
         deleteBtn.addEventListener("click", () => {
             deleteEntry(entry, tripData.id);
         });
@@ -470,16 +475,15 @@ export const handleResult = async (entry, tripData, ui) => {
 
 /**
  * @description Delete trip entry
- * @param {*} entry - Element to be deleted
+ * @param {*} entry - html trip container to be deleted from UI
  * @param {*} id - Trip id
  */
-
 const deleteEntry = (entry, id) => {
-    // if trip is previously saved delete from storage & server, o/wise only from modal
+    // if trip is previously saved, delete from storage & server, o/wise new trip only requires deletion from modal
     let removeTrip = tripsArray.find((trip) => trip.id === id);
-    console.log("removeTrip:", removeTrip);
+    //console.log("removeTrip:", removeTrip);
     if(removeTrip){
-        console.log("trip exists and will be deleted from server & local storage");
+        //console.log("trip exists and will be deleted from server & local storage");
         postTrip(`${serverURL}/delete`, { id });
         tripsArray.splice(tripsArray.indexOf(removeTrip), 1);
         entry.remove(removeTrip);
@@ -487,25 +491,10 @@ const deleteEntry = (entry, id) => {
         localStorage.setItem("trips", JSON.stringify(tripsArray));
     }
     else{ 
-        console.log("trip not yet saved, so modal is simply cleared");
+        //console.log("trip not yet saved, so modal is simply cleared");
         entry.remove();
     }
 }
-
-/**
- * @description load the trip entry into the modal
- * @param {*} entry - Element to be loaded
- * @param {*} id - Trip id
- */
-const loadEntry = (entry) => {
-    const modalContainer = document.querySelector(".trip-content");
-    modalContainer.innerHTML = entry;
-
-    // Handle buttons on the trip container
-    save.style.display = "inline-block";
-    updateBtn.style.display = "none";
-
-};
 
 /**
  * @description hide all elements of a certain class
@@ -527,27 +516,28 @@ const loadTrips = () => {
 }
 };
 
-window.onload = () => loadTrips();
-//document.addEventListener("onload", loadTrips());
-//document.addEventListiner("onload", liveClocks());
-
-
+/**
+ * @description - toggle modal display on for viewing new trip or updating saved trip
+ */
 function toggleModal() {
     let modal = document.querySelector(".modal");
-    //modal.classList.toggle("display-off");
     modal.classList.add("active");
 }
 
-function closeModal(entry) {
+/**
+ * @description - close modal used when saving or deleting trip in modal
+ */
+function closeModal() {
     let modal = document.querySelector(".modal");
-    //modal.classList.add("display-off");
     modal.classList.remove("active");
-    // revisit whether this needs to be entry.remove instead
     modal.innerHTML = "";
-    
-
 }
-// Post fetch request to server with provided trip details
+
+/**  
+ * @description - POST fetch request to server
+ * @param {*} url - designates which POST request to be made (api data retrieval / saving trip / deleting trip)
+ * @param {*} data -  data for POST request (e.g. new trip form input data / trip to be saved or updated / trip id for deleting)
+ * */
 const postTrip = async (url = '', data = {}) => {
     const response = await fetch(url, {
         method: 'POST',
@@ -568,6 +558,4 @@ const postTrip = async (url = '', data = {}) => {
 }
 
 export { liveClocks }
-//export {newEntry}
 export { handleSubmit }
-//export {stickyWeather}

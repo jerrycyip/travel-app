@@ -1,7 +1,7 @@
 // import main 'handleSubmit' function from app.js
 import { handleSubmit } from "./js/app.js"
+// import liveClocks for setting local clocks and countdowns for trips
 import {liveClocks} from "./js/app.js"
-//import {stickyWeather} from "./js/app.js"
 
 // import SaSS stylesheets
 import './styles/config.scss'
@@ -18,6 +18,7 @@ import droplet2 from "./media/droplet2.png";
 import snowflake from "./media/snowflakeblueoutline.png";
 import wind from "./media/windblue4.png";
 import sunshine from "./media/sunrisesunset3.png";
+
 // import weather icons
 import "./media/camera-travel.jpg";
 import "./media/weather_icons/a01d.png";
@@ -88,27 +89,16 @@ import "./media/weather_icons/w00d.png";
 import "./media/weather_icons/z00d.png";
 
 /*
-the above can somehow also be done w/ require.context
+the above can somehow also be done w/ require.context, but instructions weren't clear
 var req = require.context("./media/weather_icons", false, /\.(png|jpe?g|svg)$/);
 req.keys().forEach(function(key){
     req(key);
 });
 */
 
-/*
-//import main 'newEntry' function from app.js
-import { newEntry } from './js/app.js' 
-*/
-
-/*alert("I EXIST")
-console.log("CHANGE!!");
-*/
-
-//export {cameraTravel}
 export {droplet2}
 export {snowflake}
 export {wind}
 export {sunshine}
 export {handleSubmit}
 export {liveClocks}
-//export {stickyWeather}

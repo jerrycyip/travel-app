@@ -6,13 +6,12 @@ const express = require('express');
 // Start up an instance of express app
 const app = express();
 
-
 /* Middleware*/
 // Configure express to use body-parser as middle-ware.
 const bodyParser = require('body-parser');
-// for using url encoded values
+// bodyparser tool for using url encoded values
 app.use(bodyParser.urlencoded({ extended: true }));
-// for processing json
+// bodyparser tool for processing json
 app.use(bodyParser.json());
 
 /* Other Dependencies */
@@ -44,8 +43,17 @@ app.use(express.static('dist'))
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('src/client/views/index.html'))
 })
-
+  
+/* API calls */
 // Add new trip entry to the server (DB server for real-world app)
+app.post("/addEntry", (req, res) => {
+    const entry = req.body;
+    tripData.push(entry);
+    console.log("Trip Data after added Trip:", tripData);
+    res.send(tripData);
+});
+
+// update trip entry to the server (DB server for real-world app)
 app.post("/updateEntry", (req, res) => {
     const entry = req.body;
 
@@ -64,16 +72,6 @@ app.post("/updateEntry", (req, res) => {
     }
   });
 
-  
-// Add new trip entry to the server (DB server for real-world app)
-app.post("/addEntry", (req, res) => {
-    const entry = req.body;
-    tripData.push(entry);
-    console.log("Trip Data after added Trip:", tripData);
-    res.send(tripData);
-    //return res;
-});
-
 // Delete trip entry from the server (DB server for real-world app)
 app.post("/delete", (req, res) => {
     console.log("made it to server call");    
@@ -84,14 +82,16 @@ app.post("/delete", (req, res) => {
     //return res;
 });
 
-
-/* API calls */
 // POST method to recieve initial trip details from user's client browser
 app.post('/api', callApis);
 
-// main function for retrieving data from 3rd party APIs
+/**  
+ * @description - main function for retrieving data from 3rd party APIs (geocoordinates, weather forecast, trip image)
+ * @param {*} req - request made from the user's client browser with new trip input form data
+ * @param {*} res - response holder
+ */
 async function callApis(req, res) {
-    // Trip object for storing data from api calls
+    // Trip object for storing data returned by 3rd party api calls
     let trip = {
         id: Date.now(),
         city: "",
@@ -102,7 +102,6 @@ async function callApis(req, res) {
         timeZone: "",
         start: "",
         end: "",
-        //countdown: "",
         image: "",
         weather: {}
     }
@@ -120,77 +119,63 @@ async function callApis(req, res) {
 
     // calculate days until trip
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
-    daysLeft = Math.round((startDt - todayDt) / oneDayMs);
 
-    if (daysLeft == 1) {
-        console.log(`${daysLeft} day until your trip!`);
-    }
-    else {
-        console.log(`${daysLeft} days until your trip!`);
-    }
-    // get lat/long and other geographical details of destination
+    // get lat/long and other geographical details of trip destination from Geonames API
     const geoCoords = await geoNamesAPI(locale);
     trip.city = geoCoords.name;
     trip.adminCode1 = geoCoords.adminCode1;
     trip.adminName1 = geoCoords.adminName1;
     trip.country = geoCoords.country;
 
-    // get current local time at destination
+    // get local timezone and current local time at trip destination from Geonames API
     const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
     trip.localTime = geoTime.time;
     trip.timeZone = geoTime.timezoneId;
 
 
-    // calculate UTC date time for last day of forecasted weather data
+    // calculate UTC date time for last day of available forecast weather data from WeatherBit (shortened to 14 days for simplicity)
     let forecastEnd = new Date(`${geoTime.time}`);
     forecastEnd.setDate(forecastEnd.getDate() + 14);
     let forecastEndDt = forecastEnd.getFullYear() + '-' + ('0' + (forecastEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + forecastEnd.getDate()).slice(-2);
     forecastEnd = new Date(forecastEndDt);
 
-    // calculate UTC date time for first day of statistical weather data    
+    // calculate UTC date time for first applicable day to retrieve statistical weather data from Visual Crossing   
     let statStart = new Date(`${geoTime.time}`);
     statStart.setDate(statStart.getDate() + 15);
     let statStartDt = statStart.getFullYear() + '-' + ('0' + (statStart.getMonth() + 1)).slice(-2) + '-' + ('0' + statStart.getDate()).slice(-2);
     statStart = new Date(statStartDt);
     
-
-
-    let destinationTime = new Date(`${geoTime.time}`);
+    // determine destination name input for retrieving trip image from Pixabay
     let destination = "";
-    let destTime = destinationTime;
-    destTime.setDate(destTime.getDate());
-    let destDt = destTime.getFullYear() + '-' + ('0' + (destTime.getMonth() + 1)).slice(-2) + '-' + ('0' + destTime.getDate()).slice(-2);
-    let destTimeDt = new Date(destDt);
-    console.log("destDt:", destDt);
-    console.log("destTimeDt:", destTimeDt);
-    
-    let obsEnd = new Date(destTimeDt);
-    obsEnd.setDate(obsEnd.getDate());
-    obsEnd = obsEnd.getFullYear() + '-' + ('0' + (obsEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + obsEnd.getDate()).slice(-2);
-    console.log("obsEnd:", obsEnd);
-
-    // retrieve local time in destination
+    // if trip destination is in USA, provide city name and state, otherwise provide city name and country
     if (geoCoords.country == 'United States') {
-        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
+        //console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.adminCode1}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
         destination = `${geoCoords.name} ${geoCoords.adminName1}`;
     }
     else {
-        console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
+        //console.log(`Current date, time in ${geoCoords.name}, ${geoCoords.country}:`, destinationTime.toLocaleDateString('en-US'), destinationTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
         destination = `${geoCoords.name} ${geoCoords.country}`;
     }
 
-    // call the Pixabay API to retrieve image of destination
+    // call the Pixabay API to retrieve image of destination and return "none" if no image is found
     const localePix = await pixAPI(destination);
-    //console.log(localePix);
     if(localePix == "no image"){
-        //trip.image = "https://pixabay.com/get/gb317d34e5dce42645251c83f1b66255fd5c73fb562d5aa59f8fb6a7f740dc1edb70668c7c4a8e907e924bc09a0641134940ba85032972233f0b12cdfb4a155fc_1280.jpg";
-        //trip.image = "https://pixabay.com/get/gc129c9ff40123972163210fed7013af85d4e5fb994f13e06b049b5810b5661eb129893383edea06b39caf9cf8e83ba5528bfc7df8028de617abb343e2cbe492e_1280.jpg";
-        //trip.image = "https://pixabay.com/get/g9fe9acd544da11c85c986c238398c85e534f0ac81226b3a54d1ad9d3dd0f927e7b2e2967680d4ca9fe3233ff67249061_640.jpg";
         trip.image = "none";
     }
     else{
         trip.image = localePix.webformatURL;
     }
+
+    // define date variables for looping through returned 3rd party weather forecast data
+    let destinationTime = new Date(`${geoTime.time}`);    
+    let destTime = destinationTime;
+    destTime.setDate(destTime.getDate());
+    let destDt = destTime.getFullYear() + '-' + ('0' + (destTime.getMonth() + 1)).slice(-2) + '-' + ('0' + destTime.getDate()).slice(-2);
+    let destTimeDt = new Date(destDt);
+    // debugging messages
+    /*
+    console.log("destDt:", destDt);
+    console.log("destTimeDt:", destTimeDt);
     console.log("start:", start);
     console.log("startDt:", startDt);
     console.log("startDt.getDate()", startDt.getDate());
@@ -203,10 +188,13 @@ async function callApis(req, res) {
     console.log("startDt.getTime():", startDt.getTime());
     console.log("forecastEnd.getTime():", forecastEnd.getTime());
     console.log("endDt.getTime()", endDt.getTime());
+    */
 
+    // call Visual Crossing API for today's and any historical (i.e. yesterday's) weather data if trip has already started
     if(startDt.getTime() <= destTimeDt.getTime()){
         const obsWeather = await vcWeatherAPI(start, destDt/*obsEnd*/, geoCoords.lat, geoCoords.lng, "obs%2Ccurrent");
         try {
+            // populate trip weather data for each applicable day
             for (day of obsWeather['days']) {
                 trip.weather[day.datetime] = {}
                 trip.weather[day.datetime]['high'] = day.tempmax;
@@ -238,11 +226,12 @@ async function callApis(req, res) {
 
     }        
 
-
+    // call Visual Crossing API for statistical forecast weather data if trip start date exceeds available forecast data from WeatherBit
     if (startDt.getTime() > forecastEnd.getTime()) {
         const statWeather = await vcWeatherAPI(start, end, geoCoords.lat, geoCoords.lng, "stats");
         //console.log("stat weather \n:", statWeather);
         try {
+            // populate trip weather data for each applicable day
             for (day of statWeather['days']) {
                 trip.weather[day.datetime] = {}
                 trip.weather[day.datetime]['high'] = day.tempmax;
@@ -271,6 +260,7 @@ async function callApis(req, res) {
         }
 
     }
+    // cal WeatherBit API if trip's date range falls within next 14 days
     else if (endDt.getTime() <= forecastEnd.getTime()) {
         
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
@@ -285,7 +275,7 @@ async function callApis(req, res) {
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
                 if (dateFormatted in forecastWeather){
-                //console.log(forecastWeather[`${dateFormatted}`]);
+                // populate trip weather data for each applicable day
                 trip.weather[dateFormatted] = {}
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
                 trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
@@ -304,18 +294,17 @@ async function callApis(req, res) {
                 trip.weather[dateFormatted]['moonPhase'] = forecastWeather[dateFormatted].moon_phase_lunation;
             }
             dt.setTime(dt.getTime() + oneDayMs);
-            // old statement fails for Daylight Savings Time:
-            //dt.setDate(dt.getDate() + 1);
-            console.log("next date counter:", dt);
+            //console.log("next date counter:", dt);
             }
         }
-            console.log(trip);
+            //console.log(trip);
         }
         catch (error) {
             console.log("error occured", error);
         }
         
     }
+    // trip's date range spans both next 14 days and beyond -- call both weather forecast APIs to retrieve data
     else {
         const forecastWeather = await weatherAPI(start, end, geoCoords.lat, geoCoords.lng);
         //console.log("unfiltered forecast results:", forecastWeather);
@@ -328,7 +317,7 @@ async function callApis(req, res) {
                 if(dt.getTime() >= startDt.getTime() && dt.getTime() <= endDt.getTime()){
                 let dateFormatted = dt.getUTCFullYear() + '-' + ('0' + (dt.getUTCMonth() + 1)).slice(-2) + '-' + ('0' + dt.getUTCDate()).slice(-2);
                 console.log("formatted date:", dateFormatted)
-                //console.log(forecastWeather[`${dateFormatted}`]);
+                // populate trip weather data for each applicable day from WeatherBit
                 trip.weather[dateFormatted] = {}
                 trip.weather[dateFormatted]['high'] = forecastWeather[dateFormatted].max_temp;
                 trip.weather[dateFormatted]['low'] = forecastWeather[dateFormatted].min_temp;
@@ -357,10 +346,12 @@ async function callApis(req, res) {
         catch (error) {
             console.log("error occured", error);
         }
+        // retrieve statistical forecas weather data from Visual Crossing for dates beyond that returned by WeatherBit
         const statWeather = await vcWeatherAPI(statStartDt, end, geoCoords.lat, geoCoords.lng, "stats");
         //console.log(statWeather);
         try {
             for (day of statWeather['days']) {
+                // populate trip weather data for each applicable day from Visual Crossing
                 trip.weather[day.datetime] = {}
                 trip.weather[day.datetime]['high'] = day.tempmax;
                 trip.weather[day.datetime]['low'] = day.tempmin;
@@ -388,21 +379,27 @@ async function callApis(req, res) {
         }
 
 }
-
-    //  const weatherHistData = await weatherHistory(start, end, geoCoords.lat, geoCoords.lng);
+    // return populated trip data in the POST response object
     res.send(trip);
-    console.log("sent trip info");
-    console.log('finished');
 }
 
-// function to map wind direction in degrees to wind direction description. reference: https://www.campbellsci.com/blog/convert-wind-directions
+/**  
+ * @description - convert wind direction as returned by Visual Crossing in degrees format to text string. reference: https://www.campbellsci.com/blog/convert-wind-directions
+ * @param {number} degrees - wind direction in degrees as returned by Visual Crossing API
+ * @returns wind direction converted into text string format for client side UI display later
+ */
 function windDirection(degrees) {
     const compassSections = ["north","north-northeast","northeast","east-northeast","east","east-southeast","southeast","south-southeast",
                             "south","south-southwest","southwest","west-southwest","west","west-northwest","northwest","north-northwest","north"];
     const compassIndex = Math.round(degrees / 22.5);
     return compassSections[compassIndex];
 }
-// function to map visual crossing icon description to weatherbit icon image
+
+/**  
+ * @description - Map Visual Crossing icon description to weatherbit icon code for displaying consistent weather icons later on user client browser
+ * @param {string} description - description text of weather icon returned by Visual Crossing API
+ * @returns weather icon code identifying WeatherBit's different weather icons
+ */
 function weatherIconCode(description){
     switch(description){
         case "snow":
@@ -438,15 +435,23 @@ function weatherIconCode(description){
     }
 }
 
+/**
+ * @description - return local time given an input time and timezone
+ * @param {*} epochTime - time in epoch format
+ * @param {*} timeZone - timezone of desired output time
+ * @returns - local time 
+ */
 function localTime(epochTime, timeZone) {
     let dt = new Date(epochTime * 1000);
-    //let localTime = dt.toLocaleTimeString("en", {timeZone:tz});
     let localTime = dt.toLocaleString('en-US', {timeZone:timeZone, hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false });
     //console.log(localTime);
     return localTime;
-//    var newTime = d.toLocaleTimeString("en", {timeZone:"Asia/Singapore"});
 }
-
+/**
+ * @description - call Pixabay API to retrieve image of trip destination
+ * @param {string} destination - trip destination to retrieve image for
+ * @returns image of trip destination
+ */
 async function pixAPI(destination) {
     const pixUrl = "https://pixabay.com/api/";
     const locale = encodeURI(destination)
@@ -456,14 +461,15 @@ async function pixAPI(destination) {
 
     const responseTravel = await fetch(pixUrl + `?key=${pixKey}` + `&q=${locale}` + `&category=travel` + "&order=popular" + `&per_page=${maxResults}`);
     const responseAllCats = await fetch(pixUrl + `?key=${pixKey}` + `&q=${locale}` + `&category=${allCats}` + "&order=popular" + `&per_page=${maxResults}`);
-
+    // first attempt to retrieve images in the 'travel' category
+    // if no travel images are returned, return image for any category belonging to travel/places/buildings/nature
     try {
         const resultsTravel = await responseTravel.json();
         const resultsAllCats = await responseAllCats.json()
         let results = "";
         console.log("resultsAllCats:", resultsAllCats);
         console.log("resultsAllCats.total:", resultsAllCats.total);
-
+        
         if(resultsAllCats.total == 0){
             results = "no image";
             return results;
@@ -474,7 +480,6 @@ async function pixAPI(destination) {
         else {
             results = resultsTravel;
         }
-        //console.log("filtered top result:", results['hits'][0]);
         return results['hits'][0];
     }
     catch (error) {
@@ -482,30 +487,15 @@ async function pixAPI(destination) {
     }
 }
 
-async function obsWeatherAPI(start, end, lat, lng) {
-    const weatherStatUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" + `${lng}` + "/" + `${start}` + "/" + `${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}` + "&" + "include=obs,current");
-    const response = await fetch(weatherStatUrl + `${lat}` + "%2C" + `${lng}` + "/" + `${start}` + "/" + `${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}` + "&" + "include=obs,current");
-    //console.log("raw response:", response);
-    const weatherForecast = {};
 
-    try {
-        const results = await response.json();
-        weatherForecast['resolvedAddress'] = results.resolvedAddress;
-        weatherForecast['remainingCosts'] = results.remainingCost;
-        weatherForecast['remainingCredits'] = results.remainingCredits;
-        weatherForecast['days'] = results['days'];
-        //results['days'].forEach(element => weatherForecast[element['datetime']] = element);
-        //console.log("raw stat weather:", weatherForecast);
-        //        console.log(results['data'][0]['weather']);
-        return weatherForecast;
-    }
-    catch (error) {
-        console.log("error occured", error);
-    }
-}
-
-// retrieve weather data from visual crossing for dates > 14 days (statistical forecast data) and/or dates in the past (historical/current observations)
+/**  
+ * @description - retrieve weather data from visual crossing for either dates > 14 days (statistical forecast data) or current and past dates
+ * @param {string} start - start date of desired weather data 
+ * @param {end} end - end date of desired weather data
+ * @param {*} lat - latitude of trip destination
+ * @param {*} lng - longitude of trip destination
+ * @param {*} type - identify type of weather data to be retreived (statistical for future / observed for current/past dates)
+ */
 async function vcWeatherAPI(start, end, lat, lng, type) {
     const weatherStatUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
     console.log("request made to:", weatherStatUrl + `${lat}` + "%2C" + `${lng}` + "/" + `${start}` + "/" + `${end}` + "?" + "unitGroup=metric" + "&" + `key=${weatherVcKey}` + "&" + `include=${type}`);
@@ -530,7 +520,14 @@ async function vcWeatherAPI(start, end, lat, lng, type) {
 }
 
 
-// function to retrieve weather data for given coords and dates
+/**  
+ * @description - retrieve weather forecast data from WeathberBit API for dates between 1-14 days in future
+* @param {*} start - start date of desired weather data (not actually used)
+ * @param {*} end - end date of desired weather data (not actually used)
+ * @param {*} lat - latitude of trip destination
+ * @param {*} lng - longitude of trip destination
+ * @returns - weather forecast for next 14 days
+ */
 async function weatherAPI(start, end, lat, lng) {
     const weatherBitUrl = "https://api.weatherbit.io/v2.0/forecast/daily?";
     //const weatherForecast = [];

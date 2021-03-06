@@ -1,6 +1,19 @@
+/**
+ * @description - validate new trip form's input data
+ * @param {string} locale - trip destination input value
+ * @param {string} start - trip start date input value
+ * @param {string} end - trip end date input value
+ * @returns true or false 
+ */
 function validateTrip(locale, start, end){
     const trim_locale = locale.trim();
-    if(trim_locale !== "" && start <= end){
+    console.log("start typeof:", typeof start);
+    let start_dt = new Date(start);
+    console.log("start_dt", typeof start_dt);
+    console.log("start_dt:", start_dt);
+    let end_dt = new Date(end);
+    //confirm trip destination is not empty and start date <= end date
+    if(trim_locale !== "" && start_dt <= end_dt){
     return true;
     }
     else{
@@ -8,6 +21,9 @@ function validateTrip(locale, start, end){
     }
 }
 
+/**
+ * @description - sets live local clocks and live countdowns for each existing trip destination
+ */
 function setClocks() {
     let clocks = document.querySelectorAll(".local-time");
     let ctdowns = document.querySelectorAll("h3.countdown");
@@ -24,7 +40,12 @@ function setClocks() {
         ctdown.innerHTML = countdownMsg;
     }
 }
-// Abbreviate wind direction
+
+/**
+ * @description - Abbreviate wind direction for UI display
+ * @param {string} direction - full text string for wind direction
+ * @returns abbreviated wind direction 
+ */ 
 function windDirShort(direction) {
     let shortDir = direction.replace(/est/g, "");
     shortDir = shortDir.replace(/ast/g, "");
@@ -33,61 +54,92 @@ function windDirShort(direction) {
     return shortDir.toUpperCase();
 }
 
-// convert km to miles
+/**  
+ * @description Convert km to miles
+ * @param {number} amt - amount in kilometers (km) to convert
+ * @returns amount converted to miles
+ */
 function kmToMi(amt) {
     return Math.round(amt / 1.609 * 10) / 10;
 }
-// convert centimers to inches
+
+/** 
+ * @description - Convert centimers to inches
+ * @param {number} amt - amount in centimers to convert
+ * @returns amount converted to inches
+ */
 function cmToIn(amt) {
     return Math.round(amt / 2.54 * 100) / 100;
 }
-// calculate days until trip
-function daysLeft(start) {
-    console.log("daysLeft called with:", start);
-    let today = new Date();
-    let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    todayDt = new Date(todayDt);
 
-    let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
-    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
-    let daysRemaining = Math.round((startDt - todayDt) / oneDayMs);
-    return daysRemaining;
-}
-
-// calculate days until trip
+/**  
+ * @description - Calculate days until trip
+ * @param {string} start - start date of trip
+ * @param {end} end - end date of trip
+ * @returns duration of trip in days
+*/
 function duration(start, end) {
+    /* Note: to address Safari invalid date issue: \s metacharacter regex is used to find whitespace character to be replaced with 'T'
+    https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+    */
     let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
     let endDt = new Date(`${end}T00:00:00`.replace(/\s/, 'T'));
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
-    daysLeft = Math.round((endDt - startDt) / oneDayMs) + 1;
+    
+    let daysLeft = Math.round((endDt - startDt) / oneDayMs) + 1;
     return daysLeft
 }
 
+/**
+ * @description - Determine the day of the week for a given date
+ * @param {string} date - date
+ * @returns day of the week (abbreviated string)
+ */
 function dayOfWeek(date) {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     let dt = new Date(`${date}T00:00:00`.replace(/\s/, 'T'));
     return days[dt.getDay()];
 }
 
+/**
+ * @description - Determine the current local date for given timezone
+ * @param {string} tZone - time zone
+ * @returns current local date string
+ */
 function localDate(tZone) {
     let currentTime = new Date();
     return currentTime.toLocaleDateString('en-US', { timeZone: tZone, year: '2-digit', month: 'numeric', day: 'numeric' });
 }
 
+/**
+ * @description - Determine the current local date, time and day of week for given timezone
+ * @param {string} tZone - time zone
+ * @returns current local date and time string plus day of week
+ */
 function localDateTime(tZone) {
     let currentTime = new Date();
     let localTime = currentTime.toLocaleTimeString('en-US', { timeZone: tZone, hour: 'numeric', minute: 'numeric', hour12: true, year: '2-digit', month: 'numeric', day: 'numeric', weekday: 'short' });
     let timeIndex = localTime.lastIndexOf(',') + 2;
     let dateIndex = localTime.indexOf(',') + 2;
-    //console.log(localTime.slice(timeIndex) + localTime.slice(dateIndex, timeIndex-2) + localTime.slice(0, dateIndex-2))
+
     return localTime.slice(timeIndex) + ", " + localTime.slice(dateIndex, timeIndex - 2).slice(0,-3) + " (" + localTime.slice(0, dateIndex - 2) + ")";
 }
 
+/**
+ * @description - Reformat date input to mm/dd/yy format for UI display
+ * @param {string} date - Date to be reformatted
+ * @returns reformatted date in mm/dd/yy format
+ */
 function dateString(date) {
     let dt = new Date(`${date}T00:00:00`.replace(/\s/, 'T'));
     return ((dt.getMonth() + 1)) + '/' + dt.getDate() + '/' + dt.getFullYear().toString().substr(-2);
 }
 
+/**
+ * @description - Convert military time into standard time for UI display
+ * @param {string} militaryTime
+ * @returns time converted to standard time format
+ */
 function toStandardTime(militaryTime) {
     let timeArray = militaryTime.split(':');
     if (timeArray[0].charAt(0) == 1 && timeArray[0].charAt(1) > 2) {
@@ -103,15 +155,22 @@ function toStandardTime(militaryTime) {
     }
 }
 
+/**
+ * @description - Convert celcius to fahrenheight
+ * @param {number} temp - temperature in degrees celcius
+ * @returns temperature converted to fahrenheit
+ */
 function cToF(temp) {
     return Math.round((temp * 9 / 5)) + 32;
 }
 
-
-
-
+/**
+ * @description - determine countdown message with number of days left
+ * @param {string} start - start date of trip
+ * @param {string} tzone - time zone of trip destination
+ * @returns countdown message with numbers of days left
+ */
 function ctDown(start, tzone) {
-    //let countdown = daysLeft(start); /* for some reason this call fails*/
     let today = new Date();
     let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     todayDt = new Date(todayDt);
@@ -119,14 +178,8 @@ function ctDown(start, tzone) {
     const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
     let countdown = Math.round((startDt - todayDt) / oneDayMs);
 
-
-    //console.log("localDate:", localDate(tzone));
     let localDt = new Date(localDate(tzone));
-    //let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
-    //console.log("localDt:", localDt);
-    // console.log("startDt:", startDt);
     let begunAlready = (startDt < localDt);
-    // console.log("begunAlready", begunAlready)
     let countdownMsg = "";
     if (begunAlready) {
         countdownMsg = `Your trip has started!`;
@@ -149,7 +202,10 @@ function ctDown(start, tzone) {
     }
 }
 
-// Set minimum dates for trip
+/**  
+ * @description - Set default minimum start and end dates for new trip form
+ * 
+ */
 function setMinDates() {
     let today = new Date();
     let tm = new Date(today);
@@ -183,6 +239,10 @@ function setMinDates() {
     document.getElementById('end').setAttribute("value", tm);
 }
 
+/**
+ * @description - set minimum end date for new trip form as start date and default as day after start date 
+ * @returns nothing 
+ */
 function setEndMin() {
     let start = document.getElementById("start").value;
     let end = document.getElementById("end").value;
@@ -202,5 +262,5 @@ function setEndMin() {
 }
 
 export { validateTrip }
-export {setClocks, setMinDates, setEndMin, windDirShort, kmToMi, cmToIn, daysLeft, duration, dayOfWeek, localDate, localDateTime,
+export {setClocks, setMinDates, setEndMin, windDirShort, kmToMi, cmToIn, duration, dayOfWeek, localDateTime,
     cToF, toStandardTime, dateString, ctDown}

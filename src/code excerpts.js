@@ -566,3 +566,51 @@ const syncScroll = (event) => {
 <span class="sched-expand">&#8249</span>
 
 <div class="itinerary-timeline">11 PM &#9660</div>
+
+/**
+ * @description load the trip entry into the modal
+ * @param {*} entry - Element to be loaded
+ * @param {*} id - Trip id
+ */
+const loadEntry = (entry) => {
+    const modalContainer = document.querySelector(".trip-content");
+    modalContainer.innerHTML = entry;
+
+    // Handle buttons on the trip container
+    save.style.display = "inline-block";
+    updateBtn.style.display = "none";
+
+};
+
+// calculate days until trip
+function daysLeft(start) {
+    console.log("daysLeft called with:", start);
+    let today = new Date();
+    let todayDt = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    todayDt = new Date(todayDt);
+   /* to address Safari invalid date issue: \s metacharacter regex is used to find whitespace character to be replaced with 'T'
+    https://stackoverflow.com/questions/4310953/invalid-date-in-safari
+    */
+    let startDt = new Date(`${start}T00:00:00`.replace(/\s/, 'T'));
+    const oneDayMs = 24 * 60 * 60 * 1000; // millisec in a day
+    let daysRemaining = Math.round((startDt - todayDt) / oneDayMs);
+    return daysRemaining;
+}
+//not used because ctDown function fails when calling it
+function ctDown(start, tzone) {
+    //let countdown = daysLeft(start); /* for some reason this call fails*/</div>
+}
+
+daysLeft = Math.round((startDt - todayDt) / oneDayMs);
+
+if (daysLeft == 1) {
+    console.log(`${daysLeft} day until your trip!`);
+}
+else {
+    console.log(`${daysLeft} days until your trip!`);
+}
+
+let obsEnd = new Date(destTimeDt);
+    obsEnd.setDate(obsEnd.getDate());
+    obsEnd = obsEnd.getFullYear() + '-' + ('0' + (obsEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + obsEnd.getDate()).slice(-2);
+    //console.log("obsEnd:", obsEnd);
