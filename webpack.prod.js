@@ -56,7 +56,8 @@ module.exports = {
             filename: "./index.html",
         }),
         new MiniCssExtractPlugin({filename: '[name].css'}),
-        // service worker install for prod: new WorkboxPlugin.GenerateSW(),
+        // service worker install for prod: 
+        new WorkboxPlugin.GenerateSW(),
         new CleanWebpackPlugin({
             // Simulate the removal of files
             dry: true,
