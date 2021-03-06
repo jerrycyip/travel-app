@@ -39,7 +39,7 @@ const fetch = require('node-fetch');
 /* Static Routing */
 // routing of site to directory of bundled assets
 app.use(express.static('dist'))
-// routing for loading site
+// Routing for loading site html
 app.get('/', function (req, res) {
     res.sendFile(path.resolve('src/client/views/index.html'))
 })
@@ -49,7 +49,7 @@ app.get('/', function (req, res) {
 app.post("/addEntry", (req, res) => {
     const entry = req.body;
     tripData.push(entry);
-    console.log("Trip Data after added Trip:", tripData);
+    //console.log("Trip Data after added Trip:", tripData);
     res.send(tripData);
 });
 
@@ -487,7 +487,6 @@ async function pixAPI(destination) {
     }
 }
 
-
 /**  
  * @description - retrieve weather data from visual crossing for either dates > 14 days (statistical forecast data) or current and past dates
  * @param {string} start - start date of desired weather data 
@@ -537,19 +536,12 @@ async function weatherAPI(start, end, lat, lng) {
     const response = await fetch(weatherBitUrl + "&" + `lat=${lat}` + "&" + `lon=${lng}` + "&" + `key=${weatherBitKey}`);
     try {
         const results = await response.json();
-        //console.log("raw weather forecast:", results);
-        /*        console.log("city:", results['city_name']);
-                console.log("country:", results['country_code']);
-                console.log("timezone:", results['timezone']);*/
-        //results['data'].forEach(element => console.log(element));
-        //results['data'].forEach(element => console.log(element, element['weather']))
+        
         weatherForecast['city'] = results['city_name'];
         weatherForecast['country'] = results['country_code'];
         weatherForecast['timezone'] = results['timezone'];
         results['data'].forEach(element => weatherForecast[element['datetime']] = element)
-        //console.log(weatherForecast);
-        //console.log("timezone:", results['timezone']);
-        //        console.log(results['data'][0]['weather']);
+        
         return weatherForecast;
     }
     catch (error) {
@@ -557,12 +549,14 @@ async function weatherAPI(start, end, lat, lng) {
     }
 }
 
-
-// function to retrieve the current time at travel destination from GeoNames API
+/**  
+ * @description - Retrieve the current time at travel destination from GeoNames API
+ * @param {*} lat - latitude of trip destination
+ * @param {*} lng - longitude of trip destination
+ * @returns current time at travel destination
+ */
 async function geoTimeAPI(lat, lng) {
     const geoTimeUrl = " http://api.geonames.org/timezoneJSON?";
-
-    //const locale = req.body.destination;
     const maxResults = 3;
 
     console.log("request made to:", geoTimeUrl + `lat=${lat}` + "&" + `lng=${lng}` + "&" + `username=${geoKey}`);
@@ -570,8 +564,6 @@ async function geoTimeAPI(lat, lng) {
 
     try {
         const results = await response.json();
-        //console.log(results);
-        //console.log("date-time:", results.time);
 
         return results;
     }
@@ -580,16 +572,19 @@ async function geoTimeAPI(lat, lng) {
     }
 }
 
-// function to retrieve lat/long from GeoNames API using destination as input
+/**  
+ * @description - Retrieve geocoordinate info including lat/long from GeoNames API using destination as input
+ * @param {*} locale - trip destination name
+ * @returns geocoordinate info including latitude & longitude of trip destination
+ */
 async function geoNamesAPI(locale) {
     const geoNamesUrl = "http://api.geonames.org/searchJSON?q=";
 
-    //const locale = req.body.destination;
+    // we'll only use top result, but get 3 results in case of future enhancements
     const maxResults = 3;
-
-    console.log("request made to:", geoNamesUrl + locale + "&" + `maxResults=${maxResults}` + "&" + `username=${geoKey}`);
+    //console.log("request made to:", geoNamesUrl + locale + "&" + `maxResults=${maxResults}` + "&" + `username=${geoKey}`);
     const response = await fetch(geoNamesUrl + locale + "&" + `maxRows=${maxResults}` + "&" + `username=${geoKey}`);
-
+    //
     try {
         const results = await response.json();
         //console.log(results);
@@ -602,8 +597,6 @@ async function geoNamesAPI(locale) {
             lat: firstRow['lat'],
             lng: firstRow['lng'],
         }
-        console.log(firstRow);
-        console.log(geoCoords);
         return geoCoords;
     }
     catch (error) {
@@ -611,20 +604,7 @@ async function geoNamesAPI(locale) {
     }
 }
 
-
-function addEntry(req, res) {
-    tripData.push(req.body);
-    res.send(tripData[tripData.length - 1]);
-}
-// Get all weather journal entries
-app.get('/all', getEntries);
-
-function getEntries(req, res) {
-    /*console.log(tripData);*/
-    res.send(tripData);
-}
-
-// Define port #
+// Define server port #
 const port = 8084;
 
 // Setup Server

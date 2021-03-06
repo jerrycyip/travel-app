@@ -614,3 +614,15 @@ let obsEnd = new Date(destTimeDt);
     obsEnd.setDate(obsEnd.getDate());
     obsEnd = obsEnd.getFullYear() + '-' + ('0' + (obsEnd.getMonth() + 1)).slice(-2) + '-' + ('0' + obsEnd.getDate()).slice(-2);
     //console.log("obsEnd:", obsEnd);
+
+    function addEntry(req, res) {
+    tripData.push(req.body);
+    res.send(tripData[tripData.length - 1]);
+}    
+
+// Get all weather journal entries
+app.get('/all', getEntries);
+function getEntries(req, res) {
+    /*console.log(tripData);*/
+    res.send(tripData);
+}

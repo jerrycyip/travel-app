@@ -7,10 +7,7 @@
  */
 function validateTrip(locale, start, end){
     const trim_locale = locale.trim();
-    console.log("start typeof:", typeof start);
     let start_dt = new Date(start);
-    console.log("start_dt", typeof start_dt);
-    console.log("start_dt:", start_dt);
     let end_dt = new Date(end);
     //confirm trip destination is not empty and start date <= end date
     if(trim_locale !== "" && start_dt <= end_dt){
