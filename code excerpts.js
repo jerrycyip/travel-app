@@ -626,3 +626,29 @@ function getEntries(req, res) {
     /*console.log(tripData);*/
     res.send(tripData);
 }
+
+from package.json
+"devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-loader": "^8.2.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^5.1.1",
+    "fetch-node": "^0.0.1",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
+    "html-webpack-plugin": "^4.5.2",
+    "i": "^0.3.6",
+    "mini-css-extract-plugin": "^0.12.0", 
+    //"^1.3.9",
+    "node-sass": "^5.0.0",
+    "npm": "^6.14.11",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
+    "supertest": "^6.1.3",
+    "terser-webpack-plugin": "^4.2.3", 
+    //"^5.0.3",
+    "webpack-dev-server": "^3.11.2",
+    "workbox-webpack-plugin": "^6.1.1"
+  }
