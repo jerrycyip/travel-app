@@ -34,6 +34,8 @@ const cors = require('cors');
 app.use(cors());
 // Require node-fetch for making 3rd party API calls
 const fetch = require('node-fetch');
+const { ModuleFilenameHelpers } = require('webpack');
+const { Module } = require('webpack');
 
 
 /* Static Routing */
@@ -612,3 +614,6 @@ const server = app.listen(port, listening);
 function listening() {
     console.log(`server running on local host: ${port}`);
 }
+
+// allow each test file to start a server on their own
+module.exports = app

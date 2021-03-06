@@ -19,15 +19,20 @@ Tools required to develop and run this project are as follows:
     - Webpack (Build Tool for setting up dev and prod environments)
     - Service Worker (External Script for offline functionality)
     - Jest (unit testing)
+    - SuperTest (unit testing of Express Server)
 - free developers accounts from weatherbit.io, pixabay.com, geonames.org and visualcrossing.com (these are required if you wish to use your open API token for retrieving data)
 - (not required) This project and related requirements was tracked and managed via the following [kanban board](https://trello.com/b/3R28aGDc/travel-app)
 
 ## Installation & Configuration
 
-The following loaders and plugins were installed for development, with Service Workers installed for production only.
+The following loaders and plugins were installed, with Service Workers installed for production only.
 (Choose the necessary installation for your development mode and preferences)
-- Install Webpack and the command line instructions (CLI) tool:
+- Install Webpack and the command line instructions (CLI) tool for dev and prod:
     npm i webpack webpack-cli 
+- Install the following npm packages that are used by the express server for dev & prod:\
+    npm i --save path\
+    npm i --save body-parser\
+    npm i --save cors    
 - (Babel: for transpiling ECMA2016+ JavaScript to standard JavaScript)\
     npm i -D @babel/core @babel/preset-env babel-loader\
     (short for "npm install --save-dev @babel/core @babel/preset-env babel-loader")
@@ -45,10 +50,6 @@ The following loaders and plugins were installed for development, with Service W
 - (Inclusion of images/logos on site )\
     npm i -D file-loader
     npm i -D html-loader
-- Install the following npm packages that are used by the express server:\
-    npm i --save path\
-    npm i --save body-parser\
-    npm i --save cors
 - Install fetch-node (or alternatively axios) for making api fetch requests to 3rd party APIs\
     npm i fetch-node --save-dev    
     
