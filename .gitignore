@@ -2,3 +2,4 @@
 node_modules
 dist
 code exerpts.js
+.DS_Store
