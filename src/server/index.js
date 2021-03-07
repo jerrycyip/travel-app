@@ -21,10 +21,11 @@ const path = require('path')
 /* Secure api keys as environment variables */
 const dotenv = require('dotenv');
 dotenv.config();
+
 // store api keys:
 const geoKey = process.env.geo_key;
 const weatherBitKey = process.env.weatherbit_key;
-// visual crossing api key for dates beyond 16 days (use historical proxy)
+// visual crossing api key for dates beyond 16 days (uses statistical forecast weather) and/or for today's date or earlier (historical observed weather)
 const weatherVcKey = process.env.weathervc_key;
 // pixabay api key for retrieving images
 const pixKey = process.env.pixabay_key;
@@ -124,10 +125,12 @@ async function callApis(req, res) {
 
     // get lat/long and other geographical details of trip destination from Geonames API
     const geoCoords = await geoNamesAPI(locale);
+    
     trip.city = geoCoords.name;
     trip.adminCode1 = geoCoords.adminCode1;
     trip.adminName1 = geoCoords.adminName1;
     trip.country = geoCoords.country;
+    
 
     // get local timezone and current local time at trip destination from Geonames API
     const geoTime = await geoTimeAPI(geoCoords.lat, geoCoords.lng);
@@ -516,7 +519,7 @@ async function vcWeatherAPI(start, end, lat, lng, type) {
         return weatherForecast;
     }
     catch (error) {
-        console.log("error occured", error);
+        console.log("error occured in vcWeatherAPI - please ensure VisualCrossing API key is provided in .env file:", error);
     }
 }
 
@@ -547,7 +550,7 @@ async function weatherAPI(start, end, lat, lng) {
         return weatherForecast;
     }
     catch (error) {
-        console.log("error occured", error);
+        console.log("error occured in weatherAPI - please ensure weatherBit API key is provided in .env file:", error);
     }
 }
 
@@ -570,7 +573,7 @@ async function geoTimeAPI(lat, lng) {
         return results;
     }
     catch (error) {
-        console.log("error occured:", error);
+        console.log("error occured in geoTimeAPI - please ensure GeoNames API key is provided in .env file:", error);
     }
 }
 
@@ -585,8 +588,8 @@ async function geoNamesAPI(locale) {
     // we'll only use top result, but get 3 results in case of future enhancements
     const maxResults = 3;
     //console.log("request made to:", geoNamesUrl + locale + "&" + `maxResults=${maxResults}` + "&" + `username=${geoKey}`);
-    const response = await fetch(geoNamesUrl + locale + "&" + `maxRows=${maxResults}` + "&" + `username=${geoKey}`);
     //
+    const response = await fetch(geoNamesUrl + locale + "&" + `maxRows=${maxResults}` + "&" + `username=${geoKey}`);
     try {
         const results = await response.json();
         //console.log(results);
@@ -602,7 +605,7 @@ async function geoNamesAPI(locale) {
         return geoCoords;
     }
     catch (error) {
-        console.log("error occured:", error);
+        console.log("error occured in geoNamesAPI - please ensure GeoNames API key is provided in .env file:", error);
     }
 }
 
