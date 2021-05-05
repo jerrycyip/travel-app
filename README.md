@@ -74,7 +74,7 @@ The supporting javascript file, "app.js", controls dynamic functionality on the 
 ### JavaScript: server.js
 The backend server file, "server.js", employs the Node.js web application framework 'Express' for setting up a local server.  Note, as the scope of this project does not implement any dedicated backend datastore (e.g. database) as a complement to the local server, this setup mainly serves local testing and development purposes rather than implementing true data persistence (e.g. across server restarts/user sessions/devices etc). Functionality provided includes:
 - Basic routing for loading the main landing page (as provided by index.html).
-- Middleware functionality including GET and POST routines that correspond to the POST and GET calls from the browser aka client-side (as implemented by app.js).  Here, the planned trips comprise forecasted weather data, trip destination images and users' input itinerary data that are posted and retrieved.  The Node.js 'body-parser' package is used for json string parsing of the trip entry payloads.
+- Middleware functionality including GET and POST routines that correspond to the GET and POST calls from the browser aka client-side (as implemented by app.js).  Here, the planned trips comprise forecasted weather data, trip destination images and users' input itinerary data that are posted and retrieved.  The Node.js 'body-parser' package is used for json string parsing of the trip entry payloads.
 - In addition, the Node.js 'cors' (cross origin resource sharing) package is also installed for communication with the front end application.
 
 ### Webpack Set Up Instructions
