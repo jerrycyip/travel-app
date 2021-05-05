@@ -10,10 +10,9 @@ This project is the final capstone for Udacity's Front End Web Developer Nanodeg
 Tools required to develop and run this project are as follows: 
 - text editor (e.g. [Atom](https://atom.io/)) or Integrated Development Environment - IDE (e.g. MS Visual Studio)
 - web browser (e.g. Chrome/Safari/Firefox)
-- Node.js (for webserver functionality)
+- Node.js
 - 3rd party Node.js packages as listed in package.json, including (additional loaders and plugins listed in next section):
-    - Webserver - Node.js
-    - Express (Web application framework)
+    - Express
     - body-parser (middleware body parser)
     - cors (cross origin routing)
     - Webpack (Build Tool for setting up dev and prod environments)
