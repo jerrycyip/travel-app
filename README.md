@@ -83,7 +83,7 @@ The backend server file, "server.js", employs the Node.js web application framew
 - Your client folder should contain a js folder, media folder, styles folder, and views folder, as well as an index.js file.
 - Your application js should go into the js file, your css into styles, and your index.html into views.
 - Convert your stylesheet from a .css file to a .scss file
-- Remember that webpack builds a dist file. You’ll need to update your server js to access the dist folder. (Hint: app.use(express.what goes here?))
+- Remember that webpack builds a dist file. You’ll need to update your server js to access the dist folder. (Hint: app.use(express...))
 - Your index.js file inside the client folder should import the main function of your application javascript, it should import your scss, and it should export your main function from your application javascript. But in order to import, where will you need to export it?
 - Instead of adding event listeners to the trip form submit button itself, this project uses .addEventListener(). Since we are exporting functions from our application.js file, our event listeners can’t go there.
 - Now that your src folder is set up, it’s time to get webpack going. As per dependencies listed in the Installation & Configuration section above, we need to add babel, babel loader, css loader, file loader, html loader, html webpack plugin, node sass, sass loader, style loader, webpack, webpack cli, and webpack dev server. 
