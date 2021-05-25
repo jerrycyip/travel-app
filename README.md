@@ -140,4 +140,3 @@ As part of the project requirements, at least one additional piece of functional
 A great step to take with the finished project would be to deploy it! As it is out of scope for this project, you will have to checkout [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/) for further info on free hosting options.
 
 
-
