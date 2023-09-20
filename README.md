@@ -1,11 +1,10 @@
-# Travel Planner App - FEND Capstone Project
+# Travel Planner App - Proof of Concept (POC)
 
 ## Result - Demo
 ![Travel App](travel-app-demo.gif)
 
 ## Project Description
-This project is the final capstone for Udacity's Front End Web Developer Nanodegree program.  The project requirements are to build a travel application that uses Web APIs to pull data from Geonames, Weatherberbit and Pixabay.  Based on a user's input destination and travel dates, the application retrieves cooresponding geographical coordinates from Geonames, weather forecast data from Weatherbit, and destination image data from Pixabay.  As an extra feature, my application also pulls statistical weather forecast data for travel dates greater than 14 days in the future from the Visual Crossing weather API.  With the resulting API data, the application is dynamically updated to display the results to the user as well as provide a trip countdown, the current local time of the destination, and itinerary planning functionality.  HTML, CSS, JavaScript and NodeJS are employed for this project with specific requirements and implementation details provided below.  A demo .gif of the resulting web app is also provided above for illustration purposes.
-
+This project is a POC travel planner web app combining itineraries, weather forecasts, and destination images in a unified dashboard.  The web app uses Web APIs to pull data from Geonames, Weatherberbit and Pixabay.  Based on a user's input destination and travel dates, the application retrieves cooresponding geographical coordinates from Geonames, weather forecast data from Weatherbit, and destination image data from Pixabay.  As a differentiating feature, the app also pulls statistical weather forecast data for travel dates greater than 14 days in the future from the Visual Crossing weather API.  With the resulting API data, the application is dynamically updated to display the results to the user as well as provide a trip countdown, the current local time of the destination, and itinerary planning functionality.  HTML, CSS, JavaScript and NodeJS are employed for this project with specific requirements and implementation details provided below.  A demo .gif of the resulting web app is also provided above for illustration purposes.
 
 
 ## Tools Required
