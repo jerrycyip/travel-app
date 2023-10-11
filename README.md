@@ -124,8 +124,8 @@ Once we are hooked up to the different 3rd party APIs, we are half way there! He
     npm i -D workbox-webpack-plugin
 - Test that the (prod) site is now available even when you stop your local server
 
-## Additional Project Features
-As part of the project requirements, at least one additional piece of functionality needed to be added.  The following additional features were implemented as part of this project:
+## Project Features
+The following features were implemented as part of this project, however there is plenty of additional functionality I would encourage for scoping and adding as further enhancements :
 - Support for user input end date and displaying the calculated length (duration) of the trip.
 - Allowing the user to remove and view existing (previously planned) trips.
 - Using [Local Storage](https://www.taniarascia.com/how-to-use-local-storage-with-javascript/) to save the data on the user's front end client (e.g. browser) so that when they close the application, then revisit the page in the same browser, their information is still there.
