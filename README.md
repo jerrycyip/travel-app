@@ -134,7 +134,7 @@ The following features were implemented as part of this project, however there i
 - Allowing the user to add an itinerary for their trip.
 - Allowing the user to add multiple trips via a save button for viewing later (view button).
 
-## Future Enhancement(s)
+## Free Hosting Options
 
 Checkout [Netlify](https://www.netlify.com/) or [Heroku](https://www.heroku.com/) for ideas on free hosting options.
 
